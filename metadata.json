@@ -1,0 +1,7 @@
+{
+  "name": "Locobook AI",
+  "description": "An AI-powered accounting assistant that tracks income and expenses using natural language and voice.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

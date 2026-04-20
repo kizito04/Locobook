@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "Transaction": {
+      "title": "Transaction",
+      "description": "A financial transaction representing income or expense.",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "description": "The amount of money involved in the transaction."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["income", "expense"],
+          "description": "The direction of the money flow."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the transaction."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the transaction (e.g., food, salary)."
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the transaction occurred."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who owns this transaction."
+        }
+      },
+      "required": ["amount", "type", "description", "date", "userId"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A category for grouping transactions.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the category."
+        },
+        "symbol": {
+          "type": "string",
+          "description": "A symbol or emoji representing the category."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who owns this category."
+        }
+      },
+      "required": ["name", "symbol", "userId"]
+    }
+  },
+  "firestore": {
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Collection of financial transactions."
+    },
+    "/categories/{categoryId}": {
+      "schema": "Category",
+      "description": "Collection of transaction categories."
+    }
+  }
+}
