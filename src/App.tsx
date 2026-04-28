@@ -32,13 +32,15 @@ export default function App() {
     setSelectedDate,
     filter,
     setFilter,
-    transactions,
-    categories,
-    handleDeleteTransaction,
-    handleDeleteCategory,
+    filteredTransactions,
+    searchTerm,
+    setSearchTerm,
+    isSearchVisible,
+    toggleSearch,
     handleLogin,
     handleLogout
   } = useLocobook();
+
 
   if (loading) {
     return (
@@ -76,10 +78,18 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-32">
-      <Header user={user} />
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-28 sm:pb-32">
+      <Header 
+        user={user} 
+        isSearchVisible={isSearchVisible}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        toggleSearch={toggleSearch}
+      />
 
-      <main className="max-w-4xl mx-auto px-6 py-8">
+
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+
         <AnimatePresence mode="wait">
           {currentView === 'dashboard' && (
             <Dashboard 
@@ -99,16 +109,18 @@ export default function App() {
               setSelectedDate={setSelectedDate}
               filter={filter}
               setFilter={setFilter}
-              filteredTransactions={transactions}
+              filteredTransactions={filteredTransactions}
               categories={categories}
+
               handleDeleteTransaction={handleDeleteTransaction}
             />
           )}
 
           {currentView === 'history' && (
             <History 
-              transactions={transactions}
+              transactions={filteredTransactions}
               categories={categories}
+
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
               filter={filter}

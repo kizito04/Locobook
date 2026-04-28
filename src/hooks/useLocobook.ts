@@ -57,7 +57,11 @@ export const useLocobook = () => {
   ]);
   const [isAssistantTyping, setIsAssistantTyping] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
   const recognitionRef = useRef<any>(null);
+
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // --- Auth & Connection Test ---
@@ -293,8 +297,13 @@ ${transactions.slice(0, 10).map(t =>
     const txDate = t.date.toDate().toISOString().split('T')[0];
     const matchesDate = selectedDate ? txDate === selectedDate : true;
     const matchesType = filter === 'all' ? true : t.type === filter;
-    return matchesDate && matchesType;
+    const matchesSearch = searchTerm 
+      ? t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        t.category?.toLowerCase().includes(searchTerm.toLowerCase())
+      : true;
+    return matchesDate && matchesType && matchesSearch;
   });
+
 
   return {
     user,
@@ -340,6 +349,12 @@ ${transactions.slice(0, 10).map(t =>
     totalIncome,
     totalExpenses,
     balance,
-    filteredTransactions
+    filteredTransactions,
+    searchTerm,
+    setSearchTerm,
+    isSearchVisible,
+    setIsSearchVisible,
+    toggleSearch: () => setIsSearchVisible(prev => !prev)
   };
+
 };
