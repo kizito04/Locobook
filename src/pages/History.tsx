@@ -58,8 +58,9 @@ export const History: React.FC<HistoryProps> = ({
       className="space-y-5 sm:space-y-6"
     >
       {/* Top Filters */}
-      <div className="flex items-center justify-between gap-3 sm:gap-4">
-        <div className="flex items-center gap-1 sm:gap-2 bg-slate-100/50 p-1 rounded-full border border-slate-100 flex-1 overflow-x-auto no-scrollbar">
+      <div className="flex items-center justify-between gap-3 sm:gap-4 w-full overflow-hidden">
+        <div className="flex items-center gap-1 sm:gap-2 bg-slate-100/50 p-1 rounded-full border border-slate-100 flex-1 overflow-x-auto no-scrollbar max-w-full">
+
           {(['all', 'income', 'expense'] as const).map((type) => (
             <button
               key={type}
@@ -128,7 +129,8 @@ export const History: React.FC<HistoryProps> = ({
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.98 }}
-                      className="bg-white p-3.5 sm:p-4 rounded-[1.25rem] sm:rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-100 transition-all"
+                      className="bg-white p-3 sm:p-4 rounded-[1.25rem] sm:rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-100 transition-all overflow-hidden"
+
                     >
                       <div className="flex items-center gap-3 sm:gap-4">
                         <div className="w-10 h-10 sm:w-14 sm:h-14 bg-slate-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-500 flex-shrink-0">
