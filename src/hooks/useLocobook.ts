@@ -283,16 +283,6 @@ ${transactions.slice(0, 10).map(t =>
   };
 
   // --- Calculations ---
-  const totalIncome = transactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const totalExpenses = transactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0);
-
-  const balance = totalIncome - totalExpenses;
-
   const filteredTransactions = transactions.filter(t => {
     const txDate = t.date.toDate().toISOString().split('T')[0];
     const matchesDate = selectedDate ? txDate === selectedDate : true;
@@ -303,6 +293,17 @@ ${transactions.slice(0, 10).map(t =>
       : true;
     return matchesDate && matchesType && matchesSearch;
   });
+
+  const totalIncome = filteredTransactions
+    .filter(t => t.type === 'income')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const totalExpenses = filteredTransactions
+    .filter(t => t.type === 'expense')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const balance = totalIncome - totalExpenses;
+
 
 
   return {

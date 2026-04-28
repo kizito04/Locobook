@@ -34,8 +34,8 @@ interface BottomNavProps {
 
 export const BottomNav: React.FC<BottomNavProps> = ({ currentView, setCurrentView }) => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-50 px-6 py-2 z-50 shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.05)]">
-      <div className="max-w-4xl mx-auto flex items-center justify-between">
+    <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/80 backdrop-blur-xl border border-slate-200/50 px-4 py-2 z-50 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[2rem] flex items-center gap-1 min-w-[320px] sm:min-w-[400px]">
+      <div className="flex-1 flex items-center justify-between">
         <NavItem id="dashboard" icon={LayoutGrid} label="Home" currentView={currentView} setCurrentView={setCurrentView} />
         <NavItem id="history" icon={ClipboardList} label="History" currentView={currentView} setCurrentView={setCurrentView} />
         <NavItem id="analytics" icon={BarChart3} label="Analytics" currentView={currentView} setCurrentView={setCurrentView} />
@@ -44,4 +44,5 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, setCurrentVie
     </nav>
   );
 };
+
 
