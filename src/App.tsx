@@ -32,7 +32,11 @@ export default function App() {
     setSelectedDate,
     filter,
     setFilter,
+    transactions,
+    categories,
     filteredTransactions,
+    handleDeleteTransaction,
+    handleDeleteCategory,
     searchTerm,
     setSearchTerm,
     isSearchVisible,
@@ -40,6 +44,7 @@ export default function App() {
     handleLogin,
     handleLogout
   } = useLocobook();
+
 
 
   if (loading) {
