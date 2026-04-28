@@ -20,7 +20,8 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="bg-white border-b border-slate-50 sticky top-0 z-40">
-      <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+
         <AnimatePresence mode="wait">
           {isSearchVisible ? (
             <motion.div 

@@ -97,7 +97,8 @@ export default function App() {
       />
 
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+
 
         <AnimatePresence mode="wait">
           {currentView === 'dashboard' && (
