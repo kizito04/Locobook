@@ -17,7 +17,8 @@ export interface ParsedTransaction {
 export async function parseTransaction(input: string): Promise<ParsedTransaction> {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-2.0-flash",
+
 
       contents: `Parse the following financial transaction input and return a structured JSON object: "${input}"`,
       config: {
@@ -59,7 +60,8 @@ export async function parseTransaction(input: string): Promise<ParsedTransaction
 export async function askAssistant(query: string, context?: string): Promise<string> {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-2.0-flash",
+
 
       contents: `User query: "${query}"\n\nContext (User's recent transactions or app state): ${context || "No context provided."}`,
       config: {
