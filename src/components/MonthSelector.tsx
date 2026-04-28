@@ -29,20 +29,32 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
   }).reverse();
 
   useEffect(() => {
-    // Scroll to active month on load
-    const activeElement = scrollRef.current?.querySelector(`[data-active="true"]`);
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const activeElement = container.querySelector(`[data-active="true"]`) as HTMLElement;
     if (activeElement) {
-      activeElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      const containerWidth = container.offsetWidth;
+      const elementOffset = activeElement.offsetLeft;
+      const elementWidth = activeElement.offsetWidth;
+      
+      // Calculate scroll position to center the element
+      const scrollPos = elementOffset - (containerWidth / 2) + (elementWidth / 2);
+      
+      container.scrollTo({
+        left: scrollPos,
+        behavior: 'smooth'
+      });
     }
   }, [selectedMonth]);
 
   return (
     <div className="space-y-4">
       {/* Month Pills Container */}
-      <div className="relative">
+      <div className="relative overflow-hidden">
         <div 
           ref={scrollRef}
-          className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-0.5 snap-x"
+          className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-4 -mx-4 snap-x"
         >
           {months.map((m) => (
             <button
