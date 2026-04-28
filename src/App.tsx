@@ -30,6 +30,8 @@ export default function App() {
     error,
     selectedDate,
     setSelectedDate,
+    selectedMonth,
+    setSelectedMonth,
     filter,
     setFilter,
     transactions,
@@ -44,6 +46,7 @@ export default function App() {
     handleLogin,
     handleLogout
   } = useLocobook();
+
 
 
 
