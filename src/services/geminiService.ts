@@ -1,8 +1,9 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const apiKey = process.env.GEMINI_API_KEY;
+// Use Vite environment variables for the API key
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 if (!apiKey) {
-  throw new Error("GEMINI_API_KEY is not defined in the environment.");
+  console.warn("VITE_GEMINI_API_KEY is not defined. AI features will be disabled.");
 }
 
 const ai = new GoogleGenAI({ apiKey });
