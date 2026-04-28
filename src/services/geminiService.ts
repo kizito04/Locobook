@@ -39,6 +39,7 @@ export async function parseTransaction(input: string): Promise<ParsedTransaction
       model: "gemini-1.5-flash",
 
 
+
       contents: `Parse the following financial transaction input and return a structured JSON object: "${input}"`,
       config: {
         systemInstruction: `You are a financial assistant. Extract the amount, type (income or expense), description, and category from the user's input. 
@@ -79,7 +80,8 @@ export async function parseTransaction(input: string): Promise<ParsedTransaction
 export async function askAssistant(query: string, context?: string): Promise<string> {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-1.5-flash",
+
 
       contents: `User query: "${query}"\n\nContext (User's recent transactions or app state): ${context || "No context provided."}`,
       config: {
