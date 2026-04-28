@@ -6,21 +6,25 @@ import {
   Trash2, 
   TrendingUp, 
   TrendingDown,
-  Sparkles,
   CheckCircle2
 } from 'lucide-react';
 import { Transaction, Category } from '../types';
 import { formatCurrency } from '../utils/formatters';
 import { CategoryIcon } from '../components/CategoryIcon';
+import { MonthSelector } from '../components/MonthSelector';
 
 interface HistoryProps {
   transactions: Transaction[];
   categories: Category[];
   selectedDate: string;
   setSelectedDate: (date: string) => void;
+  selectedMonth: string;
+  setSelectedMonth: (month: string) => void;
   filter: 'all' | 'income' | 'expense';
   setFilter: (filter: 'all' | 'income' | 'expense') => void;
   handleDeleteTransaction: (id: string) => void;
+  totalIncome: number;
+  totalExpenses: number;
 }
 
 export const History: React.FC<HistoryProps> = ({
@@ -28,9 +32,13 @@ export const History: React.FC<HistoryProps> = ({
   categories,
   selectedDate,
   setSelectedDate,
+  selectedMonth,
+  setSelectedMonth,
   filter,
   setFilter,
-  handleDeleteTransaction
+  handleDeleteTransaction,
+  totalIncome,
+  totalExpenses
 }) => {
   // Group by date
   const groupedTransactions: Record<string, Transaction[]> = {};
@@ -55,9 +63,17 @@ export const History: React.FC<HistoryProps> = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="space-y-5 sm:space-y-6"
+      className="space-y-6"
     >
-      {/* Top Filters */}
+      {/* Month & Summary Section */}
+      <MonthSelector 
+        selectedMonth={selectedMonth}
+        setSelectedMonth={setSelectedMonth}
+        totalIncome={totalIncome}
+        totalExpenses={totalExpenses}
+      />
+
+      {/* Action Filters (Type & Date) */}
       <div className="flex items-center gap-3 w-full">
         <div className="flex items-center gap-1 bg-slate-100/50 p-1 rounded-full border border-slate-100 flex-1 min-w-0">
           {(['all', 'income', 'expense'] as const).map((type) => (
@@ -84,9 +100,9 @@ export const History: React.FC<HistoryProps> = ({
             onChange={(e) => setSelectedDate(e.target.value)}
             className="absolute inset-0 opacity-0 cursor-pointer pointer-events-none"
           />
-          {selectedDate && selectedDate !== new Date().toISOString().split('T')[0] && (
+          {selectedDate && (
             <button 
-              onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])} 
+              onClick={() => setSelectedDate('')} 
               className="absolute -top-1.5 -right-1.5 bg-slate-900 text-white rounded-full p-1 border-2 border-white shadow-sm flex items-center justify-center"
             >
               <X className="w-2.5 h-2.5" />
@@ -94,8 +110,6 @@ export const History: React.FC<HistoryProps> = ({
           )}
         </div>
       </div>
-
-
 
       {/* Transactions Grouped by Date */}
       <div className="space-y-6 sm:space-y-8">
@@ -118,7 +132,6 @@ export const History: React.FC<HistoryProps> = ({
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.98 }}
                       className="bg-white p-3 sm:p-4 rounded-[1.25rem] sm:rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-100 transition-all overflow-hidden"
-
                     >
                       <div className="flex items-center gap-3 sm:gap-4">
                         <div className="w-10 h-10 sm:w-14 sm:h-14 bg-slate-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-500 flex-shrink-0">

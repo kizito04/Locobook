@@ -47,7 +47,10 @@ export const useLocobook = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
-  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState<string>('');
+
+  const [selectedMonth, setSelectedMonth] = useState<string>(new Date().toISOString().slice(0, 7)); // YYYY-MM
+
   
   // AI Assistant State
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
@@ -285,14 +288,23 @@ ${transactions.slice(0, 10).map(t =>
   // --- Calculations ---
   const filteredTransactions = transactions.filter(t => {
     const txDate = t.date.toDate().toISOString().split('T')[0];
+    const txMonth = txDate.slice(0, 7);
+    
+    // If a month is selected, filter by that month. 
+    // If a specific date is also selected and it's NOT today (meaning the user intentionally picked a day), 
+    // maybe we prioritize the day? Actually, the UI image shows month selection as the primary navigation.
+    // Let's make them work together: if both are set, the date must be within the month.
+    
+    const matchesMonth = selectedMonth ? txMonth === selectedMonth : true;
     const matchesDate = selectedDate ? txDate === selectedDate : true;
     const matchesType = filter === 'all' ? true : t.type === filter;
     const matchesSearch = searchTerm 
       ? t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
         t.category?.toLowerCase().includes(searchTerm.toLowerCase())
       : true;
-    return matchesDate && matchesType && matchesSearch;
+    return matchesMonth && matchesDate && matchesType && matchesSearch;
   });
+
 
   const totalIncome = filteredTransactions
     .filter(t => t.type === 'income')
@@ -333,7 +345,10 @@ ${transactions.slice(0, 10).map(t =>
     setFilter,
     selectedDate,
     setSelectedDate,
+    selectedMonth,
+    setSelectedMonth,
     isAssistantOpen,
+
     setIsAssistantOpen,
     assistantInput,
     setAssistantInput,

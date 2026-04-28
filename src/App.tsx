@@ -126,14 +126,18 @@ export default function App() {
             <History 
               transactions={filteredTransactions}
               categories={categories}
-
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
+              selectedMonth={selectedMonth}
+              setSelectedMonth={setSelectedMonth}
               filter={filter}
               setFilter={setFilter}
               handleDeleteTransaction={handleDeleteTransaction}
+              totalIncome={totalIncome}
+              totalExpenses={totalExpenses}
             />
           )}
+
 
           {currentView === 'analytics' && (
             <Analytics transactions={transactions} />
