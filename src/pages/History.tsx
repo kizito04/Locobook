@@ -58,14 +58,13 @@ export const History: React.FC<HistoryProps> = ({
       className="space-y-5 sm:space-y-6"
     >
       {/* Top Filters */}
-      <div className="flex items-center justify-between gap-3 sm:gap-4 w-full overflow-hidden">
-        <div className="flex items-center gap-1 sm:gap-2 bg-slate-100/50 p-1 rounded-full border border-slate-100 flex-1 overflow-x-auto no-scrollbar max-w-full">
-
+      <div className="flex items-center gap-3 w-full">
+        <div className="flex items-center gap-1 bg-slate-100/50 p-1 rounded-full border border-slate-100 flex-1 min-w-0">
           {(['all', 'income', 'expense'] as const).map((type) => (
             <button
               key={type}
               onClick={() => setFilter(type)}
-              className={`flex-1 py-1.5 sm:py-2 px-3 sm:px-4 rounded-full text-[10px] sm:text-xs font-bold transition-all whitespace-nowrap ${filter === type ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
+              className={`flex-1 py-1.5 sm:py-2 px-2 sm:px-4 rounded-full text-[10px] sm:text-xs font-bold transition-all whitespace-nowrap ${filter === type ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:text-slate-700'}`}
             >
               {type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)}
             </button>
@@ -73,10 +72,10 @@ export const History: React.FC<HistoryProps> = ({
         </div>
         <div className="relative flex-shrink-0">
           <button 
-            className="p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-500 hover:text-slate-900 transition-all"
+            className="p-2.5 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-500 hover:text-slate-900 transition-all flex items-center justify-center"
             onClick={() => (document.getElementById('date-picker') as HTMLInputElement)?.showPicker()}
           >
-            <CalendarIcon className="w-4 h-4 sm:w-5 h-5" />
+            <CalendarIcon className="w-5 h-5" />
           </button>
           <input 
             id="date-picker"
@@ -85,16 +84,17 @@ export const History: React.FC<HistoryProps> = ({
             onChange={(e) => setSelectedDate(e.target.value)}
             className="absolute inset-0 opacity-0 cursor-pointer pointer-events-none"
           />
-          {selectedDate && (
+          {selectedDate && selectedDate !== new Date().toISOString().split('T')[0] && (
             <button 
-              onClick={() => setSelectedDate('')} 
-              className="absolute -top-1 -right-1 bg-slate-900 text-white rounded-full p-0.5 border border-white"
+              onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])} 
+              className="absolute -top-1.5 -right-1.5 bg-slate-900 text-white rounded-full p-1 border-2 border-white shadow-sm flex items-center justify-center"
             >
-              <X className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+              <X className="w-2.5 h-2.5" />
             </button>
           )}
         </div>
       </div>
+
 
       {/* AI Insight Card */}
       <div className="bg-blue-50/50 border border-blue-100 rounded-[1.25rem] sm:rounded-[1.5rem] p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
