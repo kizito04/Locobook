@@ -9,6 +9,23 @@ if (!apiKey) {
 
 const ai = new GoogleGenAI({ apiKey });
 
+// Helper to list available models (check your browser console)
+export async function listAvailableModels() {
+  try {
+    const models = await ai.models.list();
+    console.log("Available Gemini Models:", models);
+    return models;
+  } catch (error) {
+    console.error("Error listing models:", error);
+    return [];
+  }
+}
+
+// Call it immediately to help debugging
+if (apiKey) {
+  listAvailableModels();
+}
+
 export interface ParsedTransaction {
   amount: number;
   type: "income" | "expense";
