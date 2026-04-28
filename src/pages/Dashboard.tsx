@@ -39,6 +39,7 @@ interface DashboardProps {
   filteredTransactions: Transaction[];
   categories: Category[];
   handleDeleteTransaction: (id: string) => void;
+  setCurrentView: (view: 'dashboard' | 'history' | 'analytics' | 'settings') => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -55,8 +56,10 @@ export const Dashboard: React.FC<DashboardProps> = ({
   error,
   filteredTransactions,
   categories,
-  handleDeleteTransaction
+  handleDeleteTransaction,
+  setCurrentView
 }) => {
+
   return (
     <motion.div
       key="dashboard"
@@ -159,9 +162,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div className="space-y-4 sm:space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg sm:text-2xl font-bold text-slate-900">Recent Activity</h3>
-          <button className="text-blue-600 text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:underline">
+          <button 
+            onClick={() => setCurrentView('history')}
+            className="text-blue-600 text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:underline"
+          >
             VIEW ALL
           </button>
+
         </div>
 
         <div className="space-y-3 sm:space-y-4">

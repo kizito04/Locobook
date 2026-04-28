@@ -97,9 +97,16 @@ export const History: React.FC<HistoryProps> = ({
             id="date-picker"
             type="date" 
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            onChange={(e) => {
+              const newDate = e.target.value;
+              setSelectedDate(newDate);
+              if (newDate) {
+                setSelectedMonth(newDate.slice(0, 7));
+              }
+            }}
             className="absolute inset-0 opacity-0 cursor-pointer pointer-events-none"
           />
+
           {selectedDate && (
             <button 
               onClick={() => setSelectedDate('')} 

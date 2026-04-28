@@ -122,9 +122,10 @@ export default function App() {
               setFilter={setFilter}
               filteredTransactions={filteredTransactions}
               categories={categories}
-
               handleDeleteTransaction={handleDeleteTransaction}
+              setCurrentView={setCurrentView}
             />
+
           )}
 
           {currentView === 'history' && (
