@@ -131,32 +131,37 @@ export const History: React.FC<HistoryProps> = ({
                       initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.98 }}
-                      className="bg-white p-2.5 sm:p-4 rounded-[1rem] sm:rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-100 transition-all overflow-hidden"
+                      className="bg-white p-2 sm:p-4 rounded-[1rem] sm:rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center justify-between group hover:border-indigo-100 transition-all overflow-hidden"
                     >
-                      <div className="flex items-center gap-2.5 sm:gap-4 min-w-0">
-                        <div className="w-9 h-9 sm:w-14 sm:h-14 bg-slate-50 rounded-xl sm:rounded-2xl flex items-center justify-center text-slate-500 flex-shrink-0">
+                      <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                        <div className={`w-8 h-8 sm:w-14 sm:h-14 rounded-lg sm:rounded-2xl flex items-center justify-center flex-shrink-0 ${tx.type === 'income' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
                           {(() => {
                             const cat = categories.find(c => c.name.toLowerCase() === tx.category?.toLowerCase());
-                            return cat ? <CategoryIcon iconName={cat.icon} className="w-4.5 h-4.5 sm:w-6 sm:h-6" /> : (tx.type === 'income' ? <TrendingUp className="w-4.5 h-4.5 sm:w-6 sm:h-6" /> : <TrendingDown className="w-4.5 h-4.5 sm:w-6 sm:h-6" />);
+                            return cat ? <CategoryIcon iconName={cat.icon} className="w-4 h-4 sm:w-7 sm:h-7" /> : (tx.type === 'income' ? <TrendingUp className="w-4 h-4 sm:w-7 sm:h-7" /> : <TrendingDown className="w-4 h-4 sm:w-7 sm:h-7" />);
                           })()}
                         </div>
-                        <div className="min-w-0">
-                          <h4 className="font-bold text-slate-900 text-xs sm:text-base truncate">{tx.description}</h4>
-                          <div className="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-xs text-slate-400 font-medium mt-0.5">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-bold text-slate-900 text-[11px] sm:text-base truncate leading-tight">{tx.description}</h4>
+                          <div className="flex items-center gap-1.5 text-[8px] sm:text-xs text-slate-400 font-medium mt-0.5">
                             <span>{tx.date.toDate().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</span>
-                            <span>•</span>
-                            <span className="truncate">{tx.category || 'General'}</span>
+                            {tx.category && (
+                              <>
+                                <span>•</span>
+                                <span className="truncate">{tx.category}</span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col items-end gap-1 flex-shrink-0 ml-2">
-                        <span className={`text-xs sm:text-base font-bold whitespace-nowrap ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
+                      <div className="flex flex-col items-end gap-0.5 sm:gap-1 flex-shrink-0 ml-2">
+                        <span className={`text-[11px] sm:text-lg font-bold whitespace-nowrap ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
                           {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
                         </span>
                         {tx.category && (
-                          <div className="bg-blue-50 text-blue-600 text-[6px] sm:text-[8px] font-bold px-1 sm:px-2 py-0.5 rounded-md flex items-center gap-1 uppercase tracking-tighter">
+                          <div className="bg-blue-50 text-blue-600 text-[5px] sm:text-[8px] font-bold px-1 py-0.5 rounded flex items-center gap-0.5 uppercase tracking-tighter">
                             <CheckCircle2 className="w-1.5 sm:w-2.5 h-1.5 sm:h-2.5" />
-                            AI CATEGORIZED
+                            <span className="hidden sm:inline">AI CATEGORIZED</span>
+                            <span className="sm:hidden">AI</span>
                           </div>
                         )}
                         <button 

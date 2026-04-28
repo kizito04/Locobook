@@ -3,5 +3,6 @@ export const formatCurrency = (amount: number) => {
     style: 'currency',
     currency: 'UGX',
     minimumFractionDigits: 0,
-  }).format(amount).replace('UGX', 'Shs');
+  }).format(amount).replace('UGX', 'shs');
 };
+

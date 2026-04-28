@@ -86,7 +86,8 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-28 sm:pb-32 overflow-x-hidden">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-36 sm:pb-40 overflow-x-hidden">
+
 
       <Header 
         user={user} 
