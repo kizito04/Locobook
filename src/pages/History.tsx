@@ -174,22 +174,24 @@ export const History: React.FC<HistoryProps> = ({
                             <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4" />
                           </div>
                         )}
-                        <button
-                          onClick={() => {
-                            if (window.confirm('Are you sure you want to delete this transaction?')) {
-                              handleDeleteTransaction(tx.id);
-                            }
-                          }}
-                          className="p-1 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
-                        >
-                          <Trash2 className="w-3 sm:w-4 h-3 sm:h-4" />
-                        </button>
-                        <button
-                          onClick={() => setEditTransaction(tx)}
-                          className="p-1 text-slate-300 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
-                        >
-                          <Edit2 className="w-3 sm:w-4 h-3 sm:h-4" />
-                        </button>
+                        <div className="flex items-center gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all">
+                          <button
+                            onClick={() => setEditTransaction(tx)}
+                            className="p-1 text-slate-300 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-all"
+                          >
+                            <Edit2 className="w-3 sm:w-4 h-3 sm:h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (window.confirm('Are you sure you want to delete this transaction?')) {
+                                handleDeleteTransaction(tx.id);
+                              }
+                            }}
+                            className="p-1 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all"
+                          >
+                            <Trash2 className="w-3 sm:w-4 h-3 sm:h-4" />
+                          </button>
+                        </div>
                       </div>
                     </motion.div>
                   ))}
