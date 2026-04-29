@@ -19,13 +19,13 @@ interface EditCategoryModalProps {
 }
 
 const AVAILABLE_ICONS = [
-  'Receipt', 'ShoppingCart', 'Utensils', 'Shapes', 'Car', 
-  'Coffee', 'Music', 'Globe', 'Heart', 'Monitor', 'Phone', 'Camera', 'Gift', 
-  'MapPin', 'Anchor', 'Award', 'Activity', 'Box', 'Compass', 'Cpu', 
-  'CreditCard', 'Droplet', 'Feather', 'Flag', 'Gamepad2', 'GraduationCap', 
-  'Headphones', 'Key', 'Laptop', 'Lightbulb', 'Map', 'Mic', 'Moon', 
-  'Package', 'PenTool', 'PieChart', 'Printer', 'Radio', 'Scissors', 
-  'Shield', 'Smartphone', 'Star', 'Sun', 'Target', 'Ticket', 'Trash2', 
+  'Receipt', 'ShoppingCart', 'Utensils', 'Shapes', 'Car',
+  'Coffee', 'Music', 'Globe', 'Heart', 'Monitor', 'Phone', 'Camera', 'Gift',
+  'MapPin', 'Anchor', 'Award', 'Activity', 'Box', 'Compass', 'Cpu',
+  'CreditCard', 'Droplet', 'Feather', 'Flag', 'Gamepad2', 'GraduationCap',
+  'Headphones', 'Key', 'Laptop', 'Lightbulb', 'Map', 'Mic', 'Moon',
+  'Package', 'PenTool', 'PieChart', 'Printer', 'Radio', 'Scissors',
+  'Shield', 'Smartphone', 'Star', 'Sun', 'Target', 'Ticket', 'Trash2',
   'TrendingUp', 'Truck', 'Tv', 'Umbrella', 'Video', 'Watch', 'Wifi'
 ];
 
@@ -49,7 +49,7 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: '100%' }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: '100%' }}
@@ -69,10 +69,10 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
 
           {/* Scrollable Content */}
           <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
-            
+
             {/* Preview Card */}
             <div className="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-4 shadow-sm">
-              <div 
+              <div
                 className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: colorFill, color: iconColor }}
               >
@@ -80,20 +80,20 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">PREVIEW</p>
-                <h3 className="text-xl font-bold text-slate-900 truncate">{newCategoryName || 'New Category'}</h3>
+                <h3 className="text-xl font-bold text-slate-900 truncate">{newCategoryName || 'Category Name'}</h3>
                 <p className="text-xs text-slate-500 truncate">Intelligent categorization ready</p>
               </div>
             </div>
 
             <form id="edit-category-form" onSubmit={onSubmit} className="space-y-6">
-              
+
               {/* Category Name */}
               <div className="space-y-2">
                 <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">
                   CATEGORY NAME
                 </label>
                 <div className="relative">
-                  <input 
+                  <input
                     type="text"
                     value={newCategoryName}
                     onChange={(e) => setNewCategoryName(e.target.value)}
@@ -122,8 +122,8 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
                         type="button"
                         onClick={() => setSelectedIcon(iconName)}
                         className={`aspect-square rounded-xl flex items-center justify-center transition-all ${
-                          selectedIcon === iconName 
-                            ? 'bg-blue-600 text-white shadow-md' 
+                          selectedIcon === iconName
+                            ? 'bg-blue-600 text-white shadow-md'
                             : 'bg-[#E2E8F0]/50 text-slate-700 hover:bg-slate-200'
                         }`}
                       >
@@ -149,14 +149,14 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
                   </label>
                   <div className="relative bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <input 
-                        type="color" 
+                      <input
+                        type="color"
                         value={colorFill}
                         onChange={(e) => setColorFill(e.target.value)}
                         className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                       />
-                      <div 
-                        className="w-6 h-8 rounded-md flex-shrink-0" 
+                      <div
+                        className="w-6 h-8 rounded-md flex-shrink-0"
                         style={{ backgroundColor: colorFill }}
                       />
                       <span className="text-sm font-medium text-slate-900 uppercase">{colorFill}</span>
@@ -171,14 +171,14 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
                   </label>
                   <div className="relative bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <input 
-                        type="color" 
+                      <input
+                        type="color"
                         value={iconColor}
                         onChange={(e) => setIconColor(e.target.value)}
                         className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
                       />
-                      <div 
-                        className="w-6 h-8 rounded-md border border-slate-200 flex-shrink-0" 
+                      <div
+                        className="w-6 h-8 rounded-md border border-slate-200 flex-shrink-0"
                         style={{ backgroundColor: iconColor }}
                       />
                       <span className="text-sm font-medium text-slate-900 uppercase">{iconColor}</span>
@@ -186,16 +186,18 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
                     <Palette className="w-4 h-4 text-slate-500" />
                   </div>
                 </div>
+              </div>
+
               {/* Buttons */}
               <div className="pt-4 flex flex-col gap-2">
-                <button 
+                <button
                   type="submit"
                   className="w-full py-3.5 bg-black text-white rounded-full font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg"
                 >
                   <Plus className="w-5 h-5" />
                   Update Category
                 </button>
-                <button 
+                <button
                   type="button"
                   onClick={onClose}
                   className="w-full py-3.5 bg-[#E2E8F0]/70 text-slate-700 rounded-full font-bold hover:bg-slate-200 transition-colors"
@@ -203,13 +205,14 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
                   Cancel
                 </button>
               </div>
+
             </form>
           </div>
 
         </motion.div>
       )}
-      
-      <IconPickerModal 
+
+      <IconPickerModal
         isOpen={isIconPickerOpen}
         onClose={() => setIsIconPickerOpen(false)}
         initialIcon={selectedIcon}
