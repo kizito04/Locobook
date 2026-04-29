@@ -33,28 +33,7 @@ export const Settings: React.FC<SettingsProps> = ({
         </div>
       </div>
 
-      {/* Profile Section */}
-      <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] border border-slate-100 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-4 sm:gap-6">
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-[1.5rem] overflow-hidden border-4 border-slate-50 shadow-sm flex-shrink-0">
-            {user.photoURL ? (
-              <img src={user.photoURL} alt={user.displayName || ''} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            ) : (
-              <UserCircle className="w-full h-full text-slate-300" />
-            )}
-          </div>
-          <div className="min-w-0">
-            <h4 className="text-lg sm:text-xl font-bold text-slate-900 truncate">{user.displayName}</h4>
-            <p className="text-xs sm:text-sm text-slate-400 font-medium truncate">{user.email}</p>
-          </div>
-        </div>
-        <button 
-          onClick={onLogout}
-          className="p-2.5 sm:p-3 bg-rose-50 text-rose-600 rounded-xl sm:rounded-2xl hover:bg-rose-100 transition-all flex-shrink-0"
-        >
-          <LogOut className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
-      </div>
+
 
       {/* Category Management */}
       <div className="bg-white p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] border border-slate-100 shadow-sm space-y-4 sm:space-y-6">

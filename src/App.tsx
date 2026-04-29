@@ -91,6 +91,7 @@ export default function App() {
 
       <Header 
         user={user} 
+        onLogout={handleLogout}
         isSearchVisible={isSearchVisible}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
