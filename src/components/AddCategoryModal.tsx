@@ -44,7 +44,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
 }) => {
   const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
 
-  const displayedIcons = AVAILABLE_ICONS.slice(0, 9);
+  const displayedIcons = AVAILABLE_ICONS.slice(0, 4);
 
   return (
     <AnimatePresence>
@@ -186,6 +186,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                   </div>
                 </div>
               </div>
+
               {/* Buttons */}
               <div className="pt-4 flex flex-col gap-2">
                 <button

@@ -44,7 +44,7 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
 }) => {
   const [isIconPickerOpen, setIsIconPickerOpen] = useState(false);
 
-  const displayedIcons = AVAILABLE_ICONS.slice(0, 9);
+  const displayedIcons = AVAILABLE_ICONS.slice(0, 4);
 
   return (
     <AnimatePresence>
