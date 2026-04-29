@@ -172,10 +172,24 @@ export const useLocobook = () => {
   // --- Category Actions ---
   const handleAddCategory = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newCategoryName.trim() || !user) return;
+    console.log('[AddCategory] Form submitted');
+    console.log('[AddCategory] user:', user?.uid ?? 'NO USER');
+    console.log('[AddCategory] newCategoryName:', newCategoryName);
+    console.log('[AddCategory] selectedIcon:', selectedIcon);
+    console.log('[AddCategory] colorFill:', colorFill);
+    
+    if (!newCategoryName.trim()) {
+      console.warn('[AddCategory] BLOCKED: category name is empty');
+      return;
+    }
+    if (!user) {
+      console.warn('[AddCategory] BLOCKED: no authenticated user');
+      return;
+    }
 
     try {
       const iconToSave = selectedIcon || 'CircleDollarSign';
+      console.log('[AddCategory] Writing to Firestore...');
       await addDoc(collection(db, 'categories'), {
         name: newCategoryName.trim(),
         icon: iconToSave,
@@ -183,6 +197,7 @@ export const useLocobook = () => {
         colorFill,
         iconColor
       });
+      console.log('[AddCategory] SUCCESS — navigating to categories');
       setSuccessMessage('Category added successfully!');
       
       setNewCategoryName('');
@@ -192,9 +207,9 @@ export const useLocobook = () => {
       setIsAddCategoryModalOpen(false);
       setCurrentView('categories'); 
 
-      
       setTimeout(() => setSuccessMessage(null), 3000);
-    } catch (err) {
+    } catch (err: any) {
+      console.error('[AddCategory] Firestore ERROR:', err?.code, err?.message);
       handleFirestoreError(err, OperationType.WRITE, 'categories');
     }
   };
