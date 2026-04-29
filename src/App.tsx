@@ -8,6 +8,7 @@ import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
 import { CategoriesView } from './pages/CategoriesView';
 import { AddCategoryModal } from './components/AddCategoryModal';
+import { EditCategoryModal } from './components/EditCategoryModal';
 import { useLocobook } from './hooks/useLocobook';
 import { Loader2, Wallet, UserCircle } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -48,6 +49,7 @@ export default function App() {
     handleLogin,
     handleLogout,
     handleAddCategory,
+    handleEditCategory,
     newCategoryName,
     setNewCategoryName,
     selectedIcon,
@@ -58,6 +60,10 @@ export default function App() {
     setIconColor,
     isAddCategoryModalOpen,
     setIsAddCategoryModalOpen,
+    isEditCategoryModalOpen,
+    setIsEditCategoryModalOpen,
+    editingCategory,
+    setEditingCategory,
     setIsAssistantOpen
   } = useLocobook();
 
@@ -178,6 +184,8 @@ export default function App() {
             <CategoriesView 
               categories={categories}
               setIsAddCategoryModalOpen={setIsAddCategoryModalOpen}
+              setEditingCategory={setEditingCategory}
+              setIsEditCategoryModalOpen={setIsEditCategoryModalOpen}
             />
           )}
         </AnimatePresence>
@@ -189,6 +197,23 @@ export default function App() {
         isOpen={isAddCategoryModalOpen}
         onClose={() => setIsAddCategoryModalOpen(false)}
         onSubmit={handleAddCategory}
+        newCategoryName={newCategoryName}
+        setNewCategoryName={setNewCategoryName}
+        selectedIcon={selectedIcon}
+        setSelectedIcon={setSelectedIcon}
+        colorFill={colorFill}
+        setColorFill={setColorFill}
+        iconColor={iconColor}
+        setIconColor={setIconColor}
+      />
+
+      <EditCategoryModal 
+        isOpen={isEditCategoryModalOpen}
+        onClose={() => {
+          setIsEditCategoryModalOpen(false);
+          setEditingCategory(null);
+        }}
+        onSubmit={handleEditCategory}
         newCategoryName={newCategoryName}
         setNewCategoryName={setNewCategoryName}
         selectedIcon={selectedIcon}

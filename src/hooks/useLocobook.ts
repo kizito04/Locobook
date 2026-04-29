@@ -43,6 +43,8 @@ export const useLocobook = () => {
   const [colorFill, setColorFill] = useState('#2170E4');
   const [iconColor, setIconColor] = useState('#FFFFFF');
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+  const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -68,6 +70,15 @@ export const useLocobook = () => {
   const recognitionRef = useRef<any>(null);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (editingCategory) {
+      setNewCategoryName(editingCategory.name);
+      setSelectedIcon(editingCategory.icon);
+      setColorFill(editingCategory.colorFill || '#2170E4');
+      setIconColor(editingCategory.iconColor || '#FFFFFF');
+    }
+  }, [editingCategory]);
 
   // --- Auth & Connection Test ---
   useEffect(() => {
@@ -179,7 +190,7 @@ export const useLocobook = () => {
       setColorFill('#2170E4');
       setIconColor('#FFFFFF');
       setIsAddCategoryModalOpen(false);
-      setCurrentView('settings'); // Navigate back to settings instead of history
+      setCurrentView('categories'); 
 
       
       setTimeout(() => setSuccessMessage(null), 3000);
@@ -193,6 +204,36 @@ export const useLocobook = () => {
       await deleteDoc(doc(db, 'categories', id));
     } catch (err) {
       handleFirestoreError(err, OperationType.DELETE, `categories/${id}`);
+    }
+  };
+
+  const handleEditCategory = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCategory || !newCategoryName.trim() || !user) return;
+
+    try {
+      const iconToSave = selectedIcon || 'CircleDollarSign';
+      // updateDoc needs doc ref
+      const { updateDoc } = await import('firebase/firestore');
+      await updateDoc(doc(db, 'categories', editingCategory.id), {
+        name: newCategoryName.trim(),
+        icon: iconToSave,
+        colorFill,
+        iconColor
+      });
+      setSuccessMessage('Category updated successfully!');
+      
+      setNewCategoryName('');
+      setSelectedIcon('Utensils');
+      setColorFill('#2170E4');
+      setIconColor('#FFFFFF');
+      setIsEditCategoryModalOpen(false);
+      setEditingCategory(null);
+      setCurrentView('categories');
+
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      handleFirestoreError(err, OperationType.WRITE, `categories/${editingCategory.id}`);
     }
   };
 
@@ -343,6 +384,10 @@ ${transactions.slice(0, 10).map(t =>
     setIconColor,
     isAddCategoryModalOpen,
     setIsAddCategoryModalOpen,
+    isEditCategoryModalOpen,
+    setIsEditCategoryModalOpen,
+    editingCategory,
+    setEditingCategory,
     successMessage,
     isInputFocused,
     setIsInputFocused,
@@ -369,6 +414,7 @@ ${transactions.slice(0, 10).map(t =>
     handleLogout,
     handleAddCategory,
     handleDeleteCategory,
+    handleEditCategory,
     handleAddTransaction,
     handleDeleteTransaction,
     handleAssistantSubmit,

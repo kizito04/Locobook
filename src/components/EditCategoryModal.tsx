@@ -4,7 +4,7 @@ import { X, Search, Sparkles, Info, Edit2, Palette, Plus } from 'lucide-react';
 import { CategoryIcon } from './CategoryIcon';
 import { IconPickerModal } from './IconPickerModal';
 
-interface AddCategoryModalProps {
+interface EditCategoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -29,7 +29,7 @@ const AVAILABLE_ICONS = [
   'TrendingUp', 'Truck', 'Tv', 'Umbrella', 'Video', 'Watch', 'Wifi'
 ];
 
-export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
+export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
@@ -61,7 +61,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
             <button onClick={onClose} className="p-2 text-slate-900">
               <X className="w-6 h-6" />
             </button>
-            <h2 className="text-lg font-bold text-slate-900">Add Category</h2>
+            <h2 className="text-lg font-bold text-slate-900">Edit Category</h2>
             <button className="p-2 text-slate-900">
               <Search className="w-6 h-6" />
             </button>
@@ -85,7 +85,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               </div>
             </div>
 
-            <form id="add-category-form" onSubmit={onSubmit} className="space-y-6">
+            <form id="edit-category-form" onSubmit={onSubmit} className="space-y-6">
               
               {/* Category Name */}
               <div className="space-y-2">
@@ -192,7 +192,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                   className="w-full py-3.5 bg-black text-white rounded-full font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg"
                 >
                   <Plus className="w-5 h-5" />
-                  Add Category
+                  Update Category
                 </button>
                 <button 
                   type="button"

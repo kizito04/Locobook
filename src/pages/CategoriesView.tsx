@@ -1,17 +1,21 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { PlusCircle, MoreVertical } from 'lucide-react';
+import { PlusCircle, Edit2 } from 'lucide-react';
 import { Category } from '../types';
 import { CategoryIcon } from '../components/CategoryIcon';
 
 interface CategoriesViewProps {
   categories: Category[];
   setIsAddCategoryModalOpen: (isOpen: boolean) => void;
+  setEditingCategory: (category: Category) => void;
+  setIsEditCategoryModalOpen: (isOpen: boolean) => void;
 }
 
 export const CategoriesView: React.FC<CategoriesViewProps> = ({
   categories,
   setIsAddCategoryModalOpen,
+  setEditingCategory,
+  setIsEditCategoryModalOpen
 }) => {
   return (
     <motion.div
@@ -55,8 +59,14 @@ export const CategoriesView: React.FC<CategoriesViewProps> = ({
                 <p className="text-xs text-slate-500 font-medium">Custom Category</p>
               </div>
             </div>
-            <button className="p-2 text-slate-400 hover:bg-slate-50 rounded-lg">
-              <MoreVertical className="w-5 h-5" />
+            <button 
+              onClick={() => {
+                setEditingCategory(category);
+                setIsEditCategoryModalOpen(true);
+              }}
+              className="p-2 text-slate-400 hover:bg-slate-50 rounded-lg hover:text-blue-600 transition-colors"
+            >
+              <Edit2 className="w-5 h-5" />
             </button>
           </div>
         ))}
