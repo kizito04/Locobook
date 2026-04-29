@@ -129,6 +129,7 @@ export const EditCategoryModal: React.FC<EditCategoryModalProps> = ({
                       >
                         <CategoryIcon iconName={iconName} className="w-6 h-6" />
                       </button>
+                    ))}
                     <button
                       type="button"
                       onClick={() => setIsIconPickerOpen(true)}
