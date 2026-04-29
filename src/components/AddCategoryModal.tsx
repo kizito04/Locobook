@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Search, Sparkles, Info, Edit2, Palette, Lightbulb, Plus } from 'lucide-react';
 import { CategoryIcon } from './CategoryIcon';
@@ -19,7 +19,13 @@ interface AddCategoryModalProps {
 
 const AVAILABLE_ICONS = [
   'Receipt', 'ShoppingCart', 'Utensils', 'Shapes', 'Car', 
-  'Home', 'Briefcase', 'Dumbbell', 'Plane', 'MoreHorizontal'
+  'Coffee', 'Music', 'Globe', 'Heart', 'Monitor', 'Phone', 'Camera', 'Gift', 
+  'MapPin', 'Anchor', 'Award', 'Activity', 'Box', 'Compass', 'Cpu', 
+  'CreditCard', 'Droplet', 'Feather', 'Flag', 'Gamepad2', 'GraduationCap', 
+  'Headphones', 'Key', 'Laptop', 'Lightbulb', 'Map', 'Mic', 'Moon', 
+  'Package', 'PenTool', 'PieChart', 'Printer', 'Radio', 'Scissors', 
+  'Shield', 'Smartphone', 'Star', 'Sun', 'Target', 'Ticket', 'Trash2', 
+  'TrendingUp', 'Truck', 'Tv', 'Umbrella', 'Video', 'Watch', 'Wifi'
 ];
 
 export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
@@ -35,6 +41,10 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   iconColor,
   setIconColor
 }) => {
+  const [showAllIcons, setShowAllIcons] = useState(false);
+
+  const displayedIcons = showAllIcons ? AVAILABLE_ICONS : AVAILABLE_ICONS.slice(0, 9);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -105,7 +115,7 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                 </label>
                 <div className="bg-slate-100/50 border border-slate-200 rounded-xl p-3">
                   <div className="grid grid-cols-5 gap-2">
-                    {AVAILABLE_ICONS.map(iconName => (
+                    {displayedIcons.map(iconName => (
                       <button
                         key={iconName}
                         type="button"
@@ -119,6 +129,15 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
                         <CategoryIcon iconName={iconName} className="w-6 h-6" />
                       </button>
                     ))}
+                    {!showAllIcons && (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllIcons(true)}
+                        className="aspect-square rounded-xl flex items-center justify-center transition-all bg-[#E2E8F0]/50 text-slate-700 hover:bg-slate-200 font-medium text-[10px] uppercase tracking-wider"
+                      >
+                        More
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -171,20 +190,6 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
               </div>
 
             </form>
-
-            {/* AI Tip Card */}
-            <div className="bg-[#EBF4FF] rounded-2xl p-5 flex gap-4">
-              <div className="w-10 h-10 bg-[#064E3B] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Lightbulb className="w-5 h-5 text-emerald-400" />
-              </div>
-              <div>
-                <h4 className="text-[15px] font-medium text-slate-800 mb-1">Locobook AI Tip</h4>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Using contrasting colors for 'Travel' vs 'Expenses' helps your dashboard visualization stay clear and actionable.
-                </p>
-              </div>
-            </div>
-
           </div>
 
           {/* Bottom Fixed Buttons */}

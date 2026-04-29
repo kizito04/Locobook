@@ -176,6 +176,7 @@ export default function App() {
 
           {currentView === 'categories' && (
             <CategoriesView 
+              categories={categories}
               setIsAddCategoryModalOpen={setIsAddCategoryModalOpen}
             />
           )}
