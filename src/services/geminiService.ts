@@ -36,8 +36,7 @@ export interface ParsedTransaction {
 export async function parseTransaction(input: string): Promise<ParsedTransaction> {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-lite",
-
+      model: "gemini-1.5-flash",
 
 
 
@@ -81,7 +80,7 @@ export async function parseTransaction(input: string): Promise<ParsedTransaction
 export async function askAssistant(query: string, context?: string): Promise<string> {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash-lite",
 
 
       contents: `User query: "${query}"\n\nContext (User's recent transactions or app state): ${context || "No context provided."}`,

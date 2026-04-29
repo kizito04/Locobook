@@ -162,7 +162,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <div className="space-y-4 sm:space-y-6">
         <div className="flex items-center justify-between">
           <h3 className="text-lg sm:text-2xl font-bold text-slate-900">Recent Activity</h3>
-          <button 
+          <button
             onClick={() => setCurrentView('history')}
             className="text-blue-600 text-[10px] sm:text-xs font-bold uppercase tracking-wider hover:underline"
           >
@@ -206,12 +206,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     <span className={`text-sm sm:text-xl font-bold whitespace-nowrap ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
                       {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
                     </span>
-                    <button
-                      onClick={() => handleDeleteTransaction(tx.id)}
-                      className="p-1.5 sm:p-2 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg sm:rounded-xl transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
-                    >
-                      <Trash2 className="w-4 h-4 sm:w-5 h-5" />
-                    </button>
+
                   </div>
                 </motion.div>
               ))

@@ -1,12 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Calendar as CalendarIcon, 
-  X, 
-  Trash2, 
-  TrendingUp, 
+import {
+  Calendar as CalendarIcon,
+  X,
+  Trash2,
+  TrendingUp,
   TrendingDown,
-  CheckCircle2
+  CheckCircle2,
+  Edit2
 } from 'lucide-react';
 import { Transaction, Category } from '../types';
 import { formatCurrency } from '../utils/formatters';
@@ -57,6 +58,10 @@ export const History: React.FC<HistoryProps> = ({
     groupedTransactions[dateKey].push(tx);
   });
 
+  function setEditTransaction(tx: Transaction) {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <motion.div
       key="history"
@@ -66,7 +71,7 @@ export const History: React.FC<HistoryProps> = ({
       className="space-y-5 sm:space-y-6"
     >
       {/* Month & Summary Section */}
-      <MonthSelector 
+      <MonthSelector
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
         totalIncome={totalIncome}
@@ -87,15 +92,15 @@ export const History: React.FC<HistoryProps> = ({
           ))}
         </div>
         <div className="relative flex-shrink-0">
-          <button 
+          <button
             className="p-2 sm:p-3 bg-white border border-slate-200 rounded-xl shadow-sm text-slate-500 hover:text-slate-900 transition-all flex items-center justify-center"
             onClick={() => (document.getElementById('date-picker') as HTMLInputElement)?.showPicker()}
           >
             <CalendarIcon className="w-4.5 h-4.5 sm:w-5 h-5" />
           </button>
-          <input 
+          <input
             id="date-picker"
-            type="date" 
+            type="date"
             value={selectedDate}
             onChange={(e) => {
               const newDate = e.target.value;
@@ -108,8 +113,8 @@ export const History: React.FC<HistoryProps> = ({
           />
 
           {selectedDate && (
-            <button 
-              onClick={() => setSelectedDate('')} 
+            <button
+              onClick={() => setSelectedDate('')}
               className="absolute -top-1.5 -right-1.5 bg-slate-900 text-white rounded-full p-1 border-2 border-white shadow-sm flex items-center justify-center"
             >
               <X className="w-2.5 h-2.5" />
@@ -132,7 +137,7 @@ export const History: React.FC<HistoryProps> = ({
                 <h3 className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] px-2">{date}</h3>
                 <div className="space-y-2 sm:space-y-3">
                   {txs.map((tx) => (
-                    <motion.div 
+                    <motion.div
                       key={tx.id}
                       layout
                       initial={{ opacity: 0, scale: 0.98 }}
@@ -165,17 +170,25 @@ export const History: React.FC<HistoryProps> = ({
                           {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
                         </span>
                         {tx.category && (
-                          <div className="bg-blue-50 text-blue-600 text-[5px] sm:text-[8px] font-bold px-1 py-0.5 rounded flex items-center gap-0.5 uppercase tracking-tighter">
-                            <CheckCircle2 className="w-1.5 sm:w-2.5 h-1.5 sm:h-2.5" />
-                            <span className="hidden sm:inline">AI CATEGORIZED</span>
-                            <span className="sm:hidden">AI</span>
+                          <div className="text-emerald-500">
+                            <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4" />
                           </div>
                         )}
-                        <button 
-                          onClick={() => handleDeleteTransaction(tx.id)}
+                        <button
+                          onClick={() => {
+                            if (window.confirm('Are you sure you want to delete this transaction?')) {
+                              handleDeleteTransaction(tx.id);
+                            }
+                          }}
                           className="p-1 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
                         >
                           <Trash2 className="w-3 sm:w-4 h-3 sm:h-4" />
+                        </button>
+                        <button
+                          onClick={() => setEditTransaction(tx)}
+                          className="p-1 text-slate-300 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-all opacity-100 sm:opacity-0 group-hover:opacity-100"
+                        >
+                          <Edit2 className="w-3 sm:w-4 h-3 sm:h-4" />
                         </button>
                       </div>
                     </motion.div>
