@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X } from 'lucide-react';
-import { CategoryIcon, ICON_MAP } from './CategoryIcon';
+import { X, Search, Sparkles, Info, Edit2, Palette, Lightbulb, Plus } from 'lucide-react';
+import { CategoryIcon } from './CategoryIcon';
 
 interface AddCategoryModalProps {
   isOpen: boolean;
@@ -11,7 +11,16 @@ interface AddCategoryModalProps {
   setNewCategoryName: (name: string) => void;
   selectedIcon: string;
   setSelectedIcon: (icon: string) => void;
+  colorFill: string;
+  setColorFill: (color: string) => void;
+  iconColor: string;
+  setIconColor: (color: string) => void;
 }
+
+const AVAILABLE_ICONS = [
+  'Receipt', 'ShoppingCart', 'Utensils', 'Shapes', 'Car', 
+  'Home', 'Briefcase', 'Dumbbell', 'Plane', 'MoreHorizontal'
+];
 
 export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   isOpen,
@@ -20,83 +29,184 @@ export const AddCategoryModal: React.FC<AddCategoryModalProps> = ({
   newCategoryName,
   setNewCategoryName,
   selectedIcon,
-  setSelectedIcon
+  setSelectedIcon,
+  colorFill,
+  setColorFill,
+  iconColor,
+  setIconColor
 }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-          />
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-sm bg-white rounded-3xl shadow-2xl p-8"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-slate-900">
-                Add New Category
-              </h3>
-              <button 
-                onClick={onClose} 
-                className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5 text-slate-400" />
-              </button>
-            </div>
+        <motion.div 
+          initial={{ opacity: 0, y: '100%' }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: '100%' }}
+          transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+          className="fixed inset-0 z-50 bg-[#F8FAFC] flex flex-col h-full w-full overflow-hidden"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 bg-[#F8FAFC] border-b border-slate-100">
+            <button onClick={onClose} className="p-2 text-slate-900">
+              <X className="w-6 h-6" />
+            </button>
+            <h2 className="text-lg font-bold text-slate-900">Add Category</h2>
+            <button className="p-2 text-slate-900">
+              <Search className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto px-4 py-6 space-y-6 pb-32">
             
-            <p className="text-sm text-slate-500 mb-8">
-              Create a new category for organizing your transactions.
-            </p>
-
-            <form onSubmit={onSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">Category Name</label>
-                <input 
-                  type="text"
-                  placeholder="e.g. Travel"
-                  value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm focus:outline-none focus:border-indigo-500 transition-all"
-                  required
-                />
+            {/* Preview Card */}
+            <div className="bg-white rounded-2xl border border-slate-200 p-4 flex items-center gap-4 shadow-sm">
+              <div 
+                className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0"
+                style={{ backgroundColor: colorFill, color: iconColor }}
+              >
+                <CategoryIcon iconName={selectedIcon} className="w-8 h-8" />
               </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">PREVIEW</p>
+                <h3 className="text-xl font-bold text-slate-900 truncate">{newCategoryName || 'New Category'}</h3>
+                <p className="text-xs text-slate-500 truncate">Intelligent categorization ready</p>
+              </div>
+            </div>
 
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-3">Select Icon</label>
-                <div className="grid grid-cols-5 gap-2">
-                  {Object.keys(ICON_MAP).map(iconName => (
-                    <button
-                      key={iconName}
-                      type="button"
-                      onClick={() => setSelectedIcon(iconName)}
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
-                        selectedIcon === iconName 
-                          ? 'bg-indigo-50 border-2 border-indigo-600 text-indigo-600' 
-                          : 'bg-white border border-slate-100 text-slate-400 hover:border-indigo-200'
-                      }`}
-                    >
-                      <CategoryIcon iconName={iconName} className="w-5 h-5" />
-                    </button>
-                  ))}
+            <form id="add-category-form" onSubmit={onSubmit} className="space-y-6">
+              
+              {/* Category Name */}
+              <div className="space-y-2">
+                <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">
+                  CATEGORY NAME
+                </label>
+                <div className="relative">
+                  <input 
+                    type="text"
+                    value={newCategoryName}
+                    onChange={(e) => setNewCategoryName(e.target.value)}
+                    placeholder="e.g. Travel, Office Supplies..."
+                    className="w-full bg-white border border-slate-200 rounded-xl py-3.5 pl-4 pr-10 text-[15px] focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-slate-800 placeholder-slate-400"
+                    required
+                  />
+                  <Sparkles className="absolute right-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-300" />
+                </div>
+                <div className="flex items-center gap-1.5 ml-1 mt-1.5">
+                  <Info className="w-3.5 h-3.5 text-emerald-500" />
+                  <p className="text-[11px] text-emerald-600 font-medium">AI will automatically suggest this for similar entries.</p>
                 </div>
               </div>
 
-              <button 
-                type="submit"
-                className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100 mt-4"
-              >
-                Add Category
-              </button>
+              {/* Choose Icon */}
+              <div className="space-y-2">
+                <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">
+                  CHOOSE ICON
+                </label>
+                <div className="bg-slate-100/50 border border-slate-200 rounded-xl p-3">
+                  <div className="grid grid-cols-5 gap-2">
+                    {AVAILABLE_ICONS.map(iconName => (
+                      <button
+                        key={iconName}
+                        type="button"
+                        onClick={() => setSelectedIcon(iconName)}
+                        className={`aspect-square rounded-xl flex items-center justify-center transition-all ${
+                          selectedIcon === iconName 
+                            ? 'bg-blue-600 text-white shadow-md' 
+                            : 'bg-[#E2E8F0]/50 text-slate-700 hover:bg-slate-200'
+                        }`}
+                      >
+                        <CategoryIcon iconName={iconName} className="w-6 h-6" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Colors */}
+              <div className="space-y-5">
+                <div className="space-y-2">
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">
+                    COLOR FILL
+                  </label>
+                  <div className="relative bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="color" 
+                        value={colorFill}
+                        onChange={(e) => setColorFill(e.target.value)}
+                        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                      />
+                      <div 
+                        className="w-6 h-8 rounded-md flex-shrink-0" 
+                        style={{ backgroundColor: colorFill }}
+                      />
+                      <span className="text-sm font-medium text-slate-900 uppercase">{colorFill}</span>
+                    </div>
+                    <Edit2 className="w-4 h-4 text-slate-400" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-[11px] font-bold text-slate-600 uppercase tracking-wider ml-1">
+                    ICON COLOR
+                  </label>
+                  <div className="relative bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <input 
+                        type="color" 
+                        value={iconColor}
+                        onChange={(e) => setIconColor(e.target.value)}
+                        className="opacity-0 absolute inset-0 w-full h-full cursor-pointer"
+                      />
+                      <div 
+                        className="w-6 h-8 rounded-md border border-slate-200 flex-shrink-0" 
+                        style={{ backgroundColor: iconColor }}
+                      />
+                      <span className="text-sm font-medium text-slate-900 uppercase">{iconColor}</span>
+                    </div>
+                    <Palette className="w-4 h-4 text-slate-500" />
+                  </div>
+                </div>
+              </div>
+
             </form>
-          </motion.div>
-        </div>
+
+            {/* AI Tip Card */}
+            <div className="bg-[#EBF4FF] rounded-2xl p-5 flex gap-4">
+              <div className="w-10 h-10 bg-[#064E3B] rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <Lightbulb className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <h4 className="text-[15px] font-medium text-slate-800 mb-1">Locobook AI Tip</h4>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Using contrasting colors for 'Travel' vs 'Expenses' helps your dashboard visualization stay clear and actionable.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Bottom Fixed Buttons */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-100 flex flex-col gap-2 z-10 pb-6 sm:pb-4">
+            <button 
+              type="submit"
+              form="add-category-form"
+              className="w-full py-3.5 bg-black text-white rounded-full font-bold flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg"
+            >
+              <Plus className="w-5 h-5" />
+              Add Category
+            </button>
+            <button 
+              type="button"
+              onClick={onClose}
+              className="w-full py-3.5 bg-[#E2E8F0]/70 text-slate-700 rounded-full font-bold hover:bg-slate-200 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+
+        </motion.div>
       )}
     </AnimatePresence>
   );

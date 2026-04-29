@@ -40,6 +40,8 @@ export const useLocobook = () => {
   const [input, setInput] = useState('');
   const [newCategoryName, setNewCategoryName] = useState('');
   const [selectedIcon, setSelectedIcon] = useState('Utensils');
+  const [colorFill, setColorFill] = useState('#2170E4');
+  const [iconColor, setIconColor] = useState('#FFFFFF');
   const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -166,14 +168,18 @@ export const useLocobook = () => {
       await addDoc(collection(db, 'categories'), {
         name: newCategoryName.trim(),
         icon: iconToSave,
-        userId: user.uid
+        userId: user.uid,
+        colorFill,
+        iconColor
       });
       setSuccessMessage('Category added successfully!');
       
       setNewCategoryName('');
       setSelectedIcon('Utensils');
+      setColorFill('#2170E4');
+      setIconColor('#FFFFFF');
       setIsAddCategoryModalOpen(false);
-      setCurrentView('history');
+      setCurrentView('settings'); // Navigate back to settings instead of history
 
       
       setTimeout(() => setSuccessMessage(null), 3000);
@@ -331,6 +337,10 @@ ${transactions.slice(0, 10).map(t =>
     setNewCategoryName,
     selectedIcon,
     setSelectedIcon,
+    colorFill,
+    setColorFill,
+    iconColor,
+    setIconColor,
     isAddCategoryModalOpen,
     setIsAddCategoryModalOpen,
     successMessage,

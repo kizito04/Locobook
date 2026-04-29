@@ -8,7 +8,14 @@ import {
   ShoppingBag, 
   HeartPulse, 
   Book, 
-  CircleDollarSign 
+  CircleDollarSign,
+  Receipt,
+  ShoppingCart,
+  Shapes,
+  Home,
+  Dumbbell,
+  Plane,
+  MoreHorizontal
 } from 'lucide-react';
 
 export const ICON_MAP: Record<string, any> = {
@@ -20,7 +27,14 @@ export const ICON_MAP: Record<string, any> = {
   ShoppingBag,
   HeartPulse,
   Book,
-  CircleDollarSign
+  CircleDollarSign,
+  Receipt,
+  ShoppingCart,
+  Shapes,
+  Home,
+  Dumbbell,
+  Plane,
+  MoreHorizontal
 };
 
 export const CategoryIcon = ({ iconName, className = "w-5 h-5" }: { iconName: string, className?: string }) => {

@@ -7,6 +7,7 @@ import { History } from './pages/History';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
 import { CategoriesView } from './pages/CategoriesView';
+import { AddCategoryModal } from './components/AddCategoryModal';
 import { useLocobook } from './hooks/useLocobook';
 import { Loader2, Wallet, UserCircle } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -46,6 +47,16 @@ export default function App() {
     toggleSearch,
     handleLogin,
     handleLogout,
+    handleAddCategory,
+    newCategoryName,
+    setNewCategoryName,
+    selectedIcon,
+    setSelectedIcon,
+    colorFill,
+    setColorFill,
+    iconColor,
+    setIconColor,
+    isAddCategoryModalOpen,
     setIsAddCategoryModalOpen,
     setIsAssistantOpen
   } = useLocobook();
@@ -165,15 +176,27 @@ export default function App() {
 
           {currentView === 'categories' && (
             <CategoriesView 
-              categories={categories}
               setIsAddCategoryModalOpen={setIsAddCategoryModalOpen}
-              setIsAssistantOpen={setIsAssistantOpen}
             />
           )}
         </AnimatePresence>
       </main>
 
       <BottomNav currentView={currentView} setCurrentView={setCurrentView} />
+
+      <AddCategoryModal 
+        isOpen={isAddCategoryModalOpen}
+        onClose={() => setIsAddCategoryModalOpen(false)}
+        onSubmit={handleAddCategory}
+        newCategoryName={newCategoryName}
+        setNewCategoryName={setNewCategoryName}
+        selectedIcon={selectedIcon}
+        setSelectedIcon={setSelectedIcon}
+        colorFill={colorFill}
+        setColorFill={setColorFill}
+        iconColor={iconColor}
+        setIconColor={setIconColor}
+      />
     </div>
   );
 }

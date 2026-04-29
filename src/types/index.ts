@@ -6,6 +6,8 @@ export interface Category {
   name: string;
   icon: string;
   userId: string;
+  colorFill?: string;
+  iconColor?: string;
 }
 
 export interface Transaction extends ParsedTransaction {
