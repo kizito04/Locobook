@@ -47,5 +47,5 @@ export interface FirestoreErrorInfo {
   }
 }
 
-export type ViewType = 'dashboard' | 'history' | 'analytics' | 'settings';
+export type ViewType = 'dashboard' | 'history' | 'analytics' | 'settings' | 'categories';
 

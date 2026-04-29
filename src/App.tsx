@@ -6,6 +6,7 @@ import { Dashboard } from './pages/Dashboard';
 import { History } from './pages/History';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
+import { CategoriesView } from './pages/CategoriesView';
 import { useLocobook } from './hooks/useLocobook';
 import { Loader2, Wallet, UserCircle } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -44,7 +45,9 @@ export default function App() {
     isSearchVisible,
     toggleSearch,
     handleLogin,
-    handleLogout
+    handleLogout,
+    setIsAddCategoryModalOpen,
+    setIsAssistantOpen
   } = useLocobook();
 
 
@@ -156,7 +159,15 @@ export default function App() {
               onLogout={handleLogout}
               categories={categories}
               handleDeleteCategory={handleDeleteCategory}
+              setCurrentView={setCurrentView}
+            />
+          )}
 
+          {currentView === 'categories' && (
+            <CategoriesView 
+              categories={categories}
+              setIsAddCategoryModalOpen={setIsAddCategoryModalOpen}
+              setIsAssistantOpen={setIsAssistantOpen}
             />
           )}
         </AnimatePresence>
