@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
@@ -10,11 +10,13 @@ import { CategoriesView } from './pages/CategoriesView';
 import { AddCategoryModal } from './components/AddCategoryModal';
 import { EditCategoryModal } from './components/EditCategoryModal';
 import { LoginPage } from './components/LoginPage';
+import { CreateAccountPage } from './components/CreateAccountPage';
 import { useLocobook } from './hooks/useLocobook';
 import { Loader2 } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
+  const [authPage, setAuthPage] = useState<'login' | 'signup'>('login');
   const {
     user,
     loading,
@@ -80,7 +82,11 @@ export default function App() {
   }
 
   if (!user) {
-    return <LoginPage onLogin={handleLogin} />;
+    return authPage === 'login' ? (
+      <LoginPage onLogin={handleLogin} onCreateAccount={() => setAuthPage('signup')} />
+    ) : (
+      <CreateAccountPage onBackToLogin={() => setAuthPage('login')} />
+    );
   }
 
   return (
