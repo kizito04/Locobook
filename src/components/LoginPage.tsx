@@ -29,8 +29,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
       >
         <div className="mb-5 text-center">
           <div className="mx-auto mb-4 flex flex-col items-center justify-center">
-            <img src={locologo} alt="Locobook logo" className="h-20 w-20 object-contain" />
-            <span className="mt-3 text-lg font-semibold text-slate-900">Locobook</span>
+            <img src={locologo} alt="Locobook logo" className="h-40 w-40 object-contain" />
+            
           </div>
           <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
         </div>
@@ -57,7 +57,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
-              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -68,7 +68,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-3 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-2 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
