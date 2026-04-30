@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Wallet, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
+import googleIcon from '../assets/images/googleicon.png';
+import walletIcon from '../assets/images/wallet.png';
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -23,28 +25,21 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="max-w-lg w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
+        className="max-w-xl w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
         <div className="mb-5 text-center">
           <div className="mx-auto mb-4 inline-flex items-center justify-center rounded-2xl bg-slate-100 px-3 py-2">
-            <Wallet className="w-5 h-5 text-indigo-600" />
-            <span className="ml-2 text-sm font-semibold text-slate-700">Locobook</span>
+            <img src={walletIcon} alt="Locobook wallet icon" className="h-8 w-8 object-contain" />
+            <span className="ml-2 text-sm font-semibold text-slate-900">Locobook</span>
           </div>
           <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
         </div>
 
         <button
           onClick={onLogin}
-          className="w-full inline-flex items-center justify-center gap-3 rounded-3xl border border-slate-200 bg-white py-4 px-5 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-all shadow-sm"
+          className="w-full inline-flex items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white py-3 px-5 text-sm font-semibold text-slate-900 hover:bg-slate-50 transition-all shadow-sm"
         >
-          <span className="inline-flex h-5 w-5 items-center justify-center rounded-sm bg-white shadow-sm">
-            <svg viewBox="0 0 24 24" className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none">
-              <path d="M21.35 11.1h-9.35v2.8h5.35c-.25 1.45-1.2 2.65-2.55 3.45v2.85h4.1c2.4-2.2 3.8-5.45 3.8-9.05 0-.6-.05-1.2-.15-1.8z" fill="#4285F4" />
-              <path d="M12 22c2.7 0 4.95-.9 6.6-2.45l-4.1-2.85c-1.1.75-2.5 1.2-4.5 1.2-3.45 0-6.35-2.35-7.4-5.55H0v3.5C1.6 19.95 6.35 22 12 22z" fill="#34A853" />
-              <path d="M4.6 13.15c-.25-.75-.4-1.55-.4-2.35 0-.8.15-1.6.4-2.35V4.95H0C-.5 6.55-1 8.45-1 10.8c0 2.35.5 4.25 1.5 5.85l3.1-3.5z" fill="#FBBC05" />
-              <path d="M12 4.5c1.45 0 2.75.5 3.75 1.45l2.8-2.8C16.95 1.65 14.7 1 12 1 6.35 1 1.6 3.05 0 4.95l3.1 3.5C5.65 6.85 8.55 4.5 12 4.5z" fill="#EA4335" />
-            </svg>
-          </span>
+          <img src={googleIcon} alt="Google icon" className="h-5 w-5" />
           Sign in with Google
         </button>
 
@@ -62,7 +57,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -73,7 +68,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="password"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
@@ -86,9 +81,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
           </div>
 
           <div className="text-center text-sm text-slate-500">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?{'    '}
             <button type="button" onClick={onCreateAccount} className="font-medium text-slate-900 hover:text-slate-700">
-              Create your account
+              Create Account
             </button>
           </div>
 
