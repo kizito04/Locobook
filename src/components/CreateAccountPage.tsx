@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Wallet, Eye, EyeOff } from 'lucide-react';
 
 interface CreateAccountPageProps {
   onBackToLogin: () => void;
@@ -24,9 +24,9 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="max-w-md w-full bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-slate-200/80 p-8 sm:p-10"
+        className="max-w-lg w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
-        <div className="mb-7 text-center">
+        <div className="mb-5 text-center">
           <h1 className="text-3xl font-bold text-slate-900">Create your account</h1>
           <p className="mt-2 text-sm text-slate-500">Create a free account to start using Locobook AI.</p>
         </div>
@@ -39,7 +39,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Full name"
-              className="w-full rounded-[1.75rem] border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -50,7 +50,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
-              className="w-full rounded-[1.75rem] border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -61,7 +61,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="password"
-              className="w-full rounded-[1.75rem] border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
@@ -80,7 +80,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="confirm password"
-              className="w-full rounded-[1.75rem] border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
