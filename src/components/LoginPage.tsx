@@ -23,9 +23,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="max-w-md w-full bg-white/95 backdrop-blur-xl rounded-[2rem] shadow-2xl border border-slate-200/80 p-8 sm:p-10"
+        className="max-w-lg w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
-        <div className="mb-7 text-center">
+        <div className="mb-5 text-center">
+          <div className="mx-auto mb-4 inline-flex items-center justify-center rounded-2xl bg-slate-100 px-3 py-2">
+            <Wallet className="w-5 h-5 text-indigo-600" />
+            <span className="ml-2 text-sm font-semibold text-slate-700">Locobook</span>
+          </div>
           <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
         </div>
 
@@ -58,7 +62,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email"
-              className="w-full rounded-[1.75rem] border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -69,7 +73,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="password"
-              className="w-full rounded-[1.75rem] border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
@@ -90,7 +94,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
 
           <button
             type="submit"
-            className="w-full rounded-[1.75rem] bg-slate-900 py-4 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
+            className="w-full rounded-2xl bg-slate-900 py-4 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-sm"
           >
             Sign in
           </button>
