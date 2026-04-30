@@ -27,7 +27,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className="max-w-xl w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
-        <div className="mb-2 text-center">
+        <div className="mb-8 text-center">
           <div className="mx-auto mb-1 flex flex-col items-center justify-center">
             <img src={locologo} alt="Locobook logo" className="h-45 w-45 object-contain" />
             
