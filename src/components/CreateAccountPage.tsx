@@ -39,7 +39,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Full name"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -49,8 +49,8 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="email"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              placeholder="Email"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-4 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -60,8 +60,8 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              placeholder="Password"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
@@ -79,8 +79,8 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="confirm password"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              placeholder="Confirm password"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-4 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
@@ -94,7 +94,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
 
           <button
             type="submit"
-            className="w-full rounded-[1.75rem] bg-slate-900 py-4 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
+            className="w-full rounded-[1.55rem] bg-slate-900 py-4 text-sm font-semibold text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-200"
           >
             Create account
           </button>
@@ -102,7 +102,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
 
         <div className="mt-5 text-center text-sm text-slate-500">
           Already have an account?{' '}
-          <button type="button" onClick={onBackToLogin} className="font-medium text-slate-900 hover:text-slate-700">
+          <button type="button" onClick={onBackToLogin} className="font-medium text-slate-900 hover:text-blue-700">
             Sign in
           </button>
         </div>

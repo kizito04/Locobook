@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Eye, EyeOff } from 'lucide-react';
 import googleIcon from '../assets/images/googleicon.png';
-import walletIcon from '../assets/images/wallet.png';
+import locologo from '../assets/images/Locologo.png';
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -28,9 +28,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
         className="max-w-xl w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
         <div className="mb-5 text-center">
-          <div className="mx-auto mb-4 inline-flex items-center justify-center rounded-2xl bg-slate-100 px-3 py-2">
-            <img src={walletIcon} alt="Locobook wallet icon" className="h-8 w-8 object-contain" />
-            <span className="ml-2 text-sm font-semibold text-slate-900">Locobook</span>
+          <div className="mx-auto mb-4 flex flex-col items-center justify-center">
+            <img src={locologo} alt="Locobook logo" className="h-20 w-20 object-contain" />
+            <span className="mt-3 text-lg font-semibold text-slate-900">Locobook</span>
           </div>
           <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
         </div>
@@ -56,8 +56,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="email"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              placeholder="Email"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-3 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -67,8 +67,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="password"
-              className="w-full rounded-2xl border border-slate-200 bg-slate-100 px-5 py-3 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+              placeholder="Password"
+              className="w-full rounded-xl border border-slate-200 bg-slate-100 px-5 py-3 pr-12 text-sm text-slate-900 placeholder-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
             />
             <button
               type="button"
