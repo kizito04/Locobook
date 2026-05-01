@@ -45,7 +45,6 @@ export default function App() {
     categories,
     filteredTransactions,
     handleDeleteTransaction,
-    handleDeleteCategory,
     handleDeleteAccountData,
     searchTerm,
     setSearchTerm,
@@ -82,6 +81,7 @@ export default function App() {
   } = useLocobook();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const isSettingsView = currentView === 'settings';
 
 
 
@@ -102,25 +102,27 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-36 sm:pb-40 overflow-x-hidden">
+    <div className={`min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden ${isSettingsView ? '' : 'pb-36 sm:pb-40'}`}>
 
 
-      <Header 
-        user={user} 
-        transactions={transactions}
-        onLogout={handleLogout}
-        isSearchVisible={isSearchVisible}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        toggleSearch={toggleSearch}
-        setIsAssistantOpen={setIsAssistantOpen}
-        setCurrentView={setCurrentView}
-        isProfileOpen={isProfileOpen}
-        setIsProfileOpen={setIsProfileOpen}
-      />
+      {!isSettingsView && (
+        <Header 
+          user={user} 
+          transactions={transactions}
+          onLogout={handleLogout}
+          isSearchVisible={isSearchVisible}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          toggleSearch={toggleSearch}
+          setIsAssistantOpen={setIsAssistantOpen}
+          setCurrentView={setCurrentView}
+          isProfileOpen={isProfileOpen}
+          setIsProfileOpen={setIsProfileOpen}
+        />
+      )}
 
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+      <main className={isSettingsView ? 'min-h-screen' : 'max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8'}>
 
 
         <AnimatePresence mode="wait">
@@ -186,7 +188,6 @@ export default function App() {
               user={user} 
               onLogout={handleLogout}
               categories={categories}
-              handleDeleteCategory={handleDeleteCategory}
               handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
             />
@@ -203,7 +204,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {!isProfileOpen && <BottomNav currentView={currentView} setCurrentView={setCurrentView} />}
+      {!isProfileOpen && !isSettingsView && <BottomNav currentView={currentView} setCurrentView={setCurrentView} />}
 
       <AnimatePresence>
         {isAssistantOpen && (

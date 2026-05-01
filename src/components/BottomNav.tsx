@@ -51,7 +51,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, setCurrentVie
         <NavItem id="dashboard"  icon={Home}        label="Home"      currentView={currentView} setCurrentView={setCurrentView} />
         <NavItem id="history"    icon={RotateCcw}   label="Transactions"   currentView={currentView} setCurrentView={setCurrentView} />
         <NavItem id="analytics"  icon={BarChart2}   label="Analytics" currentView={currentView} setCurrentView={setCurrentView} />
-        <NavItem id="settings"   icon={SettingsIcon} label="Settings" currentView={currentView} setCurrentView={setCurrentView} />
+        {/* <NavItem id="settings"   icon={SettingsIcon} label="Settings" currentView={currentView} setCurrentView={setCurrentView} /> */}
       </div>
     </nav>
   );

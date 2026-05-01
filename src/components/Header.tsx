@@ -221,14 +221,14 @@ ${312 + length}
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className="fixed inset-0 z-50 overflow-y-auto bg-amber-50"
+              className="fixed inset-0 z-50 overflow-y-auto bg-slate-100"
             >
               <div className="min-h-screen px-5 py-3">
                 <div className="flex items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => setIsProfileOpen(false)}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -239,7 +239,7 @@ ${312 + length}
                       setIsCurrencyOpen(false);
                       setIsExportOpen(false);
                     }}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
                   >
                     <RefreshCcw className="w-3 h-3" />
                   </button>
