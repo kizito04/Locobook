@@ -75,7 +75,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500">Income</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-emerald-600 truncate">
+          <h2 className="min-w-0 break-all text-[clamp(0.8rem,4vw,1.25rem)] font-bold leading-tight text-emerald-600 sm:text-[clamp(1rem,2.8vw,1.5rem)]">
             {formatCurrency(totalIncome)}
           </h2>
         </div>
@@ -85,7 +85,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <ArrowDownRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500">Expenses</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-rose-600 truncate">
+          <h2 className="min-w-0 break-all text-[clamp(0.8rem,4vw,1.25rem)] font-bold leading-tight text-rose-600 sm:text-[clamp(1rem,2.8vw,1.5rem)]">
             {formatCurrency(totalExpenses)}
           </h2>
         </div>

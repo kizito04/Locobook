@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, RotateCcw, BarChart2, Settings as SettingsIcon } from 'lucide-react';
+import { ChartPie, Home, ReceiptText } from 'lucide-react';
 import { ViewType } from '../types';
 
 interface NavItemProps {
@@ -49,8 +49,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ currentView, setCurrentVie
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-2 sm:px-6 py-1 z-50 shadow-[0_-4px_20px_-4px_rgba(0,0,0,0.06)]">
       <div className="max-w-4xl mx-auto flex items-center justify-around">
         <NavItem id="dashboard"  icon={Home}        label="Home"      currentView={currentView} setCurrentView={setCurrentView} />
-        <NavItem id="history"    icon={RotateCcw}   label="Transactions"   currentView={currentView} setCurrentView={setCurrentView} />
-        <NavItem id="analytics"  icon={BarChart2}   label="Analytics" currentView={currentView} setCurrentView={setCurrentView} />
+        <NavItem id="history"    icon={ReceiptText} label="Transactions"   currentView={currentView} setCurrentView={setCurrentView} />
+        <NavItem id="analytics"  icon={ChartPie}    label="Analytics" currentView={currentView} setCurrentView={setCurrentView} />
         {/* <NavItem id="settings"   icon={SettingsIcon} label="Settings" currentView={currentView} setCurrentView={setCurrentView} /> */}
       </div>
     </nav>

@@ -26,7 +26,6 @@ interface SettingsProps {
 
 const renderRow = (
   title: string,
-  subtitle: string,
   open: boolean,
   Icon: React.ElementType,
   value?: string
@@ -38,7 +37,6 @@ const renderRow = (
       </div>
       <div className="min-w-0">
         <h3 className="font-semibold text-slate-900">{title}</h3>
-        <p className="truncate text-[11px] text-slate-500">{subtitle}</p>
       </div>
     </div>
     <div className="flex shrink-0 items-center gap-2">
@@ -80,16 +78,16 @@ export const Settings: React.FC<SettingsProps> = ({
       className="min-h-screen bg-slate-100 px-5 py-3"
     >
       <div className="mx-auto max-w-2xl">
-        <div className="flex items-center justify-between gap-3">
+        <div className="relative flex items-center justify-center">
           <button
             type="button"
             onClick={() => setCurrentView('dashboard')}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
+            className="absolute left-0 inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
             aria-label="Close settings"
           >
             <X className="h-3 w-3" />
           </button>
-          <h2 className="text-lg font-semibold text-slate-900">Settings</h2>
+          <h2 className="text-2xl font-bold text-slate-900">Settings</h2>
           {/* <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-amber-600 shadow-sm">
             <SettingsIcon className="h-3 w-3" />
           </div> */}
@@ -119,7 +117,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 onClick={() => toggleSection('theme')}
                 className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
               >
-                {renderRow('Theme', 'App appearance mode', openSection === 'theme', Moon, theme)}
+                {renderRow('Theme', openSection === 'theme', Moon, theme)}
               </button>
               {openSection === 'theme' && (
                 <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
@@ -143,7 +141,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 onClick={() => toggleSection('textSize')}
                 className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
               >
-                {renderRow('Text size', 'Font scaling preference', openSection === 'textSize', TextCursorInput, textSize)}
+                {renderRow('Text size', openSection === 'textSize', TextCursorInput, textSize)}
               </button>
               {openSection === 'textSize' && (
                 <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
@@ -167,7 +165,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 onClick={() => toggleSection('language')}
                 className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
               >
-                {renderRow('Language', 'Preferred app language', openSection === 'language', Languages, language)}
+                {renderRow('Language', openSection === 'language', Languages, language)}
               </button>
               {openSection === 'language' && (
                 <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
