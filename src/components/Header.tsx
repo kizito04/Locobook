@@ -269,7 +269,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
                         <Layers className="w-5 h-5" />
                       </div>
                       <div>
@@ -289,7 +289,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
                         <DollarSign className="w-5 h-5" />
                       </div>
                       <div>
@@ -309,7 +309,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
                         <Download className="w-5 h-5" />
                       </div>
                       <div>
@@ -326,7 +326,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
                         <MessageSquare className="w-5 h-5" />
                       </div>
                       <div>
@@ -343,7 +343,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
                         <Star className="w-5 h-5" />
                       </div>
                       <div>
@@ -363,7 +363,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
                         <SettingsIcon className="w-5 h-5" />
                       </div>
                       <div>
@@ -374,21 +374,7 @@ ${312 + length}
                     <ChevronRight className="w-5 h-5 text-slate-400" />
                   </button>
 
-                  <button
-                    type="button"
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-amber-200 bg-amber-50 px-4 py-4 text-left shadow-sm transition hover:border-amber-300"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-                        <Crown className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-slate-900">Get Premium</p>
-                        <p className="text-xs text-slate-500">Unlock premium tracking features</p>
-                      </div>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
-                  </button>
+                    
                 </div>
 
                 {isCurrencyOpen && (
