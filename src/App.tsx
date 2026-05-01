@@ -105,6 +105,7 @@ export default function App() {
 
       <Header 
         user={user} 
+        transactions={transactions}
         onLogout={handleLogout}
         isSearchVisible={isSearchVisible}
         searchTerm={searchTerm}
