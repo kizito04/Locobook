@@ -70,18 +70,17 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
       <div className="flex items-center justify-between">
         <button
           onClick={() => setCurrentView('history')}
-          className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900"
+          className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span className="text-sm font-semibold">Back</span>
+          <span>Back</span>
         </button>
         <div>
-          
           <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">Edit Transaction</h1>
         </div>
       </div>
 
-      <form onSubmit={onSubmit} className="bg-white border border-slate-200 rounded-[2rem] p-6 space-y-5 shadow-sm">
+      <form onSubmit={onSubmit} className="bg-white border border-slate-200 rounded-xl p-5 space-y-5 shadow-sm">
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">Description</label>
           <input
@@ -111,14 +110,14 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
           <button
             type="button"
             onClick={() => setType('income')}
-            className={`rounded-3xl py-3 text-sm font-semibold transition ${type === 'income' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            className={`rounded-xl py-2 text-sm font-semibold transition ${type === 'income' ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
           >
             Income
           </button>
           <button
             type="button"
             onClick={() => setType('expense')}
-            className={`rounded-3xl py-3 text-sm font-semibold transition ${type === 'expense' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+            className={`rounded-xl py-2 text-sm font-semibold transition ${type === 'expense' ? 'bg-rose-600 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
           >
             Expense
           </button>
@@ -139,18 +138,17 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-         
           <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 transition"
           >
             <Save className="w-4 h-4" />
             Save changes
           </button>
-           <button
+          <button
             type="button"
             onClick={() => setCurrentView('history')}
-            className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+            className="rounded-2xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition"
           >
             Cancel
           </button>

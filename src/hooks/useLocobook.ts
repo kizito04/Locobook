@@ -16,6 +16,7 @@ import {
   addDoc, 
   deleteDoc, 
   doc, 
+  writeBatch, 
   Timestamp, 
   getDocFromServer, 
   updateDoc 
@@ -286,6 +287,22 @@ export const useLocobook = () => {
     }
   };
 
+  const handleDeleteAccountData = async () => {
+    if (!user || transactions.length === 0) return;
+
+    const batch = writeBatch(db);
+    transactions.forEach((tx) => {
+      batch.delete(doc(db, 'transactions', tx.id));
+    });
+
+    try {
+      await batch.commit();
+      setTransactions([]);
+    } catch (err) {
+      handleFirestoreError(err, OperationType.DELETE, 'transactions');
+    }
+  };
+
   const handleEditTransactionSelection = (tx: Transaction) => {
     setEditingTransaction(tx);
     setCurrentView('editTransaction');
@@ -452,6 +469,7 @@ ${transactions.slice(0, 10).map(t =>
     handleLogout,
     handleAddCategory,
     handleDeleteCategory,
+    handleDeleteAccountData,
     handleEditCategory,
     handleAddTransaction,
     handleEditTransactionSelection,

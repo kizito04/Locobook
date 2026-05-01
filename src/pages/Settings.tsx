@@ -9,6 +9,7 @@ interface SettingsProps {
   onLogout: () => void;
   categories: Category[];
   handleDeleteCategory: (id: string) => void;
+  handleDeleteAccountData: () => Promise<void>;
   setCurrentView: (view: ViewType) => void;
 }
 
@@ -27,6 +28,7 @@ export const Settings: React.FC<SettingsProps> = ({
   onLogout,
   categories,
   handleDeleteCategory,
+  handleDeleteAccountData,
   setCurrentView
 }) => {
   const [openSection, setOpenSection] = useState<'theme' | 'textSize' | 'language' | null>(null);
@@ -38,12 +40,11 @@ export const Settings: React.FC<SettingsProps> = ({
     setOpenSection(openSection === section ? null : section);
   };
 
-  const deleteAccountData = () => {
+  const deleteAccountData = async () => {
     const confirmed = window.confirm('Are you sure you want to delete your account data? This action cannot be undone.');
-    if (confirmed) {
-      console.log('Account data deletion confirmed');
-      // Add account data deletion logic here if needed
-    }
+    if (!confirmed) return;
+
+    await handleDeleteAccountData();
   };
 
   return (
@@ -61,79 +62,85 @@ export const Settings: React.FC<SettingsProps> = ({
         </div>
       </div>
 
-      <div className="space-y-2">
-        <button
-          type="button"
-          onClick={() => toggleSection('theme')}
-          className="w-full text-left text-base font-semibold text-slate-900 hover:text-indigo-600 transition-colors"
-        >
-          Theme: {theme}
-        </button>
-        {openSection === 'theme' && (
-          <div className="space-y-1 px-2">
-            {['System default', 'Light', 'Dark'].map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setTheme(option)}
-                className={`w-full text-left text-sm ${theme === option ? 'text-indigo-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
+      <div className="divide-y divide-slate-200">
+        <div className="py-3">
+          <button
+            type="button"
+            onClick={() => toggleSection('theme')}
+            className="w-full text-left"
+          >
+            {renderRow(`Theme: ${theme}`, 'App appearance mode', openSection === 'theme')}
+          </button>
+          {openSection === 'theme' && (
+            <div className="space-y-2 border-l border-slate-200 pl-4 pt-3 pb-4">
+              {['System default', 'Light', 'Dark'].map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setTheme(option)}
+                  className={`w-full text-left text-sm ${theme === option ? 'text-indigo-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
-        <button
-          type="button"
-          onClick={() => toggleSection('textSize')}
-          className="w-full text-left text-base font-semibold text-slate-900 hover:text-indigo-600 transition-colors"
-        >
-          Text size: {textSize}
-        </button>
-        {openSection === 'textSize' && (
-          <div className="space-y-1 px-2">
-            {['Small', 'Default', 'Large'].map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setTextSize(option)}
-                className={`w-full text-left text-sm ${textSize === option ? 'text-indigo-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="py-3">
+          <button
+            type="button"
+            onClick={() => toggleSection('textSize')}
+            className="w-full text-left"
+          >
+            {renderRow(`Text size: ${textSize}`, 'Font scaling preference', openSection === 'textSize')}
+          </button>
+          {openSection === 'textSize' && (
+            <div className="space-y-2 border-l border-slate-200 pl-4 pt-3 pb-4">
+              {['Small', 'Default', 'Large'].map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setTextSize(option)}
+                  className={`w-full text-left text-sm ${textSize === option ? 'text-indigo-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
-        <button
-          type="button"
-          onClick={() => toggleSection('language')}
-          className="w-full text-left text-base font-semibold text-slate-900 hover:text-indigo-600 transition-colors"
-        >
-          Language: {language}
-        </button>
-        {openSection === 'language' && (
-          <div className="space-y-1 px-2">
-            {['System default', 'English', 'French', 'Spanish'].map((option) => (
-              <button
-                key={option}
-                type="button"
-                onClick={() => setLanguage(option)}
-                className={`w-full text-left text-sm ${language === option ? 'text-indigo-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="py-3">
+          <button
+            type="button"
+            onClick={() => toggleSection('language')}
+            className="w-full text-left"
+          >
+            {renderRow(`Language: ${language}`, 'Preferred app language', openSection === 'language')}
+          </button>
+          {openSection === 'language' && (
+            <div className="space-y-2 border-l border-slate-200 pl-4 pt-3 pb-4">
+              {['System default', 'English', 'French', 'Spanish'].map((option) => (
+                <button
+                  key={option}
+                  type="button"
+                  onClick={() => setLanguage(option)}
+                  className={`w-full text-left text-sm ${language === option ? 'text-indigo-600 font-semibold' : 'text-slate-600 hover:text-slate-900'}`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="pt-4">
+      <div className="pt-6">
         <button
           type="button"
           onClick={deleteAccountData}
-          className="w-full rounded-xl border border-slate-300 bg-white/50 px-4 py-3 text-sm font-semibold text-rose-600 transition hover:bg-rose-50"
+          className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-rose-600 hover:bg-rose-50 transition"
         >
           Delete account data
         </button>

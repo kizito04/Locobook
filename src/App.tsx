@@ -46,6 +46,7 @@ export default function App() {
     filteredTransactions,
     handleDeleteTransaction,
     handleDeleteCategory,
+    handleDeleteAccountData,
     searchTerm,
     setSearchTerm,
     isSearchVisible,
@@ -182,6 +183,7 @@ export default function App() {
               onLogout={handleLogout}
               categories={categories}
               handleDeleteCategory={handleDeleteCategory}
+              handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
             />
           )}
