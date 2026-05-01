@@ -29,9 +29,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
       >
         <div className="mb-3 text-center">
           <div className="mx-auto mb-1 flex h-28 w-28 items-center justify-center overflow-visible">
-            <img src={locologo} alt="Locobook logo" className="h-44 w-60 max-w-none object-contain" />
+            <img src={locologo} alt="Locobook logo" className="h-44 w-44 max-w-none object-contain" />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
         </div>
 
         <button
