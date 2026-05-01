@@ -10,6 +10,11 @@ interface MonthSelectorProps {
   totalExpenses: number;
 }
 
+const toLocalMonthKey = (date: Date) => {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${date.getFullYear()}-${month}`;
+};
+
 export const MonthSelector: React.FC<MonthSelectorProps> = ({
   selectedMonth,
   setSelectedMonth,
@@ -21,10 +26,11 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
   // Generate last 12 months
   const months = Array.from({ length: 12 }, (_, i) => {
     const d = new Date();
+    d.setDate(1);
     d.setMonth(d.getMonth() - i);
     return {
       label: d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' }).toUpperCase(),
-      value: d.toISOString().slice(0, 7)
+      value: toLocalMonthKey(d)
     };
   }).reverse();
 

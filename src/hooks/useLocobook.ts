@@ -33,6 +33,40 @@ import { handleFirestoreError } from '../utils/errorHandlers';
 import { parseTransaction, askAssistant } from '../services/geminiService';
 import { formatCurrency } from '../utils/formatters';
 
+const toLocalMonthKey = (date: Date) => {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${date.getFullYear()}-${month}`;
+};
+
+const parseLocalDateKey = (value: string) => {
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) return null;
+  return new Date(year, month - 1, day);
+};
+
+const parseLocalMonthKey = (value: string) => {
+  const [year, month] = value.split('-').map(Number);
+  if (!year || !month) return null;
+  return new Date(year, month - 1, 1);
+};
+
+const addDays = (date: Date, days: number) => {
+  const nextDate = new Date(date);
+  nextDate.setDate(nextDate.getDate() + days);
+  return nextDate;
+};
+
+const addMonths = (date: Date, months: number) => {
+  const nextDate = new Date(date);
+  nextDate.setMonth(nextDate.getMonth() + months);
+  return nextDate;
+};
+
+const isWithinRange = (date: Date, start: Date | null, end: Date | null) => {
+  if (!start || !end) return true;
+  return date >= start && date < end;
+};
+
 export const useLocobook = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -55,7 +89,7 @@ export const useLocobook = () => {
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [selectedDate, setSelectedDate] = useState<string>('');
 
-  const [selectedMonth, setSelectedMonth] = useState<string>(new Date().toISOString().slice(0, 7)); // YYYY-MM
+  const [selectedMonth, setSelectedMonth] = useState<string>(toLocalMonthKey(new Date())); // YYYY-MM
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
   // AI Assistant State
@@ -388,17 +422,16 @@ ${transactions.slice(0, 10).map(t =>
   };
 
   // --- Calculations ---
+  const selectedMonthStart = selectedMonth ? parseLocalMonthKey(selectedMonth) : null;
+  const selectedMonthEnd = selectedMonthStart ? addMonths(selectedMonthStart, 1) : null;
+  const selectedDateStart = selectedDate ? parseLocalDateKey(selectedDate) : null;
+  const selectedDateEnd = selectedDateStart ? addDays(selectedDateStart, 1) : null;
+
   const filteredTransactions = transactions.filter(t => {
-    const txDate = t.date.toDate().toISOString().split('T')[0];
-    const txMonth = txDate.slice(0, 7);
-    
-    // If a month is selected, filter by that month. 
-    // If a specific date is also selected and it's NOT today (meaning the user intentionally picked a day), 
-    // maybe we prioritize the day? Actually, the UI image shows month selection as the primary navigation.
-    // Let's make them work together: if both are set, the date must be within the month.
-    
-    const matchesMonth = selectedMonth ? txMonth === selectedMonth : true;
-    const matchesDate = selectedDate ? txDate === selectedDate : true;
+    const txDate = t.date.toDate();
+
+    const matchesMonth = isWithinRange(txDate, selectedMonthStart, selectedMonthEnd);
+    const matchesDate = isWithinRange(txDate, selectedDateStart, selectedDateEnd);
     const matchesType = filter === 'all' ? true : t.type === filter;
     const matchesSearch = searchTerm 
       ? t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 

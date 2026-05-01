@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
@@ -82,6 +82,21 @@ export default function App() {
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const isSettingsView = currentView === 'settings';
+
+  useEffect(() => {
+    const themePreference = window.localStorage.getItem('locobook-theme') || 'System default';
+    const textSizePreference = window.localStorage.getItem('locobook-text-size') || 'Default';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    document.documentElement.classList.toggle(
+      'locobook-dark',
+      themePreference === 'Dark' || (themePreference === 'System default' && prefersDark)
+    );
+
+    document.documentElement.classList.remove('locobook-text-small', 'locobook-text-large');
+    if (textSizePreference === 'Small') document.documentElement.classList.add('locobook-text-small');
+    if (textSizePreference === 'Large') document.documentElement.classList.add('locobook-text-large');
+  }, []);
 
 
 
@@ -187,7 +202,6 @@ export default function App() {
             <Settings 
               user={user} 
               onLogout={handleLogout}
-              categories={categories}
               handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
             />

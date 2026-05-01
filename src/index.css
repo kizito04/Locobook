@@ -7,6 +7,20 @@
     padding: 0;
     box-sizing: border-box;
   }
+
+  html.locobook-text-small {
+    font-size: 14px;
+  }
+
+  html.locobook-text-large {
+    font-size: 18px;
+  }
+
+  html.locobook-dark body,
+  html.locobook-dark #root {
+    background: #0f172a;
+    color: #e2e8f0;
+  }
   
   #root {
     @apply w-full overflow-x-hidden;
@@ -15,6 +29,47 @@
   * {
     box-sizing: border-box;
   }
+}
+
+html.locobook-dark .bg-white {
+  background-color: #1e293b !important;
+}
+
+html.locobook-dark .bg-slate-50,
+html.locobook-dark .bg-slate-100 {
+  background-color: #0f172a !important;
+}
+
+html.locobook-dark .bg-slate-100\/50 {
+  background-color: rgba(15, 23, 42, 0.5) !important;
+}
+
+html.locobook-dark .text-slate-900,
+html.locobook-dark .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+html.locobook-dark .text-slate-700,
+html.locobook-dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+html.locobook-dark .text-slate-500,
+html.locobook-dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+html.locobook-dark .border-slate-50,
+html.locobook-dark .border-slate-100,
+html.locobook-dark .border-slate-200,
+html.locobook-dark .border-slate-300 {
+  border-color: #334155 !important;
+}
+
+html.locobook-dark .hover\:bg-slate-50:hover,
+html.locobook-dark .hover\:bg-slate-100:hover,
+html.locobook-dark .hover\:bg-slate-200:hover {
+  background-color: #334155 !important;
 }
 
 @layer utilities {
