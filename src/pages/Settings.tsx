@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ChevronRight,
   Languages,
   LogOut,
   Moon,
+  Palette,
   Settings as SettingsIcon,
   ShieldAlert,
+  Tags,
   TextCursorInput,
   UserCircle,
   X
 } from 'lucide-react';
 import { User } from 'firebase/auth';
-import { ViewType } from '../types';
+import { Category, ViewType } from '../types';
 
 interface SettingsProps {
   user: User;
   onLogout: () => void;
+  categories: Category[];
   handleDeleteAccountData: () => Promise<void>;
   setCurrentView: (view: ViewType) => void;
 }
 
 const renderRow = (
   title: string,
+  subtitle: string,
   open: boolean,
   Icon: React.ElementType,
   value?: string
@@ -34,6 +38,7 @@ const renderRow = (
       </div>
       <div className="min-w-0">
         <h3 className="font-semibold text-slate-900">{title}</h3>
+        <p className="truncate text-[11px] text-slate-500">{subtitle}</p>
       </div>
     </div>
     <div className="flex shrink-0 items-center gap-2">
@@ -43,52 +48,17 @@ const renderRow = (
   </div>
 );
 
-const themeOptions = ['System default', 'Light', 'Dark'] as const;
-const textSizeOptions = ['Small', 'Default', 'Large'] as const;
-const languageOptions = ['System default', 'English', 'French', 'Spanish'] as const;
-
-type ThemeOption = typeof themeOptions[number];
-type TextSizeOption = typeof textSizeOptions[number];
-type LanguageOption = typeof languageOptions[number];
-
-const getStoredPreference = <T extends string>(key: string, fallback: T) => {
-  if (typeof window === 'undefined') return fallback;
-  return (window.localStorage.getItem(key) as T | null) || fallback;
-};
-
-const applyThemePreference = (preference: ThemeOption) => {
-  if (typeof window === 'undefined') return;
-
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const shouldUseDark = preference === 'Dark' || (preference === 'System default' && prefersDark);
-  document.documentElement.classList.toggle('locobook-dark', shouldUseDark);
-  window.localStorage.setItem('locobook-theme', preference);
-};
-
-const applyTextSizePreference = (preference: TextSizeOption) => {
-  if (typeof window === 'undefined') return;
-
-  document.documentElement.classList.remove('locobook-text-small', 'locobook-text-large');
-  if (preference === 'Small') document.documentElement.classList.add('locobook-text-small');
-  if (preference === 'Large') document.documentElement.classList.add('locobook-text-large');
-  window.localStorage.setItem('locobook-text-size', preference);
-};
-
 export const Settings: React.FC<SettingsProps> = ({
   user,
   onLogout,
+  categories,
   handleDeleteAccountData,
   setCurrentView
 }) => {
   const [openSection, setOpenSection] = useState<'theme' | 'textSize' | 'language' | null>(null);
-  const [theme, setTheme] = useState<ThemeOption>(() => getStoredPreference('locobook-theme', 'System default'));
-  const [textSize, setTextSize] = useState<TextSizeOption>(() => getStoredPreference('locobook-text-size', 'Default'));
-  const [language, setLanguage] = useState<LanguageOption>(() => getStoredPreference('locobook-language', 'System default'));
-
-  useEffect(() => {
-    applyThemePreference(theme);
-    applyTextSizePreference(textSize);
-  }, []);
+  const [theme, setTheme] = useState('System default');
+  const [textSize, setTextSize] = useState('Default');
+  const [language, setLanguage] = useState('System default');
 
   const toggleSection = (section: 'theme' | 'textSize' | 'language') => {
     setOpenSection(openSection === section ? null : section);
@@ -99,24 +69,6 @@ export const Settings: React.FC<SettingsProps> = ({
     if (!confirmed) return;
 
     await handleDeleteAccountData();
-  };
-
-  const selectTheme = (option: ThemeOption) => {
-    setTheme(option);
-    applyThemePreference(option);
-    setOpenSection(null);
-  };
-
-  const selectTextSize = (option: TextSizeOption) => {
-    setTextSize(option);
-    applyTextSizePreference(option);
-    setOpenSection(null);
-  };
-
-  const selectLanguage = (option: LanguageOption) => {
-    setLanguage(option);
-    window.localStorage.setItem('locobook-language', option);
-    setOpenSection(null);
   };
 
   return (
@@ -167,15 +119,15 @@ export const Settings: React.FC<SettingsProps> = ({
                 onClick={() => toggleSection('theme')}
                 className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
               >
-                {renderRow('Theme', openSection === 'theme', Moon, theme)}
+                {renderRow('Theme', 'App appearance mode', openSection === 'theme', Moon, theme)}
               </button>
               {openSection === 'theme' && (
                 <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
-                  {themeOptions.map((option) => (
+                  {['System default', 'Light', 'Dark'].map((option) => (
                     <button
                       key={option}
                       type="button"
-                      onClick={() => selectTheme(option)}
+                      onClick={() => setTheme(option)}
                       className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${theme === option ? 'bg-amber-100 font-semibold text-amber-700' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
                     >
                       {option}
@@ -191,15 +143,15 @@ export const Settings: React.FC<SettingsProps> = ({
                 onClick={() => toggleSection('textSize')}
                 className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
               >
-                {renderRow('Text size', openSection === 'textSize', TextCursorInput, textSize)}
+                {renderRow('Text size', 'Font scaling preference', openSection === 'textSize', TextCursorInput, textSize)}
               </button>
               {openSection === 'textSize' && (
                 <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
-                  {textSizeOptions.map((option) => (
+                  {['Small', 'Default', 'Large'].map((option) => (
                     <button
                       key={option}
                       type="button"
-                      onClick={() => selectTextSize(option)}
+                      onClick={() => setTextSize(option)}
                       className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${textSize === option ? 'bg-amber-100 font-semibold text-amber-700' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
                     >
                       {option}
@@ -215,15 +167,15 @@ export const Settings: React.FC<SettingsProps> = ({
                 onClick={() => toggleSection('language')}
                 className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
               >
-                {renderRow('Language', openSection === 'language', Languages, language)}
+                {renderRow('Language', 'Preferred app language', openSection === 'language', Languages, language)}
               </button>
               {openSection === 'language' && (
                 <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
-                  {languageOptions.map((option) => (
+                  {['System default', 'English', 'French', 'Spanish'].map((option) => (
                     <button
                       key={option}
                       type="button"
-                      onClick={() => selectLanguage(option)}
+                      onClick={() => setLanguage(option)}
                       className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${language === option ? 'bg-amber-100 font-semibold text-amber-700' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
                     >
                       {option}
@@ -233,6 +185,8 @@ export const Settings: React.FC<SettingsProps> = ({
               )}
             </div>
           </section>
+
+        
 
           <section className="space-y-2">
             <p className="px-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">Account</p>
@@ -248,6 +202,7 @@ export const Settings: React.FC<SettingsProps> = ({
                 </div>
                 <div>
                   <p className="font-semibold text-rose-600">Delete account data</p>
+                  {/* <p className="text-[11px] text-rose-400">Permanently remove your saved data</p> */}
                 </div>
               </div>
               <ChevronRight className="h-3 w-3 text-rose-300" />
