@@ -360,7 +360,7 @@ ${312 + length}
                       setCurrentView('settings');
                       setIsProfileOpen(false);
                     }}
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-[1rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
                       <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
