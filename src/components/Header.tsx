@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { User } from 'firebase/auth';
-import { ArrowLeft, UserCircle, Search, X, LogOut, ChevronRight, MessageCircle, Download } from 'lucide-react';
+import { ArrowLeft, UserCircle, Search, X, LogOut, ChevronRight, MessageCircle, Download, RefreshCcw, Layers, DollarSign, MessageSquare, Star, Settings as SettingsIcon, Crown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Transaction } from '../types';
+import { Transaction, ViewType } from '../types';
 
 interface HeaderProps {
   user: User;
@@ -13,6 +13,9 @@ interface HeaderProps {
   setSearchTerm: (term: string) => void;
   toggleSearch: () => void;
   setIsAssistantOpen: (open: boolean) => void;
+  setCurrentView: (view: ViewType) => void;
+  isProfileOpen: boolean;
+  setIsProfileOpen: (open: boolean) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -23,12 +26,16 @@ export const Header: React.FC<HeaderProps> = ({
   searchTerm, 
   setSearchTerm, 
   toggleSearch,
-  setIsAssistantOpen
+  setIsAssistantOpen,
+  setCurrentView,
+  isProfileOpen,
+  setIsProfileOpen
 }) => {
-  const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState('UGX');
   const [exportPeriod, setExportPeriod] = useState<'7d' | '30d' | 'all'>('all');
   const [exportFormat, setExportFormat] = useState<'csv' | 'pdf'>('csv');
+  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
+  const [isExportOpen, setIsExportOpen] = useState(false);
 
   const exportTransactions = transactions.filter((tx) => {
     if (exportPeriod === 'all') return true;
@@ -166,7 +173,7 @@ ${312 + length}
             >
               <div className="flex items-center gap-3">
                 <button 
-                  onClick={() => setIsAccountOpen(!isAccountOpen)}
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="w-10 h-10 rounded-full overflow-hidden border border-slate-100 shadow-sm active:scale-95 transition-transform"
                 >
                   {user.photoURL ? (
@@ -201,127 +208,260 @@ ${312 + length}
 
       {/* Account Info Dropdown */}
       <AnimatePresence>
-        {isAccountOpen && (
+        {isProfileOpen && (
           <>
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsAccountOpen(false)}
+              onClick={() => setIsProfileOpen(false)}
               className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40"
             />
             <motion.div 
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className="fixed inset-0 bg-white p-6 sm:p-8 z-50 overflow-y-auto"
+              className="fixed inset-0 z-50 overflow-y-auto bg-slate-50"
             >
-              <div className="flex items-center justify-between gap-3 mb-6">
-                <button
-                  type="button"
-                  onClick={() => setIsAccountOpen(false)}
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-slate-600 hover:bg-slate-50 transition-all"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>Close</span>
-                </button>
-                <div className="text-right">
-                  <p className="text-sm text-slate-500">Signed in as</p>
-                  <p className="font-semibold text-slate-900 truncate max-w-[180px]">{user.displayName || user.email}</p>
-                </div>
-              </div>
-
-              <div className="space-y-5">
-                <div className="rounded-[1.5rem] border border-slate-100 p-4">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500">
-                      {user.photoURL ? (
-                        <img src={user.photoURL} alt={user.displayName || ''} className="w-full h-full object-cover rounded-2xl" referrerPolicy="no-referrer" />
-                      ) : (
-                        <UserCircle className="w-6 h-6" />
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-sm text-slate-500">Your account</p>
-                      <p className="font-semibold text-slate-900">{user.displayName || 'Profile'}</p>
-                    </div>
-                  </div>
-
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Currency</label>
-                  <select
-                    value={currency}
-                    onChange={(e) => setCurrency(e.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 outline-none"
+              <div className="min-h-screen px-5 py-5">
+                <div className="flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsProfileOpen(false)}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
                   >
-                    {['USD', 'EUR', 'GBP', 'KES', 'NGN', 'ZAR'].map((option) => (
-                      <option key={option} value={option}>{option}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="rounded-[1.5rem] border border-slate-100 p-5 shadow-sm">
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <p className="text-sm font-semibold text-slate-900">Export data</p>
-                        <p className="text-xs text-slate-500">Choose period and format</p>
-                      </div>
-                      <Download className="w-5 h-5 text-indigo-600" />
-                    </div>
-
-                    <div className="space-y-3">
-                      <div className="grid grid-cols-3 gap-2 text-sm">
-                        {[
-                          { value: '7d', label: 'Last 7 days' },
-                          { value: '30d', label: 'Last 30 days' },
-                          { value: 'all', label: 'All time' }
-                        ].map((option) => (
-                          <button
-                            key={option.value}
-                            type="button"
-                            onClick={() => setExportPeriod(option.value as '7d' | '30d' | 'all')}
-                            className={`rounded-full px-3 py-2 text-xs font-semibold transition ${exportPeriod === option.value ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                          >
-                            {option.label}
-                          </button>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {['csv', 'pdf'].map((format) => (
-                          <button
-                            key={format}
-                            type="button"
-                            onClick={() => setExportFormat(format as 'csv' | 'pdf')}
-                            className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold transition ${exportFormat === format ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
-                          >
-                            {format.toUpperCase()}
-                          </button>
-                        ))}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={handleExport}
-                        className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition-all"
-                      >
-                        <Download className="w-4 h-4" />
-                        Export {exportFormat.toUpperCase()}
-                      </button>
-                    </div>
-                  </div>
-
-                  <button 
+                    <X className="w-5 h-5" />
+                  </button>
+                  <h2 className="text-lg font-semibold text-slate-900">Profile</h2>
+                  <button
+                    type="button"
                     onClick={() => {
-                      setIsAccountOpen(false);
-                      onLogout();
+                      setIsCurrencyOpen(false);
+                      setIsExportOpen(false);
                     }}
-                    className="w-full flex items-center justify-center gap-2 p-4 rounded-3xl bg-rose-50 text-rose-600 font-semibold hover:bg-rose-100 transition-all"
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
                   >
-                    <LogOut className="w-5 h-5" />
-                    Logout
+                    <RefreshCcw className="w-5 h-5" />
                   </button>
                 </div>
+
+                <div className="mt-8 flex flex-col items-center gap-4 text-center">
+                  <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-slate-500 shadow-sm">
+                    {user.photoURL ? (
+                      <img src={user.photoURL} alt={user.displayName || ''} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
+                    ) : (
+                      <UserCircle className="w-12 h-12" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-xl font-semibold text-slate-900">{user.displayName || 'Locobook User'}</p>
+                    <p className="text-sm text-slate-500">{user.email}</p>
+                  </div>
+                </div>
+
+                <div className="mt-8 space-y-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentView('categories');
+                      setIsProfileOpen(false);
+                    }}
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                        <Layers className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Categories</p>
+                        <p className="text-xs text-slate-500">Manage your expense groups</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsCurrencyOpen(prev => !prev);
+                      setIsExportOpen(false);
+                    }}
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                        <DollarSign className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Currency</p>
+                        <p className="text-xs text-slate-500">Current: {currency}</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsExportOpen(prev => !prev);
+                      setIsCurrencyOpen(false);
+                    }}
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                        <Download className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Export / Import data</p>
+                        <p className="text-xs text-slate-500">Download your transaction history</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => window.open('mailto:support@locobook.example', '_blank')}
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                        <MessageSquare className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Contact Center</p>
+                        <p className="text-xs text-slate-500">Get help or submit a request</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => window.open('https://example.com/rate', '_blank')}
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                        <Star className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Rate app</p>
+                        <p className="text-xs text-slate-500">Leave feedback in the app store</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCurrentView('settings');
+                      setIsProfileOpen(false);
+                    }}
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-slate-600">
+                        <SettingsIcon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Settings</p>
+                        <p className="text-xs text-slate-500">App preferences and account actions</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-amber-200 bg-amber-50 px-4 py-4 text-left shadow-sm transition hover:border-amber-300"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
+                        <Crown className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-900">Get Premium</p>
+                        <p className="text-xs text-slate-500">Unlock premium tracking features</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                  </button>
+                </div>
+
+                {isCurrencyOpen && (
+                  <div className="mt-4 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-sm font-semibold text-slate-900 mb-3">Choose currency</p>
+                    <select
+                      value={currency}
+                      onChange={(e) => setCurrency(e.target.value)}
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    >
+                      {['USD', 'EUR', 'GBP', 'KES', 'NGN', 'ZAR'].map((option) => (
+                        <option key={option} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {isExportOpen && (
+                  <div className="mt-4 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-sm font-semibold text-slate-900 mb-3">Export data</p>
+                    <div className="grid grid-cols-3 gap-2 text-sm mb-3">
+                      {[
+                        { value: '7d', label: 'Last 7 days' },
+                        { value: '30d', label: 'Last 30 days' },
+                        { value: 'all', label: 'All time' }
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => setExportPeriod(option.value as '7d' | '30d' | 'all')}
+                          className={`rounded-full px-3 py-2 font-semibold transition ${exportPeriod === option.value ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="flex items-center gap-2 mb-4">
+                      {['csv', 'pdf'].map((format) => (
+                        <button
+                          key={format}
+                          type="button"
+                          onClick={() => setExportFormat(format as 'csv' | 'pdf')}
+                          className={`flex-1 rounded-2xl px-3 py-2 text-sm font-semibold transition ${exportFormat === format ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                        >
+                          {format.toUpperCase()}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleExport}
+                      className="w-full rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white hover:bg-indigo-700 transition"
+                    >
+                      Export {exportFormat.toUpperCase()}
+                    </button>
+                  </div>
+                )}
+
+                <div className="mt-8 rounded-[2rem] bg-slate-100 p-4 text-center text-xs text-slate-500">
+                  Your data is stored in the cloud
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsProfileOpen(false);
+                    onLogout();
+                  }}
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-[1.75rem] border border-rose-200 bg-rose-50 px-4 py-4 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Log out
+                </button>
               </div>
             </motion.div>
           </>

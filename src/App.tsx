@@ -81,6 +81,7 @@ export default function App() {
     setEditingCategory
   } = useLocobook();
 
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
 
 
@@ -113,6 +114,9 @@ export default function App() {
         setSearchTerm={setSearchTerm}
         toggleSearch={toggleSearch}
         setIsAssistantOpen={setIsAssistantOpen}
+        setCurrentView={setCurrentView}
+        isProfileOpen={isProfileOpen}
+        setIsProfileOpen={setIsProfileOpen}
       />
 
 
@@ -199,7 +203,7 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <BottomNav currentView={currentView} setCurrentView={setCurrentView} />
+      {!isProfileOpen && <BottomNav currentView={currentView} setCurrentView={setCurrentView} />}
 
       <AnimatePresence>
         {isAssistantOpen && (
