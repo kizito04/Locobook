@@ -24,6 +24,7 @@ interface HistoryProps {
   filter: 'all' | 'income' | 'expense';
   setFilter: (filter: 'all' | 'income' | 'expense') => void;
   handleDeleteTransaction: (id: string) => void;
+  handleEditTransaction: (tx: Transaction) => void;
   totalIncome: number;
   totalExpenses: number;
 }
@@ -38,6 +39,7 @@ export const History: React.FC<HistoryProps> = ({
   filter,
   setFilter,
   handleDeleteTransaction,
+  handleEditTransaction,
   totalIncome,
   totalExpenses
 }) => {
@@ -57,10 +59,6 @@ export const History: React.FC<HistoryProps> = ({
     if (!groupedTransactions[dateKey]) groupedTransactions[dateKey] = [];
     groupedTransactions[dateKey].push(tx);
   });
-
-  function setEditTransaction(tx: Transaction) {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <motion.div
@@ -176,7 +174,7 @@ export const History: React.FC<HistoryProps> = ({
                         )}
                         <div className="flex items-center gap-1 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all">
                           <button
-                            onClick={() => setEditTransaction(tx)}
+                            onClick={() => handleEditTransaction(tx)}
                             className="p-1 text-slate-300 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-all"
                           >
                             <Edit2 className="w-3 sm:w-4 h-3 sm:h-4" />

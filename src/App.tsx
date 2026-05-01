@@ -7,6 +7,7 @@ import { History } from './pages/History';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
 import { CategoriesView } from './pages/CategoriesView';
+import { EditTransaction } from './pages/EditTransaction';
 import { AddCategoryModal } from './components/AddCategoryModal';
 import { EditCategoryModal } from './components/EditCategoryModal';
 import { LoginPage } from './components/LoginPage';
@@ -53,6 +54,9 @@ export default function App() {
     handleLogout,
     handleAddCategory,
     handleEditCategory,
+    handleEditTransactionSelection,
+    handleUpdateTransaction,
+    editingTransaction,
     newCategoryName,
     setNewCategoryName,
     selectedIcon,
@@ -144,11 +148,20 @@ export default function App() {
               filter={filter}
               setFilter={setFilter}
               handleDeleteTransaction={handleDeleteTransaction}
+              handleEditTransaction={handleEditTransactionSelection}
               totalIncome={totalIncome}
               totalExpenses={totalExpenses}
             />
           )}
 
+          {currentView === 'editTransaction' && (
+            <EditTransaction
+              editingTransaction={editingTransaction}
+              categories={categories}
+              setCurrentView={setCurrentView}
+              handleUpdateTransaction={handleUpdateTransaction}
+            />
+          )}
 
           {currentView === 'analytics' && (
             <Analytics transactions={transactions} />

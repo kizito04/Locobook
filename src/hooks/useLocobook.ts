@@ -17,7 +17,8 @@ import {
   deleteDoc, 
   doc, 
   Timestamp, 
-  getDocFromServer 
+  getDocFromServer, 
+  updateDoc 
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import { 
@@ -54,8 +55,8 @@ export const useLocobook = () => {
   const [selectedDate, setSelectedDate] = useState<string>('');
 
   const [selectedMonth, setSelectedMonth] = useState<string>(new Date().toISOString().slice(0, 7)); // YYYY-MM
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  
   // AI Assistant State
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [assistantInput, setAssistantInput] = useState('');
@@ -285,6 +286,28 @@ export const useLocobook = () => {
     }
   };
 
+  const handleEditTransactionSelection = (tx: Transaction) => {
+    setEditingTransaction(tx);
+    setCurrentView('editTransaction');
+  };
+
+  const handleUpdateTransaction = async (updatedTransaction: Transaction) => {
+    if (!user) return;
+
+    try {
+      await updateDoc(doc(db, 'transactions', updatedTransaction.id), {
+        amount: updatedTransaction.amount,
+        type: updatedTransaction.type,
+        description: updatedTransaction.description,
+        category: updatedTransaction.category,
+      });
+      setEditingTransaction(null);
+      setCurrentView('history');
+    } catch (err) {
+      handleFirestoreError(err, OperationType.UPDATE, `transactions/${updatedTransaction.id}`);
+    }
+  };
+
   // --- Voice Input ---
   const toggleListening = () => {
     if (isListening) {
@@ -431,8 +454,12 @@ ${transactions.slice(0, 10).map(t =>
     handleDeleteCategory,
     handleEditCategory,
     handleAddTransaction,
+    handleEditTransactionSelection,
+    handleUpdateTransaction,
     handleDeleteTransaction,
     handleAssistantSubmit,
+    editingTransaction,
+    setEditingTransaction,
     totalIncome,
     totalExpenses,
     balance,
