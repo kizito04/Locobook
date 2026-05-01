@@ -221,16 +221,16 @@ ${312 + length}
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
-              className="fixed inset-0 z-50 overflow-y-auto bg-slate-50"
+              className="fixed inset-0 z-50 overflow-y-auto bg-amber-50"
             >
-              <div className="min-h-screen px-5 py-5">
+              <div className="min-h-screen px-5 py-3">
                 <div className="flex items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => setIsProfileOpen(false)}
                     className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-3 h-3" />
                   </button>
                   <h2 className="text-lg font-semibold text-slate-900">Profile</h2>
                   <button
@@ -241,16 +241,16 @@ ${312 + length}
                     }}
                     className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
                   >
-                    <RefreshCcw className="w-4 h-4" />
+                    <RefreshCcw className="w-3 h-3" />
                   </button>
                 </div>
 
-                <div className="mt-4 flex flex-col items-center gap-4 text-center">
-                  <div className="flex h-25 w-25 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-slate-500 shadow-sm">
+                <div className="mt-4 flex flex-col items-center gap-2 text-center">
+                  <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-slate-500 shadow-sm">
                     {user.photoURL ? (
                       <img src={user.photoURL} alt={user.displayName || ''} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                     ) : (
-                      <UserCircle className="w-12 h-12" />
+                      <UserCircle className="w-10 h-10" />
                     )}
                   </div>
                   <div>
@@ -271,7 +271,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-slate-600">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
                         <DollarSign className="w-3 h-3" />
                       </div>
                       <div>
@@ -291,7 +291,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-slate-600">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
                         <Download className="w-3 h-3" />
                       </div>
                       <div>
@@ -308,7 +308,7 @@ ${312 + length}
                     className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-2">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-slate-600">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
                         <MessageSquare className="w-3 h-3" />
                       </div>
                       <div>
