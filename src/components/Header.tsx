@@ -260,37 +260,19 @@ ${312 + length}
                 </div>
 
                 <div className="mt-8 space-y-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setCurrentView('categories');
-                      setIsProfileOpen(false);
-                    }}
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
-                        <Layers className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-slate-900">Categories</p>
-                        <p className="text-xs text-slate-500">Manage your expense groups</p>
-                      </div>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
-                  </button>
-
+                 
+                
                   <button
                     type="button"
                     onClick={() => {
                       setIsCurrencyOpen(prev => !prev);
                       setIsExportOpen(false);
                     }}
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
-                        <DollarSign className="w-5 h-5" />
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                        <DollarSign className="w-3 h-3" />
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">Currency</p>
@@ -306,52 +288,52 @@ ${312 + length}
                       setIsExportOpen(prev => !prev);
                       setIsCurrencyOpen(false);
                     }}
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
-                        <Download className="w-5 h-5" />
+                    <div className="flex items-center gap-2">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                        <Download className="w-3 h-3" />
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">Export / Import data</p>
                         <p className="text-xs text-slate-500">Download your transaction history</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => window.open('mailto:support@locobook.example', '_blank')}
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
-                        <MessageSquare className="w-5 h-5" />
+                    <div className="flex items-center gap-2">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                        <MessageSquare className="w-3 h-3" />
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">Contact Center</p>
                         <p className="text-xs text-slate-500">Get help or submit a request</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
 
                   <button
                     type="button"
                     onClick={() => window.open('https://example.com/rate', '_blank')}
-                    className="flex w-full items-center justify-between rounded-[1.5rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
-                        <Star className="w-5 h-5" />
+                    <div className="flex items-center gap-2">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                        <Star className="w-3 h-3" />
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">Rate app</p>
                         <p className="text-xs text-slate-500">Leave feedback in the app store</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
 
                   <button
@@ -360,18 +342,18 @@ ${312 + length}
                       setCurrentView('settings');
                       setIsProfileOpen(false);
                     }}
-                    className="flex w-full items-center justify-between rounded-[1rem] border border-slate-200 bg-white px-4 py-4 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-                        <SettingsIcon className="w-5 h-5" />
+                    <div className="flex items-center gap-2">
+                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                        <SettingsIcon className="w-3 h-3" />
                       </div>
                       <div>
                         <p className="font-semibold text-slate-900">Settings</p>
                         <p className="text-xs text-slate-500">App preferences and account actions</p>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
 
                     
@@ -433,9 +415,7 @@ ${312 + length}
                   </div>
                 )}
 
-                <div className="mt-8 rounded-[2rem] bg-slate-100 p-4 text-center text-xs text-slate-500">
-                  Your data is stored in the cloud
-                </div>
+               
 
                 <button
                   type="button"
@@ -443,9 +423,9 @@ ${312 + length}
                     setIsProfileOpen(false);
                     onLogout();
                   }}
-                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-[1.75rem] border border-rose-200 bg-rose-50 px-4 py-4 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
+                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-2.5 h-2.5" />
                   Log out
                 </button>
               </div>
