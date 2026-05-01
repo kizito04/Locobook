@@ -28,8 +28,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
         className="max-w-xl w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
         <div className="mb-3 text-center">
-          <div className="mx-auto mb-1 flex items-center justify-center">
-            <img src={locologo} alt="Locobook logo" className="h-28 w-28 scale-125 object-contain" />
+          <div className="mx-auto mb-1 flex h-28 w-28 items-center justify-center overflow-visible">
+            <img src={locologo} alt="Locobook logo" className="h-44 w-44 max-w-none object-contain" />
           </div>
           <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
         </div>
