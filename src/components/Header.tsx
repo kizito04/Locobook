@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from 'firebase/auth';
-import { UserCircle, Search, X, LogOut, ChevronRight } from 'lucide-react';
+import { UserCircle, Search, X, LogOut, ChevronRight, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface HeaderProps {
@@ -10,6 +10,7 @@ interface HeaderProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
   toggleSearch: () => void;
+  setIsAssistantOpen: (open: boolean) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -18,7 +19,8 @@ export const Header: React.FC<HeaderProps> = ({
   isSearchVisible, 
   searchTerm, 
   setSearchTerm, 
-  toggleSearch 
+  toggleSearch,
+  setIsAssistantOpen
 }) => {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
 
@@ -69,14 +71,24 @@ export const Header: React.FC<HeaderProps> = ({
                     <UserCircle className="w-full h-full text-slate-300" />
                   )}
                 </button>
-                <h1 className="text-lg font-bold text-slate-900 tracking-tight">Locobook AI</h1>
+                <h1 className="text-lg font-bold text-slate-900 tracking-tight">Locobook</h1>
               </div>
-              <button 
-                onClick={toggleSearch}
-                className="p-2 text-slate-900 hover:bg-slate-50 rounded-full transition-colors"
-              >
-                <Search className="w-6 h-6" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsAssistantOpen(true)}
+                  className="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-all"
+                >
+                  <MessageCircle className="w-4 h-4 text-indigo-600" />
+                  AI chat
+                </button>
+                <button 
+                  onClick={toggleSearch}
+                  className="p-2 text-slate-900 hover:bg-slate-50 rounded-full transition-colors"
+                >
+                  <Search className="w-6 h-6" />
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

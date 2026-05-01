@@ -76,8 +76,8 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
           <span className="text-sm font-semibold">Back</span>
         </button>
         <div>
-          <div className="text-xs uppercase tracking-[0.24em] text-slate-400 font-bold">Edit transaction</div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">Update details</h1>
+          
+          <h1 className="text-xl sm:text-2xl font-semibold text-slate-900">Edit Transaction</h1>
         </div>
       </div>
 
@@ -139,19 +139,20 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-          <button
-            type="button"
-            onClick={() => setCurrentView('history')}
-            className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100"
-          >
-            Cancel
-          </button>
+         
           <button
             type="submit"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition"
           >
             <Save className="w-4 h-4" />
             Save changes
+          </button>
+           <button
+            type="button"
+            onClick={() => setCurrentView('history')}
+            className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+          >
+            Cancel
           </button>
         </div>
       </form>

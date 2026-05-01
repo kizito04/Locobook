@@ -61,22 +61,22 @@ export const Settings: React.FC<SettingsProps> = ({
         </div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <button
           type="button"
           onClick={() => toggleSection('theme')}
-          className="w-full rounded-[1.5rem] border border-slate-100 bg-white p-5 text-left shadow-sm transition hover:border-indigo-100"
+          className="w-full rounded-xl border border-slate-100 bg-white p-4 text-left shadow-sm transition hover:border-indigo-100"
         >
           {renderRow('Theme', theme, openSection === 'theme')}
         </button>
         {openSection === 'theme' && (
-          <div className="space-y-2 rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-sm">
+          <div className="space-y-2 rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
             {['System default', 'Light', 'Dark'].map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => setTheme(option)}
-                className={`w-full rounded-2xl px-4 py-3 text-left text-sm ${theme === option ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'}`}
+                className={`w-full rounded-2xl px-3 py-2 text-left text-xs ${theme === option ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'}`}
               >
                 {option}
               </button>
@@ -87,18 +87,18 @@ export const Settings: React.FC<SettingsProps> = ({
         <button
           type="button"
           onClick={() => toggleSection('textSize')}
-          className="w-full rounded-[1.5rem] border border-slate-100 bg-white p-5 text-left shadow-sm transition hover:border-indigo-100"
+          className="w-full rounded-xl border border-slate-100 bg-white p-4 text-left shadow-sm transition hover:border-indigo-100"
         >
           {renderRow('Text size', textSize, openSection === 'textSize')}
         </button>
         {openSection === 'textSize' && (
-          <div className="space-y-2 rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-sm">
+          <div className="space-y-2 rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
             {['Small', 'Default', 'Large'].map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => setTextSize(option)}
-                className={`w-full rounded-2xl px-4 py-3 text-left text-sm ${textSize === option ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'}`}
+                className={`w-full rounded-2xl px-3 py-2 text-left text-xs ${textSize === option ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'}`}
               >
                 {option}
               </button>
@@ -109,18 +109,18 @@ export const Settings: React.FC<SettingsProps> = ({
         <button
           type="button"
           onClick={() => toggleSection('language')}
-          className="w-full rounded-[1.5rem] border border-slate-100 bg-white p-5 text-left shadow-sm transition hover:border-indigo-100"
+          className="w-full rounded-xl border border-slate-100 bg-white p-4 text-left shadow-sm transition hover:border-indigo-100"
         >
           {renderRow('Language', language, openSection === 'language')}
         </button>
         {openSection === 'language' && (
-          <div className="space-y-2 rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-sm">
+          <div className="space-y-2 rounded-xl border border-slate-100 bg-white p-3 shadow-sm">
             {['System default', 'English', 'French', 'Spanish'].map((option) => (
               <button
                 key={option}
                 type="button"
                 onClick={() => setLanguage(option)}
-                className={`w-full rounded-2xl px-4 py-3 text-left text-sm ${language === option ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'}`}
+                className={`w-full rounded-2xl px-3 py-2 text-left text-xs ${language === option ? 'bg-indigo-50 text-indigo-700 font-semibold' : 'bg-slate-50 text-slate-700 hover:bg-slate-100'}`}
               >
                 {option}
               </button>
@@ -133,7 +133,7 @@ export const Settings: React.FC<SettingsProps> = ({
         <button
           type="button"
           onClick={deleteAccountData}
-          className="w-full rounded-[1.5rem] border border-slate-300 bg-white/50 px-5 py-4 text-sm font-semibold text-rose-600 transition hover:bg-rose-50"
+          className="w-full rounded-xl border border-slate-300 bg-white/50 px-4 py-3 text-sm font-semibold text-rose-600 transition hover:bg-rose-50"
         >
           Delete account data
         </button>

@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   Calendar as CalendarIcon,
   X,
+  Plus,
   Trash2,
   TrendingUp,
   TrendingDown,
   CheckCircle2,
   Edit2
 } from 'lucide-react';
-import { Transaction, Category } from '../types';
+import { Transaction, Category, ViewType } from '../types';
 import { formatCurrency } from '../utils/formatters';
 import { CategoryIcon } from '../components/CategoryIcon';
 import { MonthSelector } from '../components/MonthSelector';
@@ -25,6 +26,7 @@ interface HistoryProps {
   setFilter: (filter: 'all' | 'income' | 'expense') => void;
   handleDeleteTransaction: (id: string) => void;
   handleEditTransaction: (tx: Transaction) => void;
+  setCurrentView: (view: ViewType) => void;
   totalIncome: number;
   totalExpenses: number;
 }
@@ -40,6 +42,7 @@ export const History: React.FC<HistoryProps> = ({
   setFilter,
   handleDeleteTransaction,
   handleEditTransaction,
+  setCurrentView,
   totalIncome,
   totalExpenses
 }) => {
@@ -199,6 +202,15 @@ export const History: React.FC<HistoryProps> = ({
           )}
         </AnimatePresence>
       </div>
+
+      <button
+        type="button"
+        onClick={() => setCurrentView('dashboard')}
+        className="fixed bottom-28 right-4 z-20 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-3 text-white text-sm font-semibold shadow-2xl shadow-indigo-500/20 hover:bg-indigo-700 transition-all"
+      >
+        <Plus className="w-4 h-4" />
+        Add transaction
+      </button>
     </motion.div>
   );
 };
