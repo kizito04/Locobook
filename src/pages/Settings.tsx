@@ -90,12 +90,12 @@ export const Settings: React.FC<SettingsProps> = ({
             <X className="h-3 w-3" />
           </button>
           <h2 className="text-lg font-semibold text-slate-900">Settings</h2>
-          <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-amber-600 shadow-sm">
+          {/* <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-amber-600 shadow-sm">
             <SettingsIcon className="h-3 w-3" />
-          </div>
+          </div> */}
         </div>
 
-        <div className="mt-4 flex flex-col items-center gap-2 text-center">
+        {/* <div className="mt-4 flex flex-col items-center gap-2 text-center">
           <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-slate-500 shadow-sm">
             {user.photoURL ? (
               <img src={user.photoURL} alt={user.displayName || ''} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
@@ -107,7 +107,7 @@ export const Settings: React.FC<SettingsProps> = ({
             <p className="text-xl font-semibold text-slate-900">{user.displayName || 'Locobook User'}</p>
             <p className="text-sm text-slate-500">{user.email}</p>
           </div>
-        </div>
+        </div> */}
 
         <div className="mt-8 space-y-3">
           <section className="space-y-2">
@@ -208,14 +208,14 @@ export const Settings: React.FC<SettingsProps> = ({
               <ChevronRight className="h-3 w-3 text-rose-300" />
             </button>
 
-            <button
+            {/* <button
               type="button"
               onClick={onLogout}
               className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
             >
               <LogOut className="h-2.5 w-2.5" />
               Log out
-            </button>
+            </button> */}
           </section>
         </div>
       </div>

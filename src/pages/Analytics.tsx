@@ -62,6 +62,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
   transactions,
 }) => {
   const [selectedMonth, setSelectedMonth] = React.useState<string>(() => toLocalMonthKey(new Date()));
+  const [topCategoryType, setTopCategoryType] = React.useState<'income' | 'expense'>('expense');
 
   const selectedMonthStart = parseLocalMonthKey(selectedMonth);
   const selectedMonthEnd = selectedMonthStart ? addMonths(selectedMonthStart, 1) : null;
@@ -82,6 +83,8 @@ export const Analytics: React.FC<AnalyticsProps> = ({
 
   const incomeData = buildCategoryData(monthlyTransactions, 'income');
   const expenseData = buildCategoryData(monthlyTransactions, 'expense');
+  const topCategoryData = topCategoryType === 'income' ? incomeData : expenseData;
+  const topCategoryTotal = topCategoryType === 'income' ? totalIncome : totalExpenses;
 
   const renderCategoryPie = (
     title: string,
@@ -118,7 +121,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
                 </Pie>
                 <Tooltip
                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  formatter={(value: number) => formatCurrency(value)}
+                  formatter={(value) => formatCurrency(Number(value) || 0)}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -172,10 +175,28 @@ export const Analytics: React.FC<AnalyticsProps> = ({
       </div>
 
       <div className="bg-white p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 shadow-sm">
-        <h3 className="text-base sm:text-lg font-bold mb-5 text-slate-900">Top Categories</h3>
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900">Top Categories</h3>
+          <div className="flex items-center gap-1 rounded-full bg-slate-100 p-1">
+            {(['income', 'expense'] as const).map((type) => (
+              <button
+                key={type}
+                type="button"
+                onClick={() => setTopCategoryType(type)}
+                className={`rounded-full px-3 py-1 text-[10px] font-bold transition ${
+                  topCategoryType === type
+                    ? 'bg-white text-slate-900 shadow-sm'
+                    : 'text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                {type === 'income' ? 'Income' : 'Expenses'}
+              </button>
+            ))}
+          </div>
+        </div>
         <div className="space-y-4">
-          {expenseData.length > 0 ? (
-            expenseData.slice(0, 5).map((item) => (
+          {topCategoryData.length > 0 ? (
+            topCategoryData.slice(0, 5).map((item) => (
               <div key={item.name} className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between gap-3 text-xs sm:text-sm">
                   <span className="font-bold text-slate-700 truncate">{item.name}</span>
@@ -184,7 +205,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
                 <div className="h-2 bg-slate-50 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
-                    animate={{ width: `${totalExpenses > 0 ? (item.amount / totalExpenses) * 100 : 0}%` }}
+                    animate={{ width: `${topCategoryTotal > 0 ? (item.amount / topCategoryTotal) * 100 : 0}%` }}
                     className="h-full rounded-full"
                     style={{ backgroundColor: item.color }}
                   />
@@ -193,8 +214,12 @@ export const Analytics: React.FC<AnalyticsProps> = ({
             ))
           ) : (
             <div className="flex flex-col items-center justify-center text-slate-400 py-10">
-              <TrendingDown className="w-8 h-8 mb-2 opacity-20" />
-              <p className="text-xs font-medium">No expense data yet</p>
+              {topCategoryType === 'income' ? (
+                <TrendingUp className="w-8 h-8 mb-2 opacity-20" />
+              ) : (
+                <TrendingDown className="w-8 h-8 mb-2 opacity-20" />
+              )}
+              <p className="text-xs font-medium">No {topCategoryType} data yet</p>
             </div>
           )}
         </div>

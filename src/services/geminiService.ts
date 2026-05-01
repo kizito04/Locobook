@@ -30,20 +30,29 @@ export interface ParsedTransaction {
   category?: string;
 }
 
-export async function parseTransaction(input: string): Promise<ParsedTransaction> {
+export async function parseTransaction(input: string, categoryNames: string[] = []): Promise<ParsedTransaction> {
   try {
+    const availableCategories = Array.from(
+      new Set(categoryNames.map((category) => category.trim()).filter(Boolean))
+    ).sort((a, b) => a.localeCompare(b));
+    const categoryGuidance = availableCategories.length > 0
+      ? `Available user categories:\n${availableCategories.map((category) => `- ${category}`).join('\n')}`
+      : 'No saved user categories are available yet.';
+
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash-lite",
 
 
 
-      contents: `Parse the following financial transaction input and return a structured JSON object: "${input}"`,
+      contents: `Parse the following financial transaction input and return a structured JSON object: "${input}"\n\n${categoryGuidance}`,
       config: {
         systemInstruction: `You are a financial assistant. Extract the amount, type (income or expense), description, and category from the user's input. 
         - Amount should be a positive number.
         - Type must be either "income" or "expense".
         - Description should be a short, clear summary.
-        - Category should be a single word (e.g., Food, Salary, Transport, Health, Entertainment).
+        - Category should match the user's saved categories exactly when a close match exists.
+        - Consider common merchant names, local wording, synonyms, and transaction intent when matching a category.
+        - If no saved category fits, use a concise general category such as Food, Salary, Transport, Health, Entertainment, Utilities, Rent, Shopping, Education, Business, Gifts, or Uncategorized.
         If the input is ambiguous, make your best guess.`,
         responseMimeType: "application/json",
         responseSchema: {

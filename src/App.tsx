@@ -202,6 +202,7 @@ export default function App() {
             <Settings 
               user={user} 
               onLogout={handleLogout}
+              categories={categories}
               handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
             />

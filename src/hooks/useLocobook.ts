@@ -297,10 +297,14 @@ export const useLocobook = () => {
     setError(null);
 
     try {
-      const parsed = await parseTransaction(input);
+      const parsed = await parseTransaction(input, categories.map((category) => category.name));
+      const matchedCategory = categories.find(
+        (category) => category.name.toLowerCase() === parsed.category?.toLowerCase()
+      );
       
       await addDoc(collection(db, 'transactions'), {
         ...parsed,
+        category: matchedCategory?.name || parsed.category,
         userId: user.uid,
         date: Timestamp.now()
       });
