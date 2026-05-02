@@ -88,9 +88,9 @@ export const Settings: React.FC<SettingsProps> = ({
             <X className="h-3 w-3" />
           </button>
           <h2 className="text-2xl font-bold text-slate-900">Settings</h2>
-          <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-amber-600 shadow-sm">
+          {/* <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-amber-600 shadow-sm">
             <SettingsIcon className="h-3 w-3" />
-          </div>
+          </div> */}
         </div>
 
         {/* <div className="mt-4 flex flex-col items-center gap-2 text-center">
