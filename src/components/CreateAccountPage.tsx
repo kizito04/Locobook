@@ -27,7 +27,7 @@ export const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onBackToLo
         className="max-w-lg w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
         <div className="mb-5 text-center">
-          <h1 className="text-2.5xl font-bold text-slate-900">Create your Account</h1>
+          <h1 className="text-3xl font-bold text-slate-900">Create your Account</h1>
           
         </div>
 
