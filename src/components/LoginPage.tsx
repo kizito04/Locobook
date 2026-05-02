@@ -27,11 +27,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className="max-w-xl w-full bg-white/95 backdrop-blur-xl rounded-[1.5rem] shadow-lg border border-slate-200/80 p-6 sm:p-8"
       >
-        <div className="mb-3 text-center">
-          <div className="mx-auto mb-1 flex h-28 w-28 items-center justify-center overflow-visible">
-            <img src={locologo} alt="Locobook logo" className="h-44 w-44 max-w-none object-contain" />
+        <div className="mb-2 text-center">
+          <div className="mx-auto flex h-36 w-full items-center justify-center overflow-visible">
+            <img src={locologo} alt="Locobook logo" className="h-56 w-56 max-w-none object-contain"
+          style={{ transform: 'translateY(-10px)' }} />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900">Welcome Back</h1>
+          <h1 className="text-3xl font-bold text-slate-900-mt-6 relative z-10">Welcome Back</h1>
         </div>
 
         <button
