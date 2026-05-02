@@ -32,7 +32,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
             <img src={locologo} alt="Locobook logo" className="h-56 w-56 max-w-none object-contain"
           style={{ transform: 'translateY(-10px)' }} />
           </div>
-          <h1 className="text-3xl font-bold text-slate-900-mt-6 relative z-10">Welcome Back</h1>
+          <h1 className="text-3xl font-bold text-slate-900-mt-10 relative z-10">Welcome Back</h1>
         </div>
 
         <button
