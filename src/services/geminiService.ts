@@ -40,7 +40,7 @@ export async function parseTransaction(input: string, categoryNames: string[] = 
       : 'No saved user categories are available yet.';
 
     const response = await ai.models.generateContent({
-      model: "",
+      model: "gemini-3.1-flash-lite-preview",
 
 
 
