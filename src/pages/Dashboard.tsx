@@ -98,16 +98,20 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
         </div>
 
-        <form onSubmit={handleAddTransaction} className="flex gap-2 sm:gap-3">
+        <form onSubmit={handleAddTransaction} className="flex items-end gap-2 sm:gap-3">
           <div className="relative flex-1">
-            <input
-              type="text"
+            <textarea
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                setInput(e.target.value);
+                e.currentTarget.style.height = 'auto';
+                e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+              }}
               onFocus={() => setIsInputFocused(true)}
               onBlur={() => setIsInputFocused(false)}
               placeholder='Describe transaction...'
-              className={`w-full bg-white border border-slate-200 rounded-xl sm:rounded-2xl py-3 sm:py-4 pl-4 sm:pl-6 pr-10 sm:pr-12 text-sm sm:text-base focus:outline-none focus:border-indigo-500 transition-all shadow-sm ${isInputFocused ? 'ring-4 ring-indigo-50' : ''}`}
+              rows={1}
+              className={`max-h-36 min-h-[48px] w-full resize-none overflow-y-auto bg-white border border-slate-200 rounded-xl sm:rounded-2xl py-3 sm:py-4 pl-4 sm:pl-6 pr-10 sm:pr-12 text-sm sm:text-base leading-relaxed focus:outline-none focus:border-indigo-500 transition-all shadow-sm ${isInputFocused ? 'ring-4 ring-indigo-50' : ''}`}
               disabled={isProcessing}
             />
             <button
@@ -121,7 +125,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <button
             type="submit"
             disabled={!input.trim() || isProcessing}
-            className="bg-blue-600 text-white p-3 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-blue-700 transition-all disabled:opacity-50 shadow-lg shadow-blue-100 flex items-center justify-center min-w-[48px] sm:min-w-[64px]"
+            className="bg-blue-600 text-white p-3 sm:p-4 rounded-xl sm:rounded-2xl hover:bg-blue-700 transition-all disabled:opacity-50 shadow-lg shadow-blue-100 flex items-center justify-center min-w-[48px] sm:min-w-[64px] h-12 sm:h-14"
           >
             {isProcessing ? <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" /> : <Send className="w-5 h-5 sm:w-6 sm:h-6" />}
           </button>

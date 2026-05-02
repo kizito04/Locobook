@@ -96,18 +96,22 @@ export const AiAssistant: React.FC<AiAssistantProps> = ({
               </div>
 
               {/* Chat Input */}
-              <form onSubmit={onSubmit} className="p-4 bg-white border-t border-slate-100 flex gap-2">
-                <input 
-                  type="text"
+              <form onSubmit={onSubmit} className="p-4 bg-white border-t border-slate-100 flex items-end gap-2">
+                <textarea
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                    e.currentTarget.style.height = 'auto';
+                    e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+                  }}
                   placeholder="Ask me anything about your finances..."
-                  className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 transition-all"
+                  rows={1}
+                  className="max-h-32 min-h-[48px] flex-1 resize-none overflow-y-auto bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:border-indigo-500 transition-all"
                 />
                 <button 
                   type="submit"
                   disabled={!input.trim() || isTyping}
-                  className="bg-indigo-600 text-white p-3 rounded-xl hover:bg-indigo-700 transition-all disabled:opacity-50 shadow-lg shadow-indigo-100"
+                  className="h-12 w-12 shrink-0 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all disabled:opacity-50 shadow-lg shadow-indigo-100 inline-flex items-center justify-center"
                 >
                   <Send className="w-5 h-5" />
                 </button>

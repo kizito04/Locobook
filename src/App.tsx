@@ -235,9 +235,9 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="fixed inset-x-4 bottom-4 top-20 z-50 mx-auto max-w-3xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl"
+              className="fixed inset-x-4 bottom-4 top-20 z-50 mx-auto flex max-w-3xl flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl"
             >
-              <div className="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-4">
+              <div className="shrink-0 flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4">
                 <div>
                   <div className="text-xs uppercase tracking-[0.24em] text-slate-400 font-bold">AI Chat</div>
                   <h2 className="text-lg font-semibold text-slate-900">Ask your Locobook assistant</h2>
@@ -250,11 +250,11 @@ export default function App() {
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="max-h-[calc(100vh-280px)] overflow-y-auto px-5 py-4 space-y-3">
+              <div className="min-h-0 flex-1 overflow-y-auto bg-slate-50 px-5 py-4 space-y-3">
                 {assistantMessages.map((message, index) => (
                   <div
                     key={index}
-                    className={`rounded-3xl px-4 py-3 text-sm ${message.role === 'assistant' ? 'bg-slate-100 text-slate-900 self-start' : 'bg-indigo-600 text-white self-end'}`}
+                    className={`max-w-[86%] whitespace-pre-wrap break-words rounded-3xl px-4 py-3 text-sm leading-relaxed ${message.role === 'assistant' ? 'bg-white text-slate-900 shadow-sm border border-slate-100' : 'ml-auto bg-indigo-600 text-white'}`}
                   >
                     {message.content}
                   </div>
@@ -263,17 +263,23 @@ export default function App() {
                   <div className="rounded-3xl bg-slate-100 px-4 py-3 text-sm text-slate-500">Typing...</div>
                 )}
               </div>
-              <form onSubmit={handleAssistantSubmit} className="border-t border-slate-200 bg-slate-50 px-5 py-4">
-                <div className="flex items-center gap-3">
-                  <input
+              <form onSubmit={handleAssistantSubmit} className="shrink-0 border-t border-slate-200 bg-white px-4 py-3 sm:px-5 sm:py-4">
+                <div className="flex items-end gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-2 shadow-sm focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100">
+                  <textarea
                     value={assistantInput}
-                    onChange={(e) => setAssistantInput(e.target.value)}
+                    onChange={(e) => {
+                      setAssistantInput(e.target.value);
+                      e.currentTarget.style.height = 'auto';
+                      e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
+                    }}
                     placeholder="Ask about your transactions, balance, or categories..."
-                    className="flex-1 rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                    rows={1}
+                    className="max-h-32 min-h-[44px] flex-1 resize-none overflow-y-auto bg-transparent px-3 py-2 text-sm leading-relaxed text-slate-900 placeholder-slate-400 outline-none"
                   />
                   <button
                     type="submit"
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition-all"
+                    disabled={!assistantInput.trim() || isAssistantTyping}
+                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition-all disabled:opacity-50"
                   >
                     <Send className="w-5 h-5" />
                   </button>

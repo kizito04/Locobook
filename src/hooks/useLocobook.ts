@@ -122,6 +122,7 @@ export const useLocobook = () => {
       setUser(user);
       setLoading(false);
       if (user) {
+        setCurrentView('dashboard');
         testConnection(user);
       }
     });
