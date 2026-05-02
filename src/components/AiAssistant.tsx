@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, X, Send, Loader2 } from 'lucide-react';
 import { ChatMessage } from '../types';
@@ -24,6 +24,21 @@ export const AiAssistant: React.FC<AiAssistantProps> = ({
   onSubmit,
   chatEndRef
 }) => {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const previousTouchAction = document.body.style.touchAction;
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.touchAction = previousTouchAction;
+    };
+  }, [isOpen]);
+
   return (
     <>
       {/* Floating Button */}
@@ -42,19 +57,20 @@ export const AiAssistant: React.FC<AiAssistantProps> = ({
       {/* Modal */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-[60] flex items-end justify-center">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              className="absolute inset-0 bg-slate-900/25"
             />
             <motion.div 
-              initial={{ opacity: 0, y: 100, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 100, scale: 0.95 }}
-              className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[80vh] sm:h-[600px]"
+              initial={{ opacity: 0, y: '100%' }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: '100%' }}
+              transition={{ duration: 0.24, ease: 'easeOut' }}
+              className="relative flex h-[58dvh] min-h-[420px] w-full flex-col overflow-hidden rounded-t-[2rem] border-t border-slate-200 bg-white shadow-[0_-18px_45px_-18px_rgba(15,23,42,0.45)]"
             >
               {/* Chat Header */}
               <div className="bg-indigo-600 p-6 text-white flex items-center justify-between">
@@ -104,7 +120,7 @@ export const AiAssistant: React.FC<AiAssistantProps> = ({
                     e.currentTarget.style.height = 'auto';
                     e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                   }}
-                  placeholder="Ask me anything about your finances..."
+                  placeholder="Ask a question..."
                   rows={1}
                   className="max-h-32 min-h-[48px] flex-1 resize-none overflow-y-auto bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:border-indigo-500 transition-all"
                 />

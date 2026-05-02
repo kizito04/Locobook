@@ -98,6 +98,21 @@ export default function App() {
     if (textSizePreference === 'Large') document.documentElement.classList.add('locobook-text-large');
   }, []);
 
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    const previousTouchAction = document.body.style.touchAction;
+
+    if (isAssistantOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none';
+    }
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.touchAction = previousTouchAction;
+    };
+  }, [isAssistantOpen]);
+
 
 
   if (loading) {
@@ -229,13 +244,14 @@ export default function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsAssistantOpen(false)}
-              className="fixed inset-0 z-40 bg-slate-900/30 backdrop-blur-sm"
+              className="fixed inset-0 z-[60] bg-slate-900/25"
             />
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: '100%' }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="fixed inset-x-4 bottom-4 top-20 z-50 mx-auto flex max-w-3xl flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl"
+              exit={{ opacity: 0, y: '100%' }}
+              transition={{ duration: 0.24, ease: 'easeOut' }}
+              className="fixed inset-x-0 bottom-0 z-[70] flex h-[58dvh] min-h-[420px] w-full flex-col overflow-hidden rounded-t-[2rem] border-t border-slate-200 bg-white shadow-[0_-18px_45px_-18px_rgba(15,23,42,0.45)]"
             >
               <div className="shrink-0 flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4">
                 <div>
@@ -272,7 +288,7 @@ export default function App() {
                       e.currentTarget.style.height = 'auto';
                       e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                     }}
-                    placeholder="Ask about your transactions, balance, or categories..."
+                    placeholder="Ask a question..."
                     rows={1}
                     className="max-h-32 min-h-[44px] flex-1 resize-none overflow-y-auto bg-transparent px-3 py-2 text-sm leading-relaxed text-slate-900 placeholder-slate-400 outline-none"
                   />

@@ -36,7 +36,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onCreateAccount }
               style={{ transform: 'translateY(-10px)' }}
             />
           </div>
-          <h1 className="relative z-10 -mt-10 text-3xl font-bold text-slate-900">Welcome Back</h1>
+          <h1 className="relative z-10 -mt-5 text-3xl font-bold text-slate-900">Welcome Back</h1>
         </div>
 
         <button
