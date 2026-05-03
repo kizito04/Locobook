@@ -70,13 +70,13 @@ export async function parseTransaction(input: string, categoryNames: string[] = 
 
     const text = response.text;
     if (!text) {
-      throw new Error("Failed to parse transaction: No response from AI.");
+      throw new Error("Failed to parse transaction: No response.");
     }
 
     return JSON.parse(text) as ParsedTransaction;
   } catch (error: any) {
     if (error?.status === 503 || error?.message?.includes('503') || error?.message?.includes('high demand')) {
-      throw new Error("The AI service is currently busy due to high demand. Please wait a moment and try again.");
+      throw new Error("The service is currently busy due to high demand. Please wait a moment and try again.");
     }
     console.error("Error in parseTransaction:", error);
     throw new Error(error.message || "Failed to process transaction.");
@@ -86,7 +86,7 @@ export async function parseTransaction(input: string, categoryNames: string[] = 
 export async function askAssistant(query: string, context?: string): Promise<string> {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-lite",
+      model: "gemini-3.1-flash-lite-preview",
 
 
       contents: `User query: "${query}"\n\nContext (User's recent transactions or app state): ${context || "No context provided."}`,
@@ -102,7 +102,7 @@ export async function askAssistant(query: string, context?: string): Promise<str
     return response.text || "I'm sorry, I couldn't process that request.";
   } catch (error: any) {
     if (error?.status === 503 || error?.message?.includes('503') || error?.message?.includes('high demand')) {
-      return "The AI assistant is currently experiencing high demand. Please try again in a few seconds.";
+      return "The Assistant is currently experiencing high demand. Please try again in a few seconds.";
     }
     console.error("Error in askAssistant:", error);
     return "I encountered an error while processing your request. Please try again.";

@@ -134,8 +134,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         {/* Suggestion Chips */}
         <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {[
-            { label: '+ shs.200000 from clinic', full: '+ Recieved shs.200000 from clinic', color: 'bg-emerald-50 text-emerald-700' },
-            { label: '- Groceries shs.50000', full: '- Groceries shs.50000', color: 'bg-rose-50 text-rose-700' }
+            { label: 'shs.200000 from clinic', full: 'Recieved shs.200000 from clinic', color: 'bg-emerald-50 text-emerald-700' },
+            { label: 'Groceries shs.50k', full: 'Bought Groceries for shs.50k', color: 'bg-rose-50 text-rose-700' }
           ].map((chip, i) => (
             <button
               key={i}
