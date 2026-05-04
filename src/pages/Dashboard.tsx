@@ -163,45 +163,75 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
         </div>
 
-        <div className="space-y-3 sm:space-y-4">
-          <AnimatePresence mode="popLayout">
-            {filteredTransactions.length === 0 ? (
-              <div className="text-center py-10 sm:py-12 bg-white rounded-2xl sm:rounded-3xl border border-dashed border-slate-200">
-                <CalendarIcon className="w-10 h-10 sm:w-12 sm:h-12 text-slate-200 mx-auto mb-3 sm:mb-4" />
-                <p className="text-xs sm:text-sm text-slate-400 font-medium">No transactions found</p>
-              </div>
-            ) : (
-              filteredTransactions.slice(0, 5).map((tx) => (
-                <motion.div
-                  key={tx.id}
-                  layout
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 10 }}
-                  className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-100 shadow-sm flex items-center justify-between group"
-                >
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl flex-shrink-0 ${tx.type === 'income' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                      {tx.type === 'income' ? <TrendingUp className="w-5 h-5 sm:w-7 sm:h-7" /> : <TrendingDown className="w-5 h-5 sm:w-7 sm:h-7" />}
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="font-bold text-slate-900 text-sm sm:text-lg truncate">{tx.description}</h4>
-                      <p className="text-[10px] sm:text-sm text-slate-400 font-medium">
-                        {tx.date.toDate().toLocaleDateString('en-US', { weekday: 'short', hour: 'numeric', minute: '2-digit' })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 sm:gap-4">
-                    <span className={`text-sm sm:text-xl font-bold whitespace-nowrap ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                      {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
-                    </span>
+     <div className="space-y-3 sm:space-y-4">
+  <AnimatePresence mode="popLayout">
+    {filteredTransactions.length === 0 ? (
+      <div className="text-center py-10 sm:py-12 bg-white rounded-2xl sm:rounded-3xl border border-dashed border-slate-200">
+        <CalendarIcon className="w-10 h-10 sm:w-12 sm:h-12 text-slate-200 mx-auto mb-3 sm:mb-4" />
+        <p className="text-xs sm:text-sm text-slate-400 font-medium">
+          No transactions found
+        </p>
+      </div>
+    ) : (
+      filteredTransactions.slice(0, 5).map((tx) => (
+        <motion.div
+          key={tx.id}
+          layout
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 10 }}
+          className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-3xl border border-slate-100 shadow-sm flex items-stretch justify-between gap-3"
+        >
+          {/* LEFT SIDE */}
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+            <div
+              className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center flex-shrink-0 ${
+                tx.type === "income"
+                  ? "bg-emerald-50 text-emerald-600"
+                  : "bg-rose-50 text-rose-600"
+              }`}
+            >
+              {tx.type === "income" ? (
+                <TrendingUp className="w-5 h-5 sm:w-7 sm:h-7" />
+              ) : (
+                <TrendingDown className="w-5 h-5 sm:w-7 sm:h-7" />
+              )}
+            </div>
 
-                  </div>
-                </motion.div>
-              ))
-            )}
-          </AnimatePresence>
-        </div>
+            <div className="min-w-0">
+              <h4 className="font-bold text-slate-900 text-sm sm:text-lg truncate">
+                {tx.description}
+              </h4>
+              <p className="text-[10px] sm:text-sm text-slate-400 font-medium">
+                {tx.date
+                  .toDate()
+                  .toLocaleDateString("en-US", {
+                    weekday: "short",
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+              </p>
+            </div>
+          </div>
+
+          {/* RIGHT SIDE (AMOUNT BOTTOM-RIGHT) */}
+          <div className="flex flex-col justify-end items-end">
+            <span
+              className={`text-sm sm:text-xl font-bold text-right break-words ${
+                tx.type === "income"
+                  ? "text-emerald-600"
+                  : "text-rose-600"
+              }`}
+            >
+              {tx.type === "income" ? "+" : "-"}
+              {formatCurrency(tx.amount)}
+            </span>
+          </div>
+        </motion.div>
+      ))
+    )}
+  </AnimatePresence>
+</div>
       </div>
     </motion.div>
   );

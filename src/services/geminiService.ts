@@ -64,7 +64,6 @@ export const TRANSACTION_CATEGORIES = [
   'Water',
   'Gas',
   'Internet',
-  'Airtime',
   'Mobile Data',
   'TV Subscription',
   'Phone Bill',
@@ -123,7 +122,7 @@ export async function parseTransaction(input: string): Promise<ParsedTransaction
         - Type must be either "income" or "expense".
         - Description should be a short, clear summary.
         - Category must be the single best category from the provided category list.
-        - Prefer the most specific fitting category over a broad one, for example Groceries instead of Food, Clinic instead of Health, or Airtime instead of Utilities.
+        - Prefer the most specific fitting category over a broad one, for example Groceries instead of Food, or Clinic instead of Health.
         - Consider merchant names, local wording, synonyms, mobile money language, and transaction intent when matching a category.
         - Use Uncategorized only when no listed category reasonably fits.
         If the input is ambiguous, make your best guess.`,
