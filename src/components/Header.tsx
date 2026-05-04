@@ -304,7 +304,7 @@ ${312 + length}
 
                   <button
                     type="button"
-                    onClick={() => window.open('mailto:support@locobook.example', '_blank')}
+                    onClick={() => window.open('mailto:kizitoahaisibwe04@gmail.com', '_blank')}
                     className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-2">
