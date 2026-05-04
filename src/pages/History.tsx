@@ -10,14 +10,12 @@ import {
   CheckCircle2,
   Edit2
 } from 'lucide-react';
-import { Transaction, Category, ViewType } from '../types';
+import { Transaction, ViewType } from '../types';
 import { formatCurrency } from '../utils/formatters';
-import { CategoryIcon } from '../components/CategoryIcon';
 import { MonthSelector } from '../components/MonthSelector';
 
 interface HistoryProps {
   transactions: Transaction[];
-  categories: Category[];
   selectedDate: string;
   setSelectedDate: (date: string) => void;
   selectedMonth: string;
@@ -33,7 +31,6 @@ interface HistoryProps {
 
 export const History: React.FC<HistoryProps> = ({
   transactions,
-  categories,
   selectedDate,
   setSelectedDate,
   selectedMonth,
@@ -148,10 +145,7 @@ export const History: React.FC<HistoryProps> = ({
                     >
                       <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
                         <div className={`w-8 h-8 sm:w-14 sm:h-14 rounded-lg sm:rounded-2xl flex items-center justify-center flex-shrink-0 ${tx.type === 'income' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                          {(() => {
-                            const cat = categories.find(c => c.name.toLowerCase() === tx.category?.toLowerCase());
-                            return cat ? <CategoryIcon iconName={cat.icon} className="w-4 h-4 sm:w-7 sm:h-7" /> : (tx.type === 'income' ? <TrendingUp className="w-4 h-4 sm:w-7 sm:h-7" /> : <TrendingDown className="w-4 h-4 sm:w-7 sm:h-7" />);
-                          })()}
+                          {tx.type === 'income' ? <TrendingUp className="w-4 h-4 sm:w-7 sm:h-7" /> : <TrendingDown className="w-4 h-4 sm:w-7 sm:h-7" />}
                         </div>
                         <div className="min-w-0 flex-1">
                           <h4 className="font-bold text-slate-900 text-[11px] sm:text-base truncate leading-tight">{tx.description}</h4>

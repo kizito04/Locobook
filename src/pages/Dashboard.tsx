@@ -8,19 +8,15 @@ import {
   Loader2,
   AlertCircle,
   Calendar as CalendarIcon,
-  X,
-  Trash2,
   Sparkles,
   Send,
   ArrowUpRight,
   ArrowDownRight
 } from 'lucide-react';
-import { Transaction, Category } from '../types';
+import { Transaction } from '../types';
 import { formatCurrency } from '../utils/formatters';
-import { CategoryIcon } from '../components/CategoryIcon';
 
 interface DashboardProps {
-  balance: number;
   totalIncome: number;
   totalExpenses: number;
   input: string;
@@ -32,14 +28,8 @@ interface DashboardProps {
   toggleListening: () => void;
   handleAddTransaction: (e?: React.FormEvent) => void;
   error: string | null;
-  selectedDate: string;
-  setSelectedDate: (date: string) => void;
-  filter: 'all' | 'income' | 'expense';
-  setFilter: (filter: 'all' | 'income' | 'expense') => void;
   filteredTransactions: Transaction[];
-  categories: Category[];
-  handleDeleteTransaction: (id: string) => void;
-  setCurrentView: (view: 'dashboard' | 'history' | 'analytics' | 'settings') => void;
+  setCurrentView: (view: 'dashboard' | 'history' | 'analytics' | 'settings' | 'editTransaction') => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -55,8 +45,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
   handleAddTransaction,
   error,
   filteredTransactions,
-  categories,
-  handleDeleteTransaction,
   setCurrentView
 }) => {
 
@@ -194,10 +182,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                 >
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center text-lg sm:text-xl flex-shrink-0 ${tx.type === 'income' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
-                      {(() => {
-                        const cat = categories.find(c => c.name.toLowerCase() === tx.category?.toLowerCase());
-                        return cat ? <CategoryIcon iconName={cat.icon} className="w-5 h-5 sm:w-7 sm:h-7" /> : (tx.type === 'income' ? <TrendingUp className="w-5 h-5 sm:w-7 sm:h-7" /> : <TrendingDown className="w-5 h-5 sm:w-7 sm:h-7" />);
-                      })()}
+                      {tx.type === 'income' ? <TrendingUp className="w-5 h-5 sm:w-7 sm:h-7" /> : <TrendingDown className="w-5 h-5 sm:w-7 sm:h-7" />}
                     </div>
                     <div className="min-w-0">
                       <h4 className="font-bold text-slate-900 text-sm sm:text-lg truncate">{tx.description}</h4>

@@ -1,15 +1,6 @@
 import { Timestamp } from 'firebase/firestore';
 import { ParsedTransaction } from '../services/geminiService';
 
-export interface Category {
-  id: string;
-  name: string;
-  icon: string;
-  userId: string;
-  colorFill?: string;
-  iconColor?: string;
-}
-
 export interface Transaction extends ParsedTransaction {
   id: string;
   date: Timestamp;
@@ -49,5 +40,4 @@ export interface FirestoreErrorInfo {
   }
 }
 
-export type ViewType = 'dashboard' | 'history' | 'analytics' | 'settings' | 'categories' | 'editTransaction';
-
+export type ViewType = 'dashboard' | 'history' | 'analytics' | 'settings' | 'editTransaction';

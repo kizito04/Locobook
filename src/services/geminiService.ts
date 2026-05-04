@@ -6,7 +6,6 @@ if (!apiKey) {
   console.warn("VITE_GEMINI_API_KEY is not defined. AI features will be disabled.");
 }
 
-
 const ai = new GoogleGenAI({ apiKey });
 
 // Helper to list available models (check your browser console)
@@ -21,8 +20,6 @@ export async function listAvailableModels() {
   }
 }
 
-
-
 export interface ParsedTransaction {
   amount: number;
   type: "income" | "expense";
@@ -30,29 +27,105 @@ export interface ParsedTransaction {
   category?: string;
 }
 
-export async function parseTransaction(input: string, categoryNames: string[] = []): Promise<ParsedTransaction> {
+export const TRANSACTION_CATEGORIES = [
+  'Salary',
+  'Wages',
+  'Bonus',
+  'Commission',
+  'Business Income',
+  'Sales Revenue',
+  'Client Payment',
+  'Freelance Income',
+  'Investment Income',
+  'Interest Income',
+  'Rental Income',
+  'Refund',
+  'Reimbursement',
+  'Gift Income',
+  'Loan Received',
+  'Savings Withdrawal',
+  'Food',
+  'Groceries',
+  'Restaurant',
+  'Cafe',
+  'Snacks',
+  'Transport',
+  'Fuel',
+  'Boda',
+  'Taxi',
+  'Bus',
+  'Ride Hailing',
+  'Parking',
+  'Vehicle Maintenance',
+  'Rent',
+  'Mortgage',
+  'Utilities',
+  'Electricity',
+  'Water',
+  'Gas',
+  'Internet',
+  'Airtime',
+  'Mobile Data',
+  'TV Subscription',
+  'Phone Bill',
+  'Home Maintenance',
+  'Household Supplies',
+  'Health',
+  'Clinic',
+  'Hospital',
+  'Pharmacy',
+  'Insurance',
+  'Fitness',
+  'Education',
+  'School Fees',
+  'Tuition',
+  'Books',
+  'Training',
+  'Shopping',
+  'Clothing',
+  'Electronics',
+  'Personal Care',
+  'Beauty',
+  'Entertainment',
+  'Travel',
+  'Accommodation',
+  'Family Support',
+  'Childcare',
+  'Donations',
+  'Gifts',
+  'Loan Payment',
+  'Debt Payment',
+  'Savings',
+  'Investment',
+  'Bank Fees',
+  'Mobile Money Fees',
+  'Taxes',
+  'Business Expense',
+  'Office Supplies',
+  'Inventory',
+  'Repairs',
+  'Security',
+  'Legal',
+  'Professional Services',
+  'Uncategorized'
+].sort((a, b) => a.localeCompare(b));
+
+export async function parseTransaction(input: string): Promise<ParsedTransaction> {
   try {
-    const availableCategories = Array.from(
-      new Set(categoryNames.map((category) => category.trim()).filter(Boolean))
-    ).sort((a, b) => a.localeCompare(b));
-    const categoryGuidance = availableCategories.length > 0
-      ? `Available user categories:\n${availableCategories.map((category) => `- ${category}`).join('\n')}`
-      : 'No saved user categories are available yet.';
+    const categoryGuidance = `Available transaction categories:\n${TRANSACTION_CATEGORIES.map((category) => `- ${category}`).join('\n')}`;
 
     const response = await ai.models.generateContent({
       model: "gemini-3.1-flash-lite-preview",
-
-
-
       contents: `Parse the following financial transaction input and return a structured JSON object: "${input}"\n\n${categoryGuidance}`,
       config: {
-        systemInstruction: `You are a financial assistant. Extract the amount, type (income or expense), description, and category from the user's input. 
+        systemInstruction: `You are a financial assistant. Extract the amount, type (income or expense), description, and category from the user's input.
         - Amount should be a positive number.
         - Type must be either "income" or "expense".
         - Description should be a short, clear summary.
-        - Category should match the user's saved categories exactly when a close match exists.
-        - Consider common merchant names, local wording, synonyms, and transaction intent when matching a category.
-        - If no saved category fits, use a concise general category such as Food, Salary, Transport, Health, Entertainment, Utilities, Rent, Shopping, Education, Business, Gifts, or Uncategorized.
+        - Category must be the single best category from the provided category list.
+        - Prefer the most specific fitting category over a broad one, for example Groceries instead of Food, Clinic instead of Health, or Airtime instead of Utilities.
+        - Consider merchant names, local wording, synonyms, mobile money language, and transaction intent when matching a category.
+        - Use Uncategorized only when no listed category reasonably fits.
         If the input is ambiguous, make your best guess.`,
         responseMimeType: "application/json",
         responseSchema: {
@@ -61,9 +134,9 @@ export async function parseTransaction(input: string, categoryNames: string[] = 
             amount: { type: Type.NUMBER, description: "The transaction amount." },
             type: { type: Type.STRING, enum: ["income", "expense"], description: "The direction of the money flow." },
             description: { type: Type.STRING, description: "A brief description of the transaction." },
-            category: { type: Type.STRING, description: "The category of the transaction." },
+            category: { type: Type.STRING, enum: TRANSACTION_CATEGORIES, description: "The category of the transaction." },
           },
-          required: ["amount", "type", "description"],
+          required: ["amount", "type", "description", "category"],
         },
       },
     });
@@ -87,11 +160,9 @@ export async function askAssistant(query: string, context?: string): Promise<str
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3.1-flash-lite-preview",
-
-
       contents: `User query: "${query}"\n\nContext (User's recent transactions or app state): ${context || "No context provided."}`,
       config: {
-        systemInstruction: `You are Locobook AI, a helpful financial assistant. 
+        systemInstruction: `You are Locobook AI, a helpful financial assistant.
         - Answer questions about the user's finances if context is provided.
         - Provide general financial advice or help with using the app.
         - Keep responses concise and friendly.

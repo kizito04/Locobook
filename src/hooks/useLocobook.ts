@@ -1,33 +1,32 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-import { 
-  User, 
-  onAuthStateChanged, 
-  signInWithPopup, 
-  GoogleAuthProvider, 
-  signOut 
+import {
+  User,
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut
 } from 'firebase/auth';
-import { 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
-  onSnapshot, 
-  addDoc, 
-  deleteDoc, 
-  doc, 
-  writeBatch, 
-  Timestamp, 
-  getDocFromServer, 
-  updateDoc 
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+  addDoc,
+  deleteDoc,
+  doc,
+  writeBatch,
+  Timestamp,
+  getDocFromServer,
+  updateDoc
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-import { 
-  Category, 
-  Transaction, 
-  ChatMessage, 
-  OperationType, 
-  ViewType 
+import {
+  Transaction,
+  ChatMessage,
+  OperationType,
+  ViewType
 } from '../types';
 import { handleFirestoreError } from '../utils/errorHandlers';
 import { parseTransaction, askAssistant } from '../services/geminiService';
@@ -72,27 +71,16 @@ export const useLocobook = () => {
   const [loading, setLoading] = useState(true);
   const [currentView, setCurrentView] = useState<ViewType>('dashboard');
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
   const [input, setInput] = useState('');
-  const [newCategoryName, setNewCategoryName] = useState('');
-  const [selectedIcon, setSelectedIcon] = useState('Utensils');
-  const [colorFill, setColorFill] = useState('#2170E4');
-  const [iconColor, setIconColor] = useState('#FFFFFF');
-  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
-  const [isEditCategoryModalOpen, setIsEditCategoryModalOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [selectedDate, setSelectedDate] = useState<string>('');
-
-  const [selectedMonth, setSelectedMonth] = useState<string>(toLocalMonthKey(new Date())); // YYYY-MM
+  const [selectedMonth, setSelectedMonth] = useState<string>(toLocalMonthKey(new Date()));
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
 
-  // AI Assistant State
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [assistantInput, setAssistantInput] = useState('');
   const [assistantMessages, setAssistantMessages] = useState<ChatMessage[]>([
@@ -104,17 +92,7 @@ export const useLocobook = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const recognitionRef = useRef<any>(null);
-
   const chatEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (editingCategory) {
-      setNewCategoryName(editingCategory.name);
-      setSelectedIcon(editingCategory.icon);
-      setColorFill(editingCategory.colorFill || '#2170E4');
-      setIconColor(editingCategory.iconColor || '#FFFFFF');
-    }
-  }, [editingCategory]);
 
   // --- Auth & Connection Test ---
   useEffect(() => {
@@ -132,13 +110,13 @@ export const useLocobook = () => {
   async function testConnection(currentUser: User) {
     try {
       await getDocFromServer(doc(db, 'users', currentUser.uid));
-      console.log("Firestore connection successful.");
+      console.log('Firestore connection successful.');
     } catch (error: any) {
-      console.error("Firestore connection test failed:", error);
+      console.error('Firestore connection test failed:', error);
       if (error?.code === 'unavailable') {
-        setError("Could not reach the database. This might be a temporary network issue or a firewall blocking the connection. Try refreshing the page.");
+        setError('Could not reach the database. This might be a temporary network issue or a firewall blocking the connection. Try refreshing the page.');
       } else if (error?.message?.includes('the client is offline')) {
-        setError("The app is running in offline mode. Please check your internet connection.");
+        setError('The app is running in offline mode. Please check your internet connection.');
       }
     }
   }
@@ -169,31 +147,6 @@ export const useLocobook = () => {
     return () => unsubscribe();
   }, [user]);
 
-  useEffect(() => {
-    if (!user) {
-      setCategories([]);
-      return;
-    }
-
-    const q = query(
-      collection(db, 'categories'),
-      where('userId', '==', user.uid),
-      orderBy('name', 'asc')
-    );
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const cats = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Category[];
-      setCategories(cats);
-    }, (error) => {
-      handleFirestoreError(error, OperationType.LIST, 'categories');
-    });
-
-    return () => unsubscribe();
-  }, [user]);
-
   // --- Auth Actions ---
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -206,89 +159,6 @@ export const useLocobook = () => {
 
   const handleLogout = () => signOut(auth);
 
-  // --- Category Actions ---
-  const handleAddCategory = async (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('[AddCategory] Form submitted');
-    console.log('[AddCategory] user:', user?.uid ?? 'NO USER');
-    console.log('[AddCategory] newCategoryName:', newCategoryName);
-    console.log('[AddCategory] selectedIcon:', selectedIcon);
-    console.log('[AddCategory] colorFill:', colorFill);
-    
-    if (!newCategoryName.trim()) {
-      console.warn('[AddCategory] BLOCKED: category name is empty');
-      return;
-    }
-    if (!user) {
-      console.warn('[AddCategory] BLOCKED: no authenticated user');
-      return;
-    }
-
-    try {
-      const iconToSave = selectedIcon || 'CircleDollarSign';
-      console.log('[AddCategory] Writing to Firestore...');
-      await addDoc(collection(db, 'categories'), {
-        name: newCategoryName.trim(),
-        icon: iconToSave,
-        userId: user.uid,
-        colorFill,
-        iconColor
-      });
-      console.log('[AddCategory] SUCCESS — navigating to categories');
-      setSuccessMessage('Category added successfully!');
-      
-      setNewCategoryName('');
-      setSelectedIcon('Utensils');
-      setColorFill('#2170E4');
-      setIconColor('#FFFFFF');
-      setIsAddCategoryModalOpen(false);
-      setCurrentView('categories'); 
-
-      setTimeout(() => setSuccessMessage(null), 3000);
-    } catch (err: any) {
-      console.error('[AddCategory] Firestore ERROR:', err?.code, err?.message);
-      handleFirestoreError(err, OperationType.WRITE, 'categories');
-    }
-  };
-
-  const handleDeleteCategory = async (id: string) => {
-    try {
-      await deleteDoc(doc(db, 'categories', id));
-    } catch (err) {
-      handleFirestoreError(err, OperationType.DELETE, `categories/${id}`);
-    }
-  };
-
-  const handleEditCategory = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingCategory || !newCategoryName.trim() || !user) return;
-
-    try {
-      const iconToSave = selectedIcon || 'CircleDollarSign';
-      // updateDoc needs doc ref
-      const { updateDoc } = await import('firebase/firestore');
-      await updateDoc(doc(db, 'categories', editingCategory.id), {
-        name: newCategoryName.trim(),
-        icon: iconToSave,
-        colorFill,
-        iconColor
-      });
-      setSuccessMessage('Category updated successfully!');
-      
-      setNewCategoryName('');
-      setSelectedIcon('Utensils');
-      setColorFill('#2170E4');
-      setIconColor('#FFFFFF');
-      setIsEditCategoryModalOpen(false);
-      setEditingCategory(null);
-      setCurrentView('categories');
-
-      setTimeout(() => setSuccessMessage(null), 3000);
-    } catch (err) {
-      handleFirestoreError(err, OperationType.WRITE, `categories/${editingCategory.id}`);
-    }
-  };
-
   // --- Transaction Actions ---
   const handleAddTransaction = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -298,14 +168,11 @@ export const useLocobook = () => {
     setError(null);
 
     try {
-      const parsed = await parseTransaction(input, categories.map((category) => category.name));
-      const matchedCategory = categories.find(
-        (category) => category.name.toLowerCase() === parsed.category?.toLowerCase()
-      );
-      
+      const parsed = await parseTransaction(input);
+
       await addDoc(collection(db, 'transactions'), {
         ...parsed,
-        category: matchedCategory?.name || parsed.category,
+        category: parsed.category || 'Uncategorized',
         userId: user.uid,
         date: Timestamp.now()
       });
@@ -413,7 +280,7 @@ Total Expenses: ${formatCurrency(totalExpenses)}
 Current Balance: ${formatCurrency(balance)}
 
 Recent Transactions:
-${transactions.slice(0, 10).map(t => 
+${transactions.slice(0, 10).map(t =>
         `${t.type === 'income' ? 'Received' : 'Spent'} ${t.amount} for ${t.description} on ${t.date.toDate().toLocaleDateString()}`
       ).join('\n')}`;
 
@@ -438,13 +305,12 @@ ${transactions.slice(0, 10).map(t =>
     const matchesMonth = isWithinRange(txDate, selectedMonthStart, selectedMonthEnd);
     const matchesDate = isWithinRange(txDate, selectedDateStart, selectedDateEnd);
     const matchesType = filter === 'all' ? true : t.type === filter;
-    const matchesSearch = searchTerm 
-      ? t.description.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    const matchesSearch = searchTerm
+      ? t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
         t.category?.toLowerCase().includes(searchTerm.toLowerCase())
       : true;
     return matchesMonth && matchesDate && matchesType && matchesSearch;
   });
-
 
   const totalIncome = filteredTransactions
     .filter(t => t.type === 'income')
@@ -456,32 +322,14 @@ ${transactions.slice(0, 10).map(t =>
 
   const balance = totalIncome - totalExpenses;
 
-
-
   return {
     user,
     loading,
     currentView,
     setCurrentView,
     transactions,
-    categories,
     input,
     setInput,
-    newCategoryName,
-    setNewCategoryName,
-    selectedIcon,
-    setSelectedIcon,
-    colorFill,
-    setColorFill,
-    iconColor,
-    setIconColor,
-    isAddCategoryModalOpen,
-    setIsAddCategoryModalOpen,
-    isEditCategoryModalOpen,
-    setIsEditCategoryModalOpen,
-    editingCategory,
-    setEditingCategory,
-    successMessage,
     isInputFocused,
     setIsInputFocused,
     isListening,
@@ -496,7 +344,6 @@ ${transactions.slice(0, 10).map(t =>
     selectedMonth,
     setSelectedMonth,
     isAssistantOpen,
-
     setIsAssistantOpen,
     assistantInput,
     setAssistantInput,
@@ -505,10 +352,7 @@ ${transactions.slice(0, 10).map(t =>
     chatEndRef,
     handleLogin,
     handleLogout,
-    handleAddCategory,
-    handleDeleteCategory,
     handleDeleteAccountData,
-    handleEditCategory,
     handleAddTransaction,
     handleEditTransactionSelection,
     handleUpdateTransaction,
@@ -526,5 +370,4 @@ ${transactions.slice(0, 10).map(t =>
     setIsSearchVisible,
     toggleSearch: () => setIsSearchVisible(prev => !prev)
   };
-
 };

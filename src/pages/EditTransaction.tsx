@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Save } from 'lucide-react';
-import { Transaction, Category, ViewType } from '../types';
+import { Transaction, ViewType } from '../types';
 import { formatCurrency } from '../utils/formatters';
 
 interface EditTransactionProps {
   editingTransaction: Transaction | null;
-  categories: Category[];
   setCurrentView: React.Dispatch<React.SetStateAction<ViewType>>;
   handleUpdateTransaction: (updatedTransaction: Transaction) => void;
 }
 
 export const EditTransaction: React.FC<EditTransactionProps> = ({
   editingTransaction,
-  categories,
   setCurrentView,
   handleUpdateTransaction,
 }) => {
@@ -125,16 +123,12 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
 
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">Category</label>
-          <select
+          <input
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             className="w-full rounded-3xl border border-slate-200 px-4 py-3 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
-          >
-            <option value="">No category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.name}>{cat.name}</option>
-            ))}
-          </select>
+            placeholder="e.g. Food, Transport, Salary"
+          />
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">

@@ -3,23 +3,17 @@ import { motion } from 'motion/react';
 import {
   ChevronRight,
   Languages,
-  LogOut,
   Moon,
-  Palette,
-  Settings as SettingsIcon,
   ShieldAlert,
-  Tags,
   TextCursorInput,
-  UserCircle,
   X
 } from 'lucide-react';
 import { User } from 'firebase/auth';
-import { Category, ViewType } from '../types';
+import { ViewType } from '../types';
 
 interface SettingsProps {
   user: User;
   onLogout: () => void;
-  categories: Category[];
   handleDeleteAccountData: () => Promise<void>;
   setCurrentView: (view: ViewType) => void;
 }
@@ -49,7 +43,6 @@ const renderRow = (
 export const Settings: React.FC<SettingsProps> = ({
   user,
   onLogout,
-  categories,
   handleDeleteAccountData,
   setCurrentView
 }) => {

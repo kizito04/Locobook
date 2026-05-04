@@ -6,10 +6,7 @@ import { Dashboard } from './pages/Dashboard';
 import { History } from './pages/History';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
-import { CategoriesView } from './pages/CategoriesView';
 import { EditTransaction } from './pages/EditTransaction';
-import { AddCategoryModal } from './components/AddCategoryModal';
-import { EditCategoryModal } from './components/EditCategoryModal';
 import { LoginPage } from './components/LoginPage';
 import { CreateAccountPage } from './components/CreateAccountPage';
 import { useLocobook } from './hooks/useLocobook';
@@ -25,7 +22,6 @@ export default function App() {
     setCurrentView,
     totalIncome,
     totalExpenses,
-    balance,
     input,
     setInput,
     isInputFocused,
@@ -42,7 +38,6 @@ export default function App() {
     filter,
     setFilter,
     transactions,
-    categories,
     filteredTransactions,
     handleDeleteTransaction,
     handleDeleteAccountData,
@@ -52,8 +47,6 @@ export default function App() {
     toggleSearch,
     handleLogin,
     handleLogout,
-    handleAddCategory,
-    handleEditCategory,
     handleEditTransactionSelection,
     handleUpdateTransaction,
     editingTransaction,
@@ -63,21 +56,7 @@ export default function App() {
     setAssistantInput,
     assistantMessages,
     isAssistantTyping,
-    handleAssistantSubmit,
-    newCategoryName,
-    setNewCategoryName,
-    selectedIcon,
-    setSelectedIcon,
-    colorFill,
-    setColorFill,
-    iconColor,
-    setIconColor,
-    isAddCategoryModalOpen,
-    setIsAddCategoryModalOpen,
-    isEditCategoryModalOpen,
-    setIsEditCategoryModalOpen,
-    editingCategory,
-    setEditingCategory
+    handleAssistantSubmit
   } = useLocobook();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -158,7 +137,6 @@ export default function App() {
         <AnimatePresence mode="wait">
           {currentView === 'dashboard' && (
             <Dashboard 
-              balance={balance}
               totalIncome={totalIncome}
               totalExpenses={totalExpenses}
               input={input}
@@ -170,13 +148,7 @@ export default function App() {
               toggleListening={toggleListening}
               handleAddTransaction={handleAddTransaction}
               error={error}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              filter={filter}
-              setFilter={setFilter}
               filteredTransactions={filteredTransactions}
-              categories={categories}
-              handleDeleteTransaction={handleDeleteTransaction}
               setCurrentView={setCurrentView}
             />
 
@@ -185,7 +157,6 @@ export default function App() {
           {currentView === 'history' && (
             <History 
               transactions={filteredTransactions}
-              categories={categories}
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
               selectedMonth={selectedMonth}
@@ -203,7 +174,6 @@ export default function App() {
           {currentView === 'editTransaction' && (
             <EditTransaction
               editingTransaction={editingTransaction}
-              categories={categories}
               setCurrentView={setCurrentView}
               handleUpdateTransaction={handleUpdateTransaction}
             />
@@ -217,18 +187,8 @@ export default function App() {
             <Settings 
               user={user} 
               onLogout={handleLogout}
-              categories={categories}
               handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
-            />
-          )}
-
-          {currentView === 'categories' && (
-            <CategoriesView 
-              categories={categories}
-              setIsAddCategoryModalOpen={setIsAddCategoryModalOpen}
-              setEditingCategory={setEditingCategory}
-              setIsEditCategoryModalOpen={setIsEditCategoryModalOpen}
             />
           )}
         </AnimatePresence>
@@ -306,36 +266,6 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <AddCategoryModal 
-        isOpen={isAddCategoryModalOpen}
-        onClose={() => setIsAddCategoryModalOpen(false)}
-        onSubmit={handleAddCategory}
-        newCategoryName={newCategoryName}
-        setNewCategoryName={setNewCategoryName}
-        selectedIcon={selectedIcon}
-        setSelectedIcon={setSelectedIcon}
-        colorFill={colorFill}
-        setColorFill={setColorFill}
-        iconColor={iconColor}
-        setIconColor={setIconColor}
-      />
-
-      <EditCategoryModal 
-        isOpen={isEditCategoryModalOpen}
-        onClose={() => {
-          setIsEditCategoryModalOpen(false);
-          setEditingCategory(null);
-        }}
-        onSubmit={handleEditCategory}
-        newCategoryName={newCategoryName}
-        setNewCategoryName={setNewCategoryName}
-        selectedIcon={selectedIcon}
-        setSelectedIcon={setSelectedIcon}
-        colorFill={colorFill}
-        setColorFill={setColorFill}
-        iconColor={iconColor}
-        setIconColor={setIconColor}
-      />
     </div>
   );
 }
