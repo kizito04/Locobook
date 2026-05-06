@@ -24,7 +24,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Generate last 12 months
-  const months = Array.from({ length: 12 }, (_, i) => {
+  const months = Array.from({ length: 24 }, (_, i) => {
     const d = new Date();
     d.setDate(1);
     d.setMonth(d.getMonth() - i);
@@ -43,10 +43,10 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
       const containerWidth = container.offsetWidth;
       const elementOffset = activeElement.offsetLeft;
       const elementWidth = activeElement.offsetWidth;
-      
+
       // Calculate scroll position to center the element
       const scrollPos = elementOffset - (containerWidth / 2) + (elementWidth / 2);
-      
+
       container.scrollTo({
         left: scrollPos,
         behavior: 'smooth'
@@ -58,7 +58,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
     <div className="space-y-4">
       {/* Month Pills Container */}
       <div className="relative overflow-hidden">
-        <div 
+        <div
           ref={scrollRef}
           className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 px-4 -mx-4 snap-x"
         >
@@ -67,11 +67,10 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
               key={m.value}
               data-active={selectedMonth === m.value}
               onClick={() => setSelectedMonth(m.value)}
-              className={`snap-center px-4 py-2 rounded-full text-[10px] font-bold transition-all whitespace-nowrap flex-shrink-0 ${
-                selectedMonth === m.value 
-                  ? 'bg-slate-900 text-white shadow-md' 
+              className={`snap-center px-4 py-2 rounded-full text-[10px] font-bold transition-all whitespace-nowrap flex-shrink-0 ${selectedMonth === m.value
+                  ? 'bg-slate-900 text-white shadow-md'
                   : 'bg-white text-slate-400 hover:text-slate-600 border border-slate-100'
-              }`}
+                }`}
             >
               {m.label}
             </button>

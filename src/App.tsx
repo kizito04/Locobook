@@ -211,17 +211,14 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: '100%' }}
               transition={{ duration: 0.24, ease: 'easeOut' }}
-              className="fixed inset-x-0 bottom-0 z-[70] flex h-[58dvh] min-h-[420px] w-full flex-col overflow-hidden rounded-t-[2rem] border-t border-slate-200 bg-white shadow-[0_-18px_45px_-18px_rgba(15,23,42,0.45)]"
+              className="fixed inset-x-0 bottom-0 z-[70] flex h-auto max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-[2rem] border-t border-slate-200 bg-white shadow-[0_-18px_45px_-18px_rgba(15,23,42,0.45)]"
             >
-              <div className="shrink-0 flex items-center justify-between gap-4 border-b border-slate-200 bg-white px-5 py-4">
-                <div>
-                  <div className="text-xs uppercase tracking-[0.24em] text-slate-400 font-bold">AI Chat</div>
-                  <h2 className="text-lg font-semibold text-slate-900">Ask your Locobook assistant</h2>
-                </div>
+              <div className="shrink-0 relative flex items-center justify-center border-b border-slate-200 bg-white px-5 py-5">
+                <h2 className="text-lg font-bold text-slate-900 uppercase tracking-wider">AI CHAT</h2>
                 <button
                   type="button"
                   onClick={() => setIsAssistantOpen(false)}
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:bg-slate-100"
+                  className="absolute right-5 inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:bg-slate-100"
                 >
                   <X className="w-4 h-4" />
                 </button>
