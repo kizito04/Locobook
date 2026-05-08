@@ -64,20 +64,17 @@ export default function App() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const isSettingsView = currentView === 'settings';
 
-  useEffect(() => {
-    const themePreference = window.localStorage.getItem('locobook-theme') || 'System default';
-    const textSizePreference = window.localStorage.getItem('locobook-text-size') || 'Default';
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const [theme, setTheme] = useState(() => window.localStorage.getItem('locobook-theme') || 'System default');
 
+  useEffect(() => {
+    window.localStorage.setItem('locobook-theme', theme);
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
     document.documentElement.classList.toggle(
       'locobook-dark',
-      themePreference === 'Dark' || (themePreference === 'System default' && prefersDark)
+      theme === 'Dark' || (theme === 'System default' && prefersDark)
     );
-
-    document.documentElement.classList.remove('locobook-text-small', 'locobook-text-large');
-    if (textSizePreference === 'Small') document.documentElement.classList.add('locobook-text-small');
-    if (textSizePreference === 'Large') document.documentElement.classList.add('locobook-text-large');
-  }, []);
+  }, [theme]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -196,6 +193,8 @@ export default function App() {
               onLogout={handleLogout}
               handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
+              theme={theme}
+              setTheme={setTheme}
             />
           )}
         </AnimatePresence>

@@ -2,40 +2,40 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   ChevronRight,
-  Languages,
-  Moon,
   ShieldAlert,
-  TextCursorInput,
-  X
+  Moon,
+  ArrowLeft
 } from 'lucide-react';
 import { User } from 'firebase/auth';
 import { ViewType } from '../types';
+import { ThemeSelector } from '../components/ThemeSelector';
 
 interface SettingsProps {
   user: User;
   onLogout: () => void;
   handleDeleteAccountData: () => Promise<void>;
   setCurrentView: (view: ViewType) => void;
+  theme: string;
+  setTheme: (theme: string) => void;
 }
 
 const renderRow = (
   title: string,
-  open: boolean,
   Icon: React.ElementType,
   value?: string
 ) => (
-  <div className="flex w-full items-center justify-between gap-3">
-    <div className="flex min-w-0 items-center gap-3">
-      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
-        <Icon className="h-3 w-3" />
+  <div className="flex w-full items-center justify-between gap-3 px-4 py-3">
+    <div className="flex min-w-0 items-center gap-4">
+      <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 shadow-sm shadow-amber-50">
+        <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0">
-        <h3 className="font-semibold text-slate-900">{title}</h3>
+        <h3 className="font-bold text-slate-800 text-sm sm:text-base leading-tight">{title}</h3>
       </div>
     </div>
-    <div className="flex shrink-0 items-center gap-2">
-      {value && <span className="hidden text-xs font-semibold text-slate-400 sm:inline">{value}</span>}
-      <ChevronRight className={`h-3 w-3 text-slate-400 transition-transform ${open ? 'rotate-90' : ''}`} />
+    <div className="flex shrink-0 items-center gap-3">
+      {value && <span className="text-xs font-bold text-slate-400">{value}</span>}
+      <ChevronRight className="h-4 w-4 text-slate-300" />
     </div>
   </div>
 );
@@ -44,16 +44,11 @@ export const Settings: React.FC<SettingsProps> = ({
   user,
   onLogout,
   handleDeleteAccountData,
-  setCurrentView
+  setCurrentView,
+  theme,
+  setTheme
 }) => {
-  const [openSection, setOpenSection] = useState<'theme' | 'textSize' | 'language' | null>(null);
-  const [theme, setTheme] = useState('System default');
-  const [textSize, setTextSize] = useState('Default');
-  const [language, setLanguage] = useState('System default');
-
-  const toggleSection = (section: 'theme' | 'textSize' | 'language') => {
-    setOpenSection(openSection === section ? null : section);
-  };
+  const [isThemeOpen, setIsThemeOpen] = useState(false);
 
   const deleteAccountData = async () => {
     const confirmed = window.confirm('Are you sure you want to delete your account data? This action cannot be undone.');
@@ -68,148 +63,72 @@ export const Settings: React.FC<SettingsProps> = ({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="min-h-screen bg-slate-100 px-5 py-3"
+      className="min-h-screen bg-slate-50 flex flex-col"
     >
-      <div className="mx-auto max-w-2xl">
-        <div className="relative flex items-center justify-center">
-          <button
-            type="button"
-            onClick={() => setCurrentView('dashboard')}
-            className="absolute left-0 inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-100"
-            aria-label="Close settings"
-          >
-            <X className="h-3 w-3" />
-          </button>
-          <h2 className="text-2xl font-bold text-slate-900">Settings</h2>
-          {/* <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-white text-amber-600 shadow-sm">
-            <SettingsIcon className="h-3 w-3" />
-          </div> */}
-        </div>
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4">
+        <button
+          onClick={() => setCurrentView('dashboard')}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 text-slate-600 shadow-sm transition hover:bg-slate-50"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </button>
+        <h2 className="text-lg font-bold text-slate-900">Settings</h2>
+        <div className="w-10" />
+      </div>
 
-        {/* <div className="mt-4 flex flex-col items-center gap-2 text-center">
-          <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-slate-500 shadow-sm">
-            {user.photoURL ? (
-              <img src={user.photoURL} alt={user.displayName || ''} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
-            ) : (
-              <UserCircle className="h-10 w-10" />
-            )}
-          </div>
-          <div>
-            <p className="text-xl font-semibold text-slate-900">{user.displayName || 'Locobook User'}</p>
-            <p className="text-sm text-slate-500">{user.email}</p>
-          </div>
-        </div> */}
+      <div className="flex-1 overflow-y-auto px-5 py-6">
+        <div className="mx-auto max-w-2xl space-y-8">
+          
+          <section className="space-y-4">
+            <p className="px-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">Preferences</p>
 
-        <div className="mt-8 space-y-3">
-          <section className="space-y-2">
-            <p className="px-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">Preferences</p>
-
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-              <button
-                type="button"
-                onClick={() => toggleSection('theme')}
-                className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
-              >
-                {renderRow('Theme', openSection === 'theme', Moon, theme)}
-              </button>
-              {openSection === 'theme' && (
-                <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
-                  {['System default', 'Light', 'Dark'].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => setTheme(option)}
-                      className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${theme === option ? 'bg-amber-100 font-semibold text-amber-700' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-              <button
-                type="button"
-                onClick={() => toggleSection('textSize')}
-                className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
-              >
-                {renderRow('Text size', openSection === 'textSize', TextCursorInput, textSize)}
-              </button>
-              {openSection === 'textSize' && (
-                <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
-                  {['Small', 'Default', 'Large'].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => setTextSize(option)}
-                      className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${textSize === option ? 'bg-amber-100 font-semibold text-amber-700' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-              <button
-                type="button"
-                onClick={() => toggleSection('language')}
-                className="flex w-full items-center justify-between px-4 py-2 text-left transition hover:bg-slate-50"
-              >
-                {renderRow('Language', openSection === 'language', Languages, language)}
-              </button>
-              {openSection === 'language' && (
-                <div className="space-y-2 border-t border-slate-100 px-4 pb-4 pt-3">
-                  {['System default', 'English', 'French', 'Spanish'].map((option) => (
-                    <button
-                      key={option}
-                      type="button"
-                      onClick={() => setLanguage(option)}
-                      className={`w-full rounded-xl px-3 py-2 text-left text-sm transition ${language === option ? 'bg-amber-100 font-semibold text-amber-700' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'}`}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsThemeOpen(true)}
+              className="w-full rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 active:scale-[0.99]"
+            >
+              {renderRow('App Theme', Moon, theme)}
+            </button>
           </section>
 
-        
-
-          <section className="space-y-2">
-            <p className="px-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">Account</p>
+          <section className="space-y-4">
+            <p className="px-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">Security & Privacy</p>
 
             <button
               type="button"
               onClick={deleteAccountData}
-              className="flex w-full items-center justify-between rounded-xl border border-rose-200 bg-white px-4 py-2 text-left shadow-sm transition hover:bg-rose-50"
+              className="flex w-full items-center justify-between rounded-2xl border border-rose-100 bg-white p-4 shadow-sm transition hover:bg-rose-50/30 group"
             >
-              <div className="flex items-center gap-2">
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-100 text-rose-600">
-                  <ShieldAlert className="h-3 w-3" />
+              <div className="flex items-center gap-4">
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-rose-50 text-rose-500 transition-colors group-hover:bg-rose-100">
+                  <ShieldAlert className="h-4 w-4" />
                 </div>
-                <div>
-                  <p className="font-semibold text-rose-600">Delete account data</p>
-                  {/* <p className="text-[11px] text-rose-400">Permanently remove your saved data</p> */}
+                <div className="text-left">
+                  <p className="font-bold text-rose-600 text-sm sm:text-base">Delete account data</p>
+                  <p className="text-[10px] text-rose-400 font-medium">Permanently clear all records</p>
                 </div>
               </div>
-              <ChevronRight className="h-3 w-3 text-rose-300" />
+              <ChevronRight className="h-4 w-4 text-rose-200 transition-transform group-hover:translate-x-0.5" />
             </button>
-
-            {/* <button
-              type="button"
-              onClick={onLogout}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
-            >
-              <LogOut className="h-2.5 w-2.5" />
-              Log out
-            </button> */}
           </section>
+
+          <div className="pt-8 text-center space-y-2">
+            <p className="text-[10px] font-bold text-slate-300 uppercase tracking-tighter">Locobook v1.0.0</p>
+            <p className="text-[10px] text-slate-400 font-medium max-w-[200px] mx-auto opacity-60 leading-relaxed">
+              Designed to help you manage your finances with ease and clarity.
+            </p>
+          </div>
         </div>
       </div>
+
+      <ThemeSelector 
+        isOpen={isThemeOpen}
+        onClose={() => setIsThemeOpen(false)}
+        currentTheme={theme}
+        onSelect={(newTheme) => setTheme(newTheme)}
+      />
     </motion.div>
   );
 };
+
