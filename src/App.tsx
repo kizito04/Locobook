@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
@@ -10,7 +10,7 @@ import { EditTransaction } from './pages/EditTransaction';
 import { LoginPage } from './components/LoginPage';
 import { CreateAccountPage } from './components/CreateAccountPage';
 import { useLocobook } from './hooks/useLocobook';
-import { Loader2, X, Send } from 'lucide-react';
+import { Loader2, X, Send, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function App() {
@@ -61,6 +61,8 @@ export default function App() {
     setCurrency
   } = useLocobook();
 
+  const chatEndRef = useRef<HTMLDivElement>(null);
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const isSettingsView = currentView === 'settings';
 
@@ -90,6 +92,12 @@ export default function App() {
       document.body.style.touchAction = previousTouchAction;
     };
   }, [isAssistantOpen]);
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [assistantMessages]);
 
 
 
@@ -245,8 +253,8 @@ export default function App() {
                   >
                     <div
                       className={`max-w-[90%] whitespace-pre-wrap break-words text-sm leading-relaxed ${message.role === 'assistant'
-                          ? 'text-slate-700 font-medium'
-                          : 'bg-blue-50 text-blue-800 px-4 py-2.5 rounded-lg rounded-tr-sm border border-blue-100 shadow-sm'
+                        ? 'text-slate-700 font-medium'
+                        : 'bg-blue-50 text-blue-800 px-4 py-2.5 rounded-lg rounded-tr-sm border border-blue-100 shadow-sm'
                         }`}
                     >
                       {message.role === 'assistant' ? (

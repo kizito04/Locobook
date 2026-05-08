@@ -97,7 +97,6 @@ export const useLocobook = () => {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const recognitionRef = useRef<any>(null);
-  const chatEndRef = useRef<HTMLDivElement>(null);
   const hasFetchedPrefs = useRef(false);
 
   // --- Auth & Connection Test ---
@@ -459,7 +458,6 @@ ${transactions.slice(0, 10).map(t =>
     setAssistantInput,
     assistantMessages,
     isAssistantTyping,
-    chatEndRef,
     handleLogin,
     handleLogout,
     handleDeleteAccountData,
