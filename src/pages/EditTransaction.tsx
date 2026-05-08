@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowLeft, Save } from 'lucide-react';
 import { Transaction, ViewType } from '../types';
 import { formatCurrency } from '../utils/formatters';
+import { convertCurrency, BASE_CURRENCY } from '../utils/currencies';
 
 interface EditTransactionProps {
   editingTransaction: Transaction | null;
@@ -25,7 +26,9 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
   useEffect(() => {
     if (editingTransaction) {
       setDescription(editingTransaction.description);
-      setAmount(editingTransaction.amount.toString());
+      // Convert the base amount (UGX) to the current selected currency for the input field
+      const displayAmount = convertCurrency(editingTransaction.amount, BASE_CURRENCY, currency);
+      setAmount(displayAmount.toFixed(currency === 'UGX' ? 0 : 2));
       setType(editingTransaction.type);
       setCategory(editingTransaction.category || '');
     }
@@ -103,7 +106,7 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
               inputMode="decimal"
             />
           </div>
-          <p className="mt-2 text-xs text-slate-400">Current: {formatCurrency(editingTransaction.amount, currency)}</p>
+          <p className="mt-2 text-xs text-slate-400">Current: {formatCurrency(editingTransaction.amount, currency, BASE_CURRENCY)}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3">

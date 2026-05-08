@@ -31,6 +31,7 @@ import {
 import { handleFirestoreError } from '../utils/errorHandlers';
 import { parseTransaction, askAssistant } from '../services/geminiService';
 import { formatCurrency } from '../utils/formatters';
+import { convertCurrency, BASE_CURRENCY } from '../utils/currencies';
 
 const toLocalMonthKey = (date: Date) => {
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -176,9 +177,12 @@ export const useLocobook = () => {
 
     try {
       const parsed = await parseTransaction(input);
+      // Convert the parsed amount from current currency to base currency before saving
+      const baseAmount = convertCurrency(parsed.amount, currency, BASE_CURRENCY);
 
       await addDoc(collection(db, 'transactions'), {
         ...parsed,
+        amount: baseAmount,
         category: parsed.category || 'Uncategorized',
         userId: user.uid,
         date: Timestamp.now()
@@ -225,8 +229,11 @@ export const useLocobook = () => {
     if (!user) return;
 
     try {
+      // Convert the updated amount from current currency to base currency before saving
+      const baseAmount = convertCurrency(updatedTransaction.amount, currency, BASE_CURRENCY);
+
       await updateDoc(doc(db, 'transactions', updatedTransaction.id), {
-        amount: updatedTransaction.amount,
+        amount: baseAmount,
         type: updatedTransaction.type,
         description: updatedTransaction.description,
         category: updatedTransaction.category,
