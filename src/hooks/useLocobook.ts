@@ -337,29 +337,67 @@ export const useLocobook = () => {
   // --- AI Assistant Actions ---
   const handleAssistantSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!assistantInput.trim()) return;
+    if (!assistantInput.trim() || !user) return;
 
     const userMsg = assistantInput;
     setAssistantInput('');
     setAssistantMessages(prev => [...prev, { role: 'user', content: userMsg }]);
     setIsAssistantTyping(true);
 
+    // Placeholder for the streaming assistant message
+    setAssistantMessages(prev => [...prev, { role: 'assistant', content: '' }]);
+
     try {
       const context = `
 Summary:
-Total Income: ${formatCurrency(totalIncome, currency)}
-Total Expenses: ${formatCurrency(totalExpenses, currency)}
-Current Balance: ${formatCurrency(balance, currency)}
+Total Income: ${totalIncome}
+Total Expenses: ${totalExpenses}
+Current Balance: ${balance}
 
 Recent Transactions:
 ${transactions.slice(0, 10).map(t =>
         `${t.type === 'income' ? 'Received' : 'Spent'} ${t.amount} for ${t.description} on ${t.date.toDate().toLocaleDateString()}`
       ).join('\n')}`;
 
-      const response = await askAssistant(userMsg, context);
-      setAssistantMessages(prev => [...prev, { role: 'assistant', content: response }]);
+      // Function calling implementation
+      const tools = {
+        searchTransactions: async (filters: any) => {
+          return transactions.filter(t => {
+            const txDate = t.date.toDate().toISOString().split('T')[0];
+            const matchesCategory = !filters.category || t.category?.toLowerCase() === filters.category.toLowerCase();
+            const matchesType = !filters.type || t.type === filters.type;
+            const matchesQuery = !filters.query || t.description.toLowerCase().includes(filters.query.toLowerCase());
+            const matchesStart = !filters.startDate || txDate >= filters.startDate;
+            const matchesEnd = !filters.endDate || txDate <= filters.endDate;
+            return matchesCategory && matchesType && matchesQuery && matchesStart && matchesEnd;
+          }).map(t => ({
+            description: t.description,
+            amount: t.amount,
+            type: t.type,
+            date: t.date.toDate().toLocaleDateString(),
+            category: t.category
+          }));
+        }
+      };
+
+      await askAssistant(
+        userMsg, 
+        context, 
+        (chunk) => {
+          setAssistantMessages(prev => {
+            const newMessages = [...prev];
+            newMessages[newMessages.length - 1].content = chunk;
+            return newMessages;
+          });
+        },
+        tools
+      );
     } catch (err) {
-      setAssistantMessages(prev => [...prev, { role: 'assistant', content: "I'm sorry, I encountered an error. Please try again." }]);
+      setAssistantMessages(prev => {
+        const newMessages = [...prev];
+        newMessages[newMessages.length - 1].content = "I'm sorry, I encountered an error. Please try again.";
+        return newMessages;
+      });
     } finally {
       setIsAssistantTyping(false);
     }
@@ -377,9 +415,9 @@ ${transactions.slice(0, 10).map(t =>
     const matchesMonth = isWithinRange(txDate, selectedMonthStart, selectedMonthEnd);
     const matchesDate = isWithinRange(txDate, selectedDateStart, selectedDateEnd);
     const matchesType = filter === 'all' ? true : t.type === filter;
-    const matchesSearch = searchTerm
-      ? t.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        t.category?.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesSearch = searchTerm.trim()
+      ? t.description.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+        t.category?.toLowerCase().includes(searchTerm.trim().toLowerCase())
       : true;
     return matchesMonth && matchesDate && matchesType && matchesSearch;
   });
@@ -440,7 +478,10 @@ ${transactions.slice(0, 10).map(t =>
     setSearchTerm,
     isSearchVisible,
     setIsSearchVisible,
-    toggleSearch: () => setIsSearchVisible(prev => !prev),
+    toggleSearch: () => {
+      if (isSearchVisible) setSearchTerm('');
+      setIsSearchVisible(prev => !prev);
+    },
     currency,
     setCurrency
   };

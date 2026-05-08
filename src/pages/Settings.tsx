@@ -98,17 +98,17 @@ export const Settings: React.FC<SettingsProps> = ({
             <button
               type="button"
               onClick={deleteAccountData}
-              className="flex w-full items-center justify-between rounded-xl border border-rose-100 bg-white p-2.5 shadow-sm transition hover:bg-rose-50/30 group"
+              className="flex w-full items-center justify-between rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition hover:bg-rose-50/30 group"
             >
               <div className="flex items-center gap-3">
-                <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-rose-50 text-rose-500 transition-colors group-hover:bg-rose-100">
-                  <ShieldAlert className="h-3 w-3" />
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-500 transition-colors group-hover:bg-rose-100">
+                  <ShieldAlert className="h-3.5 w-3.5" />
                 </div>
                 <div className="text-left">
-                  <p className="font-bold text-rose-600 text-xs">Delete account data</p>
+                  <p className="font-bold text-rose-600 text-sm">Delete account data</p>
                 </div>
               </div>
-              <ChevronRight className="h-3 w-3 text-rose-200 transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="h-3.5 w-3.5 text-rose-200 transition-transform group-hover:translate-x-0.5" />
             </button>
           </section>
         </div>

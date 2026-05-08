@@ -69,7 +69,7 @@ export default function App() {
   useEffect(() => {
     window.localStorage.setItem('locobook-theme', theme);
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
+
     document.documentElement.classList.toggle(
       'locobook-dark',
       theme === 'Dark' || (theme === 'System default' && prefersDark)
@@ -110,12 +110,12 @@ export default function App() {
   }
 
   return (
-    <div className={`min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden ${isSettingsView ? '' : 'pb-36 sm:pb-40'}`}>
+    <div className={`min-h-screen bg-slate-50 text-slate-900 font-sans ${isSettingsView ? '' : 'pb-36 sm:pb-40'}`}>
 
 
       {!isSettingsView && (
-        <Header 
-          user={user} 
+        <Header
+          user={user}
           transactions={transactions}
           onLogout={handleLogout}
           isSearchVisible={isSearchVisible}
@@ -137,7 +137,7 @@ export default function App() {
 
         <AnimatePresence mode="wait">
           {currentView === 'dashboard' && (
-            <Dashboard 
+            <Dashboard
               totalIncome={totalIncome}
               totalExpenses={totalExpenses}
               input={input}
@@ -157,7 +157,7 @@ export default function App() {
           )}
 
           {currentView === 'history' && (
-            <History 
+            <History
               transactions={filteredTransactions}
               selectedDate={selectedDate}
               setSelectedDate={setSelectedDate}
@@ -188,8 +188,8 @@ export default function App() {
           )}
 
           {currentView === 'settings' && (
-            <Settings 
-              user={user} 
+            <Settings
+              user={user}
               onLogout={handleLogout}
               handleDeleteAccountData={handleDeleteAccountData}
               setCurrentView={setCurrentView}
@@ -216,34 +216,66 @@ export default function App() {
               initial={{ opacity: 0, y: '100%' }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: '100%' }}
-              transition={{ duration: 0.24, ease: 'easeOut' }}
-              className="fixed inset-x-0 bottom-0 z-[70] flex h-auto max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-[2rem] border-t border-slate-200 bg-white shadow-[0_-18px_45px_-18px_rgba(15,23,42,0.45)]"
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-0 bottom-0 z-[70] flex h-auto max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-[1.5rem] border-t border-slate-200 bg-white shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]"
             >
-              <div className="shrink-0 relative flex items-center justify-center border-b border-slate-200 bg-white px-5 py-5">
-                <h2 className="text-lg font-bold text-slate-900 uppercase tracking-wider">AI CHAT</h2>
+              {/* Chat Header */}
+              <div className="shrink-0 relative flex items-center justify-between border-b border-slate-100 bg-white px-5 py-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                    <Sparkles className="w-4 h-4 fill-blue-600" />
+                  </div>
+                  <h2 className="text-base font-bold text-slate-800 tracking-tight">Loco AI Assistant</h2>
+                </div>
                 <button
                   type="button"
                   onClick={() => setIsAssistantOpen(false)}
-                  className="absolute right-5 inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-500 hover:bg-slate-100"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-100 text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
-              <div className="min-h-0 flex-1 overflow-y-auto bg-slate-50 px-5 py-4 space-y-3">
+
+              {/* Chat Messages */}
+              <div className="min-h-0 flex-1 overflow-y-auto bg-white px-5 py-6 space-y-8">
                 {assistantMessages.map((message, index) => (
                   <div
                     key={index}
-                    className={`max-w-[86%] whitespace-pre-wrap break-words rounded-3xl px-4 py-3 text-sm leading-relaxed ${message.role === 'assistant' ? 'bg-white text-slate-900 shadow-sm border border-slate-100' : 'ml-auto bg-indigo-600 text-white'}`}
+                    className={`flex ${message.role === 'assistant' ? 'justify-start' : 'justify-end'}`}
                   >
-                    {message.content}
+                    <div
+                      className={`max-w-[90%] whitespace-pre-wrap break-words text-sm leading-relaxed ${message.role === 'assistant'
+                          ? 'text-slate-700 font-medium'
+                          : 'bg-blue-50 text-blue-800 px-4 py-2.5 rounded-lg rounded-tr-sm border border-blue-100 shadow-sm'
+                        }`}
+                    >
+                      {message.role === 'assistant' ? (
+                        <div className="flex gap-3">
+                          <div className="shrink-0 mt-1">
+                            <Sparkles className="w-4 h-4 text-blue-400" />
+                          </div>
+                          <div className="flex-1">
+                            {message.content.replace(/\*\*/g, '').replace(/\*/g, '')}
+                          </div>
+                        </div>
+                      ) : (
+                        message.content
+                      )}
+                    </div>
                   </div>
                 ))}
-                {isAssistantTyping && (
-                  <div className="rounded-3xl bg-slate-100 px-4 py-3 text-sm text-slate-500">Typing...</div>
+                {isAssistantTyping && assistantMessages[assistantMessages.length - 1]?.content === '' && (
+                  <div className="flex gap-3 text-slate-400">
+                    <Sparkles className="w-4 h-4 animate-pulse text-blue-300 mt-1" />
+                    <span className="text-xs font-medium italic">Assistant is thinking...</span>
+                  </div>
                 )}
+                <div ref={chatEndRef} />
               </div>
-              <form onSubmit={handleAssistantSubmit} className="shrink-0 border-t border-slate-200 bg-white px-4 py-3 sm:px-5 sm:py-4">
-                <div className="flex items-end gap-3 rounded-[1.5rem] border border-slate-200 bg-slate-50 p-2 shadow-sm focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100">
+
+              {/* Input Form */}
+              <form onSubmit={handleAssistantSubmit} className="shrink-0 border-t border-slate-100 bg-white p-4">
+                <div className="flex items-end gap-3 rounded-xl border border-slate-200 bg-slate-50 p-2 focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-50 transition-all">
                   <textarea
                     value={assistantInput}
                     onChange={(e) => {
@@ -251,14 +283,14 @@ export default function App() {
                       e.currentTarget.style.height = 'auto';
                       e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`;
                     }}
-                    placeholder="Ask a question..."
+                    placeholder="Ask Loco anything..."
                     rows={1}
-                    className="max-h-32 min-h-[44px] flex-1 resize-none overflow-y-auto bg-transparent px-3 py-2 text-sm leading-relaxed text-slate-900 placeholder-slate-400 outline-none"
+                    className="max-h-32 min-h-[40px] flex-1 resize-none overflow-y-auto bg-transparent px-3 py-2 text-sm leading-relaxed text-slate-800 placeholder-slate-400 outline-none"
                   />
                   <button
                     type="submit"
                     disabled={!assistantInput.trim() || isAssistantTyping}
-                    className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-white shadow-md hover:bg-indigo-700 transition-all disabled:opacity-50"
+                    className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-600 text-white shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all disabled:opacity-40 disabled:shadow-none"
                   >
                     <Send className="w-5 h-5" />
                   </button>
