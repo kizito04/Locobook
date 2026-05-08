@@ -52,23 +52,23 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                     onSelect(opt.id);
                     onClose();
                   }}
-                  className={`flex w-full items-center justify-between rounded-xl border px-3.5 py-3.5 transition-all ${currentTheme === opt.id
-                      ? 'border-amber-500 bg-amber-50/50 ring-2 ring-amber-500/20 shadow-sm'
-                      : 'border-slate-200 bg-white hover:border-slate-300'
+                  className={`flex w-full items-center justify-between rounded-xl border px-3 py-2.5 transition-all ${currentTheme === opt.id
+                    ? 'border-amber-500 bg-amber-50/50 ring-2 ring-amber-500/20 shadow-sm'
+                    : 'border-slate-200 bg-white hover:border-slate-300'
                     }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${currentTheme === opt.id ? 'bg-amber-500 text-white shadow-lg shadow-amber-100' : 'bg-amber-100 text-amber-600'
+                    <div className={`flex h-7 w-7 items-center justify-center rounded-lg transition-colors ${currentTheme === opt.id ? 'bg-amber-500 text-white shadow-lg shadow-amber-100' : 'bg-amber-100 text-amber-600'
                       }`}>
-                      {React.cloneElement(opt.icon as React.ReactElement<{ className?: string }>, { className: 'w-3.5 h-3.5' })}
+                      {React.cloneElement(opt.icon as React.ReactElement<{ className?: string }>, { className: 'w-3 h-3' })}
                     </div>
-                    <span className={`text-sm font-bold ${currentTheme === opt.id ? 'text-amber-700' : 'text-slate-700'}`}>
+                    <span className={`text-xs font-bold ${currentTheme === opt.id ? 'text-amber-700' : 'text-slate-700'}`}>
                       {opt.label}
                     </span>
                   </div>
                   {currentTheme === opt.id && (
-                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm">
-                      <Check className="w-3 h-3 stroke-[3]" />
+                    <div className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm">
+                      <Check className="w-2.5 h-2.5 stroke-[3]" />
                     </div>
                   )}
                 </button>

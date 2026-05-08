@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from 'firebase/auth';
-import { ArrowLeft, UserCircle, Search, X, LogOut, ChevronRight, MessageCircle, Download, RefreshCcw, Layers, DollarSign, MessageSquare, Star, Settings as SettingsIcon } from 'lucide-react';
+import { ArrowLeft, UserCircle, Search, X, LogOut, ChevronRight, MessageCircle, Download, RefreshCcw, Layers, DollarSign, MessageSquare, Star, Sparkles, Settings as SettingsIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Transaction, ViewType } from '../types';
 import { CurrencySelector } from './CurrencySelector';
@@ -93,9 +93,9 @@ export const Header: React.FC<HeaderProps> = ({
                   type="button"
                   onClick={() => setIsAssistantOpen(true)}
                   aria-label="Open AI chat"
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-all"
+                  className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3.5 py-1.5 text-xs font-bold text-amber-700 hover:bg-amber-100 transition-all shadow-sm shadow-amber-50 active:scale-95"
                 >
-                  <MessageCircle className="w-4 h-4 text-indigo-600" />
+                  <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                   AI chat
                 </button>
               </div>
@@ -162,15 +162,15 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => {
                       setIsCurrencyOpen(true);
                     }}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                      <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                         <DollarSign className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-900">Currency</p>
-                        <p className="text-[11px] text-slate-500">Current: {currency}</p>
+                        <p className="font-bold text-slate-800 text-xs">Currency</p>
+                        <p className="text-[10px] text-slate-500 leading-none">Current: {currency}</p>
                       </div>
                     </div>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
@@ -181,15 +181,15 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => {
                       setIsExportOpen(true);
                     }}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                         <Download className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-900">Export / Import data</p>
-                        <p className="text-[11px] text-slate-500">Download your transaction history</p>
+                        <p className="font-bold text-slate-800 text-xs">Export / Import data</p>
+                        <p className="text-[10px] text-slate-500 leading-none">Download transactions</p>
                       </div>
                     </div>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
@@ -198,15 +198,15 @@ export const Header: React.FC<HeaderProps> = ({
                   <button
                     type="button"
                     onClick={() => window.open('mailto:kizitoahaisibwe04@gmail.com', '_blank')}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                         <MessageSquare className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-900">Contact Center</p>
-                        <p className="text-[11px] text-slate-500">Get help or submit a request</p>
+                        <p className="font-bold text-slate-800 text-xs">Contact Center</p>
+                        <p className="text-[10px] text-slate-500 leading-none">Get help or request</p>
                       </div>
                     </div>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
@@ -215,15 +215,15 @@ export const Header: React.FC<HeaderProps> = ({
                   <button
                     type="button"
                     onClick={() => window.open('https://example.com/rate', '_blank')}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                         <Star className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-900">Rate app</p>
-                        <p className="text-[11px] text-slate-500">Leave feedback in the app store</p>
+                        <p className="font-bold text-slate-800 text-xs">Rate app</p>
+                        <p className="text-[10px] text-slate-500 leading-none">Leave feedback</p>
                       </div>
                     </div>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
@@ -235,15 +235,15 @@ export const Header: React.FC<HeaderProps> = ({
                       setCurrentView('settings');
                       setIsProfileOpen(false);
                     }}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-amber-100 text-amber-600">
+                    <div className="flex items-center gap-3">
+                      <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
                         <SettingsIcon className="w-3 h-3" />
                       </div>
                       <div>
-                        <p className="font-semibold text-slate-900">Settings</p>
-                        <p className="text-[11px] text-slate-500">App preferences and account actions</p>
+                        <p className="font-bold text-slate-800 text-xs">Settings</p>
+                        <p className="text-[10px] text-slate-500 leading-none">App preferences</p>
                       </div>
                     </div>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
