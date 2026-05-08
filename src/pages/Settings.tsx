@@ -24,18 +24,18 @@ const renderRow = (
   Icon: React.ElementType,
   value?: string
 ) => (
-  <div className="flex w-full items-center justify-between gap-3 px-4 py-3">
-    <div className="flex min-w-0 items-center gap-4">
-      <div className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-amber-600 shadow-sm shadow-amber-50">
-        <Icon className="h-4 w-4" />
+  <div className="flex w-full items-center justify-between gap-3 px-3.5 py-2.5">
+    <div className="flex min-w-0 items-center gap-3">
+      <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-600 shadow-sm shadow-amber-50">
+        <Icon className="h-3.5 w-3.5" />
       </div>
-      <div className="min-w-0">
-        <h3 className="font-bold text-slate-800 text-sm sm:text-base leading-tight">{title}</h3>
+      <div className="min-w-0 text-left">
+        <h3 className="font-bold text-slate-800 text-sm leading-tight">{title}</h3>
       </div>
     </div>
-    <div className="flex shrink-0 items-center gap-3">
-      {value && <span className="text-xs font-bold text-slate-400">{value}</span>}
-      <ChevronRight className="h-4 w-4 text-slate-300" />
+    <div className="flex shrink-0 items-center gap-2">
+      {value && <span className="text-[10px] font-bold text-slate-400">{value}</span>}
+      <ChevronRight className="h-3.5 w-3.5 text-slate-300" />
     </div>
   </div>
 );
@@ -79,7 +79,7 @@ export const Settings: React.FC<SettingsProps> = ({
 
       <div className="flex-1 overflow-y-auto px-5 py-6">
         <div className="mx-auto max-w-2xl space-y-8">
-          
+
           <section className="space-y-4">
             <p className="px-1 text-[11px] font-bold uppercase tracking-widest text-slate-400">Preferences</p>
 
@@ -98,31 +98,23 @@ export const Settings: React.FC<SettingsProps> = ({
             <button
               type="button"
               onClick={deleteAccountData}
-              className="flex w-full items-center justify-between rounded-2xl border border-rose-100 bg-white p-4 shadow-sm transition hover:bg-rose-50/30 group"
+              className="flex w-full items-center justify-between rounded-2xl border border-rose-100 bg-white p-3.5 shadow-sm transition hover:bg-rose-50/30 group"
             >
-              <div className="flex items-center gap-4">
-                <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-rose-50 text-rose-500 transition-colors group-hover:bg-rose-100">
-                  <ShieldAlert className="h-4 w-4" />
+              <div className="flex items-center gap-3">
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-rose-50 text-rose-500 transition-colors group-hover:bg-rose-100">
+                  <ShieldAlert className="h-3.5 w-3.5" />
                 </div>
                 <div className="text-left">
-                  <p className="font-bold text-rose-600 text-sm sm:text-base">Delete account data</p>
-                  <p className="text-[10px] text-rose-400 font-medium">Permanently clear all records</p>
+                  <p className="font-bold text-rose-600 text-sm">Delete account data</p>
                 </div>
               </div>
-              <ChevronRight className="h-4 w-4 text-rose-200 transition-transform group-hover:translate-x-0.5" />
+              <ChevronRight className="h-3.5 w-3.5 text-rose-200 transition-transform group-hover:translate-x-0.5" />
             </button>
           </section>
-
-          <div className="pt-8 text-center space-y-2">
-            <p className="text-[10px] font-bold text-slate-300 uppercase tracking-tighter">Locobook v1.0.0</p>
-            <p className="text-[10px] text-slate-400 font-medium max-w-[200px] mx-auto opacity-60 leading-relaxed">
-              Designed to help you manage your finances with ease and clarity.
-            </p>
-          </div>
         </div>
       </div>
 
-      <ThemeSelector 
+      <ThemeSelector
         isOpen={isThemeOpen}
         onClose={() => setIsThemeOpen(false)}
         currentTheme={theme}

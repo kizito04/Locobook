@@ -52,34 +52,28 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({
                     onSelect(opt.id);
                     onClose();
                   }}
-                  className={`flex w-full items-center justify-between rounded-2xl border px-4 py-4 transition-all ${
-                    currentTheme === opt.id
+                  className={`flex w-full items-center justify-between rounded-xl border px-3.5 py-3.5 transition-all ${currentTheme === opt.id
                       ? 'border-amber-500 bg-amber-50/50 ring-2 ring-amber-500/20 shadow-sm'
                       : 'border-slate-200 bg-white hover:border-slate-300'
-                  }`}
+                    }`}
                 >
-                  <div className="flex items-center gap-4">
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
-                      currentTheme === opt.id ? 'bg-amber-500 text-white shadow-lg shadow-amber-100' : 'bg-amber-100 text-amber-600'
-                    }`}>
-                      {opt.icon}
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-xl transition-colors ${currentTheme === opt.id ? 'bg-amber-500 text-white shadow-lg shadow-amber-100' : 'bg-amber-100 text-amber-600'
+                      }`}>
+                      {React.cloneElement(opt.icon as React.ReactElement<{ className?: string }>, { className: 'w-3.5 h-3.5' })}
                     </div>
-                    <span className={`text-base font-bold ${currentTheme === opt.id ? 'text-amber-700' : 'text-slate-700'}`}>
+                    <span className={`text-sm font-bold ${currentTheme === opt.id ? 'text-amber-700' : 'text-slate-700'}`}>
                       {opt.label}
                     </span>
                   </div>
                   {currentTheme === opt.id && (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm">
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white shadow-sm">
+                      <Check className="w-3 h-3 stroke-[3]" />
                     </div>
                   )}
                 </button>
               ))}
             </div>
-            
-            <p className="mt-8 text-center text-xs text-slate-400 font-medium px-8 leading-relaxed">
-              System default will automatically match your device's appearance settings.
-            </p>
           </div>
         </motion.div>
       )}
