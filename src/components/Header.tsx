@@ -22,13 +22,13 @@ interface HeaderProps {
   setCurrency: (currency: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ 
-  user, 
+export const Header: React.FC<HeaderProps> = ({
+  user,
   transactions,
   onLogout,
-  isSearchVisible, 
-  searchTerm, 
-  setSearchTerm, 
+  isSearchVisible,
+  searchTerm,
+  setSearchTerm,
   toggleSearch,
   setIsAssistantOpen,
   setCurrentView,
@@ -41,11 +41,11 @@ export const Header: React.FC<HeaderProps> = ({
   const [isExportOpen, setIsExportOpen] = useState(false);
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-40 w-full shadow-sm">
+    <header className="bg-white border-b border-slate-50 sticky top-0 z-40">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         <AnimatePresence mode="wait">
           {isSearchVisible ? (
-            <motion.div 
+            <motion.div
               key="search-bar"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -54,7 +54,7 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input 
+                <input
                   autoFocus
                   type="text"
                   value={searchTerm}
@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             </motion.div>
           ) : (
-            <motion.div 
+            <motion.div
               key="header-content"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -76,7 +76,7 @@ export const Header: React.FC<HeaderProps> = ({
               className="flex-1 flex items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <button 
+                <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="w-10 h-10 rounded-full overflow-hidden border border-slate-100 shadow-sm active:scale-95 transition-transform"
                 >
@@ -103,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
                   className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3.5 py-1.5 text-xs font-bold text-blue-700 hover:bg-blue-100 transition-all shadow-sm shadow-blue-50 active:scale-95"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-blue-500 fill-blue-500" />
-                  AI chat
+                  AI Chat
                 </button>
               </div>
             </motion.div>
@@ -114,14 +114,14 @@ export const Header: React.FC<HeaderProps> = ({
       <AnimatePresence>
         {isProfileOpen && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsProfileOpen(false)}
               className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -274,7 +274,7 @@ export const Header: React.FC<HeaderProps> = ({
         )}
       </AnimatePresence>
 
-      <CurrencySelector 
+      <CurrencySelector
         isOpen={isCurrencyOpen}
         onClose={() => setIsCurrencyOpen(false)}
         currentCurrency={currency}
@@ -285,7 +285,7 @@ export const Header: React.FC<HeaderProps> = ({
         }}
       />
 
-      <DataExport 
+      <DataExport
         isOpen={isExportOpen}
         onClose={() => setIsExportOpen(false)}
         transactions={transactions}
