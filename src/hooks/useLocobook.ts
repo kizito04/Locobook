@@ -98,6 +98,7 @@ export const useLocobook = () => {
 
   const recognitionRef = useRef<any>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const hasFetchedPrefs = useRef(false);
 
   // --- Auth & Connection Test ---
   useEffect(() => {
@@ -107,24 +108,36 @@ export const useLocobook = () => {
       if (user) {
         setCurrentView('dashboard');
         testConnection(user);
+        // Reset fetch flag for new user
+        hasFetchedPrefs.current = false;
+      } else {
+        // Reset to default for guest
+        setCurrency('UGX');
+        hasFetchedPrefs.current = false;
       }
     });
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('locobook-currency', currency);
+    // Only save to localStorage/Firestore if we've successfully loaded the user's existing prefs
+    // or if the user is a guest (no user object)
+    if (!user) {
+      localStorage.setItem('locobook-currency-guest', currency);
+      return;
+    }
+
+    if (!hasFetchedPrefs.current) return;
+
+    localStorage.setItem(`locobook-currency-${user.uid}`, currency);
     
-    // Also save to Firestore if user is logged in
     const saveCurrency = async () => {
-      if (user) {
-        try {
-          await setDoc(doc(db, 'users', user.uid), {
-            currency: currency
-          }, { merge: true });
-        } catch (err) {
-          console.error('Failed to save currency to Firestore:', err);
-        }
+      try {
+        await setDoc(doc(db, 'users', user.uid), {
+          currency: currency
+        }, { merge: true });
+      } catch (err) {
+        console.error('Failed to save currency to Firestore:', err);
       }
     };
     saveCurrency();
@@ -135,15 +148,25 @@ export const useLocobook = () => {
     const fetchUserPrefs = async () => {
       if (user) {
         try {
+          // First check local storage for this specific user for speed
+          const localPref = localStorage.getItem(`locobook-currency-${user.uid}`);
+          if (localPref) {
+            setCurrency(localPref);
+          }
+
+          // Then sync with Firestore (source of truth)
           const userDoc = await getDocFromServer(doc(db, 'users', user.uid));
           if (userDoc.exists()) {
             const data = userDoc.data();
             if (data.currency) {
               setCurrency(data.currency);
+              localStorage.setItem(`locobook-currency-${user.uid}`, data.currency);
             }
           }
         } catch (err) {
           console.error('Failed to fetch user preferences:', err);
+        } finally {
+          hasFetchedPrefs.current = true;
         }
       }
     };
