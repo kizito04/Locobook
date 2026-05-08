@@ -56,7 +56,9 @@ export default function App() {
     setAssistantInput,
     assistantMessages,
     isAssistantTyping,
-    handleAssistantSubmit
+    handleAssistantSubmit,
+    currency,
+    setCurrency
   } = useLocobook();
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -127,6 +129,8 @@ export default function App() {
           setCurrentView={setCurrentView}
           isProfileOpen={isProfileOpen}
           setIsProfileOpen={setIsProfileOpen}
+          currency={currency}
+          setCurrency={setCurrency}
         />
       )}
 
@@ -146,10 +150,10 @@ export default function App() {
               isProcessing={isProcessing}
               isListening={isListening}
               toggleListening={toggleListening}
-              handleAddTransaction={handleAddTransaction}
               error={error}
               filteredTransactions={filteredTransactions}
               setCurrentView={setCurrentView}
+              currency={currency}
             />
 
           )}
@@ -168,6 +172,7 @@ export default function App() {
               setCurrentView={setCurrentView}
               totalIncome={totalIncome}
               totalExpenses={totalExpenses}
+              currency={currency}
             />
           )}
 
@@ -176,11 +181,12 @@ export default function App() {
               editingTransaction={editingTransaction}
               setCurrentView={setCurrentView}
               handleUpdateTransaction={handleUpdateTransaction}
+              currency={currency}
             />
           )}
 
           {currentView === 'analytics' && (
-            <Analytics transactions={transactions} />
+            <Analytics transactions={transactions} currency={currency} />
           )}
 
           {currentView === 'settings' && (

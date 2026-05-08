@@ -16,26 +16,49 @@ interface HeaderProps {
   setCurrentView: (view: ViewType) => void;
   isProfileOpen: boolean;
   setIsProfileOpen: (open: boolean) => void;
+  currency: string;
+  setCurrency: (currency: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ 
-  user, 
+export const Header: React.FC<HeaderProps> = ({
+  user,
   transactions,
   onLogout,
-  isSearchVisible, 
-  searchTerm, 
-  setSearchTerm, 
+  isSearchVisible,
+  searchTerm,
+  setSearchTerm,
   toggleSearch,
   setIsAssistantOpen,
   setCurrentView,
   isProfileOpen,
-  setIsProfileOpen
+  setIsProfileOpen,
+  currency,
+  setCurrency
 }) => {
-  const [currency, setCurrency] = useState('UGX');
   const [exportPeriod, setExportPeriod] = useState<'7d' | '30d' | 'all'>('all');
   const [exportFormat, setExportFormat] = useState<'csv' | 'pdf'>('csv');
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [tempCurrency, setTempCurrency] = useState(currency);
+
+  const currencies = [
+    { code: 'UGX', name: 'Ugandan Shilling', symbol: 'shs' },
+    { code: 'USD', name: 'US Dollar', symbol: '$' },
+    { code: 'EUR', name: 'Euro', symbol: '€' },
+    { code: 'GBP', name: 'British Pound', symbol: '£' },
+    { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+    { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+    { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+    { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+    { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+    { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+    { code: 'RWF', name: 'Rwandan Franc', symbol: 'RF' },
+    { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
+    { code: 'AED', name: 'UAE Dirham', symbol: 'د.إ' },
+    { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$' },
+    { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' }
+
+  ];
 
   const exportTransactions = transactions.filter((tx) => {
     if (exportPeriod === 'all') return true;
@@ -141,7 +164,7 @@ ${312 + length}
 
         <AnimatePresence mode="wait">
           {isSearchVisible ? (
-            <motion.div 
+            <motion.div
               key="search-bar"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -150,7 +173,7 @@ ${312 + length}
             >
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input 
+                <input
                   autoFocus
                   type="text"
                   value={searchTerm}
@@ -164,7 +187,7 @@ ${312 + length}
               </button>
             </motion.div>
           ) : (
-            <motion.div 
+            <motion.div
               key="header-content"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -172,7 +195,7 @@ ${312 + length}
               className="flex-1 flex items-center justify-between"
             >
               <div className="flex items-center gap-3">
-                <button 
+                <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="w-10 h-10 rounded-full overflow-hidden border border-slate-100 shadow-sm active:scale-95 transition-transform"
                 >
@@ -194,30 +217,23 @@ ${312 + length}
                   <MessageCircle className="w-4 h-4 text-indigo-600" />
                   AI chat
                 </button>
-                <button 
-                  onClick={toggleSearch}
-                  className="p-2 text-slate-900 hover:bg-slate-50 rounded-full transition-colors"
-                >
-                  <Search className="w-6 h-6" />
-                </button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* Account Info Dropdown */}
       <AnimatePresence>
         {isProfileOpen && (
           <>
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsProfileOpen(false)}
               className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-40"
             />
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -260,13 +276,11 @@ ${312 + length}
                 </div>
 
                 <div className="mt-8 space-y-3">
-                 
-                
                   <button
                     type="button"
                     onClick={() => {
-                      setIsCurrencyOpen(prev => !prev);
-                      setIsExportOpen(false);
+                      setIsCurrencyOpen(true);
+                      setTempCurrency(currency);
                     }}
                     className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
@@ -355,24 +369,7 @@ ${312 + length}
                     </div>
                     <ChevronRight className="w-3 h-3 text-slate-400" />
                   </button>
-
-                    
                 </div>
-
-              {/*  {isCurrencyOpen && (
-                  <div className="mt-4 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-sm font-semibold text-slate-900 mb-3">Choose currency</p>
-                    <select
-                      value={currency}
-                      onChange={(e) => setCurrency(e.target.value)}
-                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-                    >
-                      {['USD', 'EUR', 'GBP', 'KES', 'NGN', 'ZAR'].map((option) => (
-                        <option key={option} value={option}>{option}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
 
                 {isExportOpen && (
                   <div className="mt-4 rounded-[1.5rem] border border-slate-200 bg-white p-4 shadow-sm">
@@ -415,15 +412,13 @@ ${312 + length}
                   </div>
                 )}
 
-               */}
-
                 <button
                   type="button"
                   onClick={() => {
                     setIsProfileOpen(false);
                     onLogout();
                   }}
-                  className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
+                  className="mt-10 flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-600 shadow-sm transition hover:bg-rose-100"
                 >
                   <LogOut className="w-2.5 h-2.5" />
                   Log out
@@ -433,9 +428,74 @@ ${312 + length}
           </>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+        {isCurrencyOpen && (
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            className="fixed inset-0 z-[60] bg-slate-50"
+          >
+            <div className="flex h-full flex-col">
+              <div className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4">
+                <button
+                  type="button"
+                  onClick={() => setIsCurrencyOpen(false)}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 text-slate-600 shadow-sm transition hover:bg-slate-50"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+                <h2 className="text-lg font-bold text-slate-900">Select Currency</h2>
+                <button
+                  type="button"
+                  disabled={tempCurrency === currency}
+                  onClick={() => {
+                    setCurrency(tempCurrency);
+                    setIsCurrencyOpen(false);
+                  }}
+                  className="rounded-xl bg-indigo-600 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-indigo-100 transition hover:bg-indigo-700 disabled:opacity-50 disabled:shadow-none"
+                >
+                  Set
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-5 py-4">
+                <div className="grid gap-3">
+                  {currencies.map((c) => (
+                    <button
+                      key={c.code}
+                      type="button"
+                      onClick={() => setTempCurrency(c.code)}
+                      className={`flex items-center justify-between rounded-2xl border p-4 transition-all ${tempCurrency === c.code
+                          ? 'border-indigo-500 bg-indigo-50/50 ring-2 ring-indigo-500/10'
+                          : 'border-slate-200 bg-white hover:border-slate-300'
+                        }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`flex h-12 w-12 items-center justify-center rounded-2xl text-lg font-bold shadow-sm transition-colors ${tempCurrency === c.code ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
+                          }`}>
+                          {c.symbol}
+                        </div>
+                        <div className="text-left">
+                          <p className="font-bold text-slate-900">{c.code}</p>
+                          <p className="text-xs text-slate-500">{c.name}</p>
+                        </div>
+                      </div>
+                      {tempCurrency === c.code && (
+                        <div className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white">
+                          <Crown className="w-3 h-3" />
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
-
-
-

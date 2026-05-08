@@ -8,6 +8,7 @@ interface MonthSelectorProps {
   setSelectedMonth: (month: string) => void;
   totalIncome: number;
   totalExpenses: number;
+  currency: string;
 }
 
 const toLocalMonthKey = (date: Date) => {
@@ -19,7 +20,8 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
   selectedMonth,
   setSelectedMonth,
   totalIncome,
-  totalExpenses
+  totalExpenses,
+  currency
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -87,7 +89,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
           <div className="min-w-0">
             <p className="text-[7px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5 sm:mb-1">Income</p>
             <p className="text-[10px] sm:text-base font-bold text-emerald-600 truncate">
-              {formatCurrency(totalIncome)}
+              {formatCurrency(totalIncome, currency)}
             </p>
           </div>
         </div>
@@ -99,7 +101,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
           <div className="min-w-0">
             <p className="text-[7px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5 sm:mb-1">Expenses</p>
             <p className="text-[10px] sm:text-base font-bold text-rose-600 truncate">
-              -{formatCurrency(totalExpenses)}
+              -{formatCurrency(totalExpenses, currency)}
             </p>
           </div>
         </div>

@@ -18,6 +18,7 @@ import { MonthSelector } from '../components/MonthSelector';
 
 interface AnalyticsProps {
   transactions: Transaction[];
+  currency: string;
 }
 
 const chartColors = ['#4f46e5', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#f43f5e'];
@@ -60,6 +61,7 @@ const buildCategoryData = (transactions: Transaction[], type: 'income' | 'expens
 
 export const Analytics: React.FC<AnalyticsProps> = ({
   transactions,
+  currency
 }) => {
   const [selectedMonth, setSelectedMonth] = React.useState<string>(() => toLocalMonthKey(new Date()));
   const [topCategoryType, setTopCategoryType] = React.useState<'income' | 'expense'>('expense');
@@ -91,7 +93,8 @@ export const Analytics: React.FC<AnalyticsProps> = ({
     data: ReturnType<typeof buildCategoryData>,
     total: number,
     emptyIcon: React.ElementType,
-    emptyText: string
+    emptyText: string,
+    currencyCode: string
   ) => {
     const EmptyIcon = emptyIcon;
 
@@ -99,7 +102,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
       <div className="bg-white p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-base sm:text-lg font-bold text-slate-900">{title}</h3>
-          <p className="text-xs font-bold text-slate-400">{formatCurrency(total)}</p>
+          <p className="text-xs font-bold text-slate-400">{formatCurrency(total, currencyCode)}</p>
         </div>
 
         <div className="h-[220px] sm:h-[260px]">
@@ -121,7 +124,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
                 </Pie>
                 <Tooltip
                   contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                  formatter={(value) => formatCurrency(Number(value) || 0)}
+                  formatter={(value) => formatCurrency(Number(value) || 0, currencyCode)}
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -167,11 +170,12 @@ export const Analytics: React.FC<AnalyticsProps> = ({
         setSelectedMonth={setSelectedMonth}
         totalIncome={totalIncome}
         totalExpenses={totalExpenses}
+        currency={currency}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-        {renderCategoryPie('Income', incomeData, totalIncome, TrendingUp, 'No income data yet')}
-        {renderCategoryPie('Expenses', expenseData, totalExpenses, TrendingDown, 'No expense data yet')}
+        {renderCategoryPie('Income', incomeData, totalIncome, TrendingUp, 'No income data yet', currency)}
+        {renderCategoryPie('Expenses', expenseData, totalExpenses, TrendingDown, 'No expense data yet', currency)}
       </div>
 
       <div className="bg-white p-5 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 shadow-sm">
@@ -200,7 +204,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
               <div key={item.name} className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between gap-3 text-xs sm:text-sm">
                   <span className="font-bold text-slate-700 truncate">{item.name}</span>
-                  <span className="font-bold text-slate-900 whitespace-nowrap">{formatCurrency(item.amount)}</span>
+                  <span className="font-bold text-slate-900 whitespace-nowrap">{formatCurrency(item.amount, currency)}</span>
                 </div>
                 <div className="h-2 bg-slate-50 rounded-full overflow-hidden">
                   <motion.div

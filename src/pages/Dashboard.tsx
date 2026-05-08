@@ -30,6 +30,7 @@ interface DashboardProps {
   error: string | null;
   filteredTransactions: Transaction[];
   setCurrentView: (view: 'dashboard' | 'history' | 'analytics' | 'settings' | 'editTransaction') => void;
+  currency: string;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -45,7 +46,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
   handleAddTransaction,
   error,
   filteredTransactions,
-  setCurrentView
+  setCurrentView,
+  currency
 }) => {
 
   return (
@@ -64,7 +66,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500">Income</span>
           </div>
           <h2 className="min-w-0 break-all text-[clamp(0.8rem,4vw,1.25rem)] font-bold leading-tight text-emerald-600 sm:text-[clamp(1rem,2.8vw,1.5rem)]">
-            {formatCurrency(totalIncome)}
+            {formatCurrency(totalIncome, currency)}
           </h2>
         </div>
 
@@ -74,7 +76,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500">Expenses</span>
           </div>
           <h2 className="min-w-0 break-all text-[clamp(0.8rem,4vw,1.25rem)] font-bold leading-tight text-rose-600 sm:text-[clamp(1rem,2.8vw,1.5rem)]">
-            {formatCurrency(totalExpenses)}
+            {formatCurrency(totalExpenses, currency)}
           </h2>
         </div>
       </div>
@@ -224,7 +226,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               }`}
             >
               {tx.type === "income" ? "+" : "-"}
-              {formatCurrency(tx.amount)}
+              {formatCurrency(tx.amount, currency)}
             </span>
           </div>
         </motion.div>

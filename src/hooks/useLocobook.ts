@@ -80,6 +80,9 @@ export const useLocobook = () => {
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState<string>(toLocalMonthKey(new Date()));
   const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null);
+  const [currency, setCurrency] = useState<string>(() => {
+    return localStorage.getItem('locobook-currency') || 'UGX';
+  });
 
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [assistantInput, setAssistantInput] = useState('');
@@ -106,6 +109,10 @@ export const useLocobook = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('locobook-currency', currency);
+  }, [currency]);
 
   async function testConnection(currentUser: User) {
     try {
@@ -275,9 +282,9 @@ export const useLocobook = () => {
     try {
       const context = `
 Summary:
-Total Income: ${formatCurrency(totalIncome)}
-Total Expenses: ${formatCurrency(totalExpenses)}
-Current Balance: ${formatCurrency(balance)}
+Total Income: ${formatCurrency(totalIncome, currency)}
+Total Expenses: ${formatCurrency(totalExpenses, currency)}
+Current Balance: ${formatCurrency(balance, currency)}
 
 Recent Transactions:
 ${transactions.slice(0, 10).map(t =>
@@ -368,6 +375,8 @@ ${transactions.slice(0, 10).map(t =>
     setSearchTerm,
     isSearchVisible,
     setIsSearchVisible,
-    toggleSearch: () => setIsSearchVisible(prev => !prev)
+    toggleSearch: () => setIsSearchVisible(prev => !prev),
+    currency,
+    setCurrency
   };
 };

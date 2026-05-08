@@ -27,6 +27,7 @@ interface HistoryProps {
   setCurrentView: (view: ViewType) => void;
   totalIncome: number;
   totalExpenses: number;
+  currency: string;
 }
 
 export const History: React.FC<HistoryProps> = ({
@@ -41,7 +42,8 @@ export const History: React.FC<HistoryProps> = ({
   handleEditTransaction,
   setCurrentView,
   totalIncome,
-  totalExpenses
+  totalExpenses,
+  currency
 }) => {
   // Group by date
   const groupedTransactions: Record<string, Transaction[]> = {};
@@ -74,6 +76,7 @@ export const History: React.FC<HistoryProps> = ({
         setSelectedMonth={setSelectedMonth}
         totalIncome={totalIncome}
         totalExpenses={totalExpenses}
+        currency={currency}
       />
 
       {/* Action Filters (Type & Date) */}
@@ -162,7 +165,7 @@ export const History: React.FC<HistoryProps> = ({
                       </div>
                       <div className="flex flex-col items-end gap-0.5 sm:gap-1 flex-shrink-0 ml-2">
                         <span className={`text-[11px] sm:text-lg font-bold whitespace-nowrap ${tx.type === 'income' ? 'text-emerald-600' : 'text-rose-600'}`}>
-                          {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount)}
+                          {tx.type === 'income' ? '+' : '-'}{formatCurrency(tx.amount, currency)}
                         </span>
                         {tx.category && (
                           <div className="text-emerald-500">

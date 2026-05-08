@@ -8,12 +8,14 @@ interface EditTransactionProps {
   editingTransaction: Transaction | null;
   setCurrentView: React.Dispatch<React.SetStateAction<ViewType>>;
   handleUpdateTransaction: (updatedTransaction: Transaction) => void;
+  currency: string;
 }
 
 export const EditTransaction: React.FC<EditTransactionProps> = ({
   editingTransaction,
   setCurrentView,
   handleUpdateTransaction,
+  currency,
 }) => {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
@@ -101,7 +103,7 @@ export const EditTransaction: React.FC<EditTransactionProps> = ({
               inputMode="decimal"
             />
           </div>
-          <p className="mt-2 text-xs text-slate-400">Current: {formatCurrency(editingTransaction.amount)}</p>
+          <p className="mt-2 text-xs text-slate-400">Current: {formatCurrency(editingTransaction.amount, currency)}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
