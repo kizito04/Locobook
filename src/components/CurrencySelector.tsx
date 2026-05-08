@@ -77,7 +77,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-base font-bold shadow-sm transition-colors ${
+                      <div className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm font-bold shadow-sm transition-colors ${
                         tempCurrency === c.code ? 'bg-amber-500 text-white' : 'bg-amber-100 text-amber-600'
                       }`}>
                         {c.symbol}

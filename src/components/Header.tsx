@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [isExportOpen, setIsExportOpen] = useState(false);
 
   return (
-    <header className="bg-white border-b border-slate-50 sticky top-0 z-40">
+    <header className="bg-white/95 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-40 w-full shadow-sm">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         <AnimatePresence mode="wait">
           {isSearchVisible ? (
@@ -91,11 +91,18 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
+                  onClick={toggleSearch}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 transition-colors"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
                   onClick={() => setIsAssistantOpen(true)}
                   aria-label="Open AI chat"
-                  className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3.5 py-1.5 text-xs font-bold text-amber-700 hover:bg-amber-100 transition-all shadow-sm shadow-amber-50 active:scale-95"
+                  className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3.5 py-1.5 text-xs font-bold text-blue-700 hover:bg-blue-100 transition-all shadow-sm shadow-blue-50 active:scale-95"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                  <Sparkles className="w-3.5 h-3.5 text-blue-500 fill-blue-500" />
                   AI chat
                 </button>
               </div>
@@ -162,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => {
                       setIsCurrencyOpen(true);
                     }}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
                       <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -181,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => {
                       setIsExportOpen(true);
                     }}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
                       <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -198,7 +205,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <button
                     type="button"
                     onClick={() => window.open('mailto:kizitoahaisibwe04@gmail.com', '_blank')}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
                       <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -215,7 +222,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <button
                     type="button"
                     onClick={() => window.open('https://example.com/rate', '_blank')}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
                       <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
@@ -235,7 +242,7 @@ export const Header: React.FC<HeaderProps> = ({
                       setCurrentView('settings');
                       setIsProfileOpen(false);
                     }}
-                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-left shadow-sm transition hover:border-slate-300"
+                    className="flex w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-left shadow-sm transition hover:border-slate-300"
                   >
                     <div className="flex items-center gap-3">
                       <div className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
