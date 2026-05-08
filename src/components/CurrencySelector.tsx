@@ -8,13 +8,15 @@ interface CurrencySelectorProps {
   onClose: () => void;
   currentCurrency: string;
   onSelect: (code: string) => void;
+  onSelectComplete?: () => void;
 }
 
 export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
   isOpen,
   onClose,
   currentCurrency,
-  onSelect
+  onSelect,
+  onSelectComplete
 }) => {
   const [tempCurrency, setTempCurrency] = useState(currentCurrency);
 
@@ -38,7 +40,10 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
             <div className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={() => {
+                  onClose();
+                  if (onSelectComplete) onSelectComplete();
+                }}
                 className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 text-slate-600 shadow-sm transition hover:bg-slate-50"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -50,6 +55,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
                 onClick={() => {
                   onSelect(tempCurrency);
                   onClose();
+                  if (onSelectComplete) onSelectComplete();
                 }}
                 className="rounded-xl bg-amber-500 px-5 py-2 text-sm font-bold text-white shadow-lg shadow-amber-100 transition hover:bg-amber-600 disabled:opacity-50 disabled:shadow-none"
               >
@@ -64,7 +70,7 @@ export const CurrencySelector: React.FC<CurrencySelectorProps> = ({
                     key={c.code}
                     type="button"
                     onClick={() => setTempCurrency(c.code)}
-                    className={`flex items-center justify-between rounded-xl border px-3 py-2.5 transition-all ${
+                    className={`flex items-center justify-between rounded-xl border px-3 py-1.5 transition-all ${
                       tempCurrency === c.code
                         ? 'border-amber-500 bg-amber-50/50 ring-2 ring-amber-500/20 shadow-sm'
                         : 'border-slate-200 bg-white hover:border-slate-300'

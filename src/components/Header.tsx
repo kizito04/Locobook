@@ -414,6 +414,10 @@ ${312 + length}
         onClose={() => setIsCurrencyOpen(false)}
         currentCurrency={currency}
         onSelect={(code) => setCurrency(code)}
+        onSelectComplete={() => {
+          setIsProfileOpen(false);
+          setCurrentView('dashboard');
+        }}
       />
     </header>
   );

@@ -113,7 +113,43 @@ export const useLocobook = () => {
 
   useEffect(() => {
     localStorage.setItem('locobook-currency', currency);
-  }, [currency]);
+    
+    // Also save to Firestore if user is logged in
+    const saveCurrency = async () => {
+      if (user) {
+        try {
+          await updateDoc(doc(db, 'users', user.uid), {
+            currency: currency
+          });
+        } catch (err) {
+          // If document doesn't exist, we might need to set it, but usually it's created on first login
+          // For now just console error as it's a non-critical preference
+          console.error('Failed to save currency to Firestore:', err);
+        }
+      }
+    };
+    saveCurrency();
+  }, [currency, user]);
+
+  // Fetch currency from Firestore on login
+  useEffect(() => {
+    const fetchUserPrefs = async () => {
+      if (user) {
+        try {
+          const userDoc = await getDocFromServer(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            const data = userDoc.data();
+            if (data.currency) {
+              setCurrency(data.currency);
+            }
+          }
+        } catch (err) {
+          console.error('Failed to fetch user preferences:', err);
+        }
+      }
+    };
+    fetchUserPrefs();
+  }, [user]);
 
   async function testConnection(currentUser: User) {
     try {
