@@ -19,7 +19,8 @@ import {
   writeBatch,
   Timestamp,
   getDocFromServer,
-  updateDoc
+  updateDoc,
+  setDoc
 } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 import {
@@ -118,12 +119,10 @@ export const useLocobook = () => {
     const saveCurrency = async () => {
       if (user) {
         try {
-          await updateDoc(doc(db, 'users', user.uid), {
+          await setDoc(doc(db, 'users', user.uid), {
             currency: currency
-          });
+          }, { merge: true });
         } catch (err) {
-          // If document doesn't exist, we might need to set it, but usually it's created on first login
-          // For now just console error as it's a non-critical preference
           console.error('Failed to save currency to Firestore:', err);
         }
       }
