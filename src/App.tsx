@@ -150,6 +150,7 @@ export default function App() {
               isProcessing={isProcessing}
               isListening={isListening}
               toggleListening={toggleListening}
+              handleAddTransaction={handleAddTransaction}
               error={error}
               filteredTransactions={filteredTransactions}
               setCurrentView={setCurrentView}
