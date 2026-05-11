@@ -7,7 +7,8 @@ import {
   X, 
   Save, 
   Info,
-  Tag
+  Tag,
+  Sparkles
 } from 'lucide-react';
 import { ViewType } from '../types';
 
