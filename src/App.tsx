@@ -7,6 +7,8 @@ import { History } from './pages/History';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
 import { EditTransaction } from './pages/EditTransaction';
+import { BusinessRegistration } from './pages/BusinessRegistration';
+import { BusinessHub } from './pages/BusinessHub';
 import { LoginPage } from './components/LoginPage';
 import { CreateAccountPage } from './components/CreateAccountPage';
 import { useLocobook } from './hooks/useLocobook';
@@ -58,7 +60,12 @@ export default function App() {
     isAssistantTyping,
     handleAssistantSubmit,
     currency,
-    setCurrency
+    setCurrency,
+    businesses,
+    activeBusinessId,
+    setActiveBusinessId,
+    handleAddBusiness,
+    activeBusiness
   } = useLocobook();
 
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -136,6 +143,7 @@ export default function App() {
           setIsProfileOpen={setIsProfileOpen}
           currency={currency}
           setCurrency={setCurrency}
+          activeBusinessName={activeBusiness?.name || null}
         />
       )}
 
@@ -160,8 +168,25 @@ export default function App() {
               filteredTransactions={filteredTransactions}
               setCurrentView={setCurrentView}
               currency={currency}
+              activeBusinessName={activeBusiness?.name || null}
             />
 
+          )}
+
+          {currentView === 'businessHub' && (
+            <BusinessHub 
+              businesses={businesses}
+              activeBusinessId={activeBusinessId}
+              setActiveBusinessId={setActiveBusinessId}
+              setCurrentView={setCurrentView}
+            />
+          )}
+
+          {currentView === 'businessRegistration' && (
+            <BusinessRegistration 
+              setCurrentView={setCurrentView}
+              handleAddBusiness={handleAddBusiness}
+            />
           )}
 
           {currentView === 'history' && (

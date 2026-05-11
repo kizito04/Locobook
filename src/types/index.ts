@@ -5,6 +5,16 @@ export interface Transaction extends ParsedTransaction {
   id: string;
   date: Timestamp;
   userId: string;
+  businessId?: string | null;
+}
+
+export interface Business {
+  id: string;
+  name: string;
+  description?: string;
+  ownerId: string;
+  categories: string[];
+  createdAt: Timestamp;
 }
 
 export interface ChatMessage {
@@ -40,4 +50,4 @@ export interface FirestoreErrorInfo {
   }
 }
 
-export type ViewType = 'dashboard' | 'history' | 'analytics' | 'settings' | 'editTransaction';
+export type ViewType = 'dashboard' | 'history' | 'analytics' | 'settings' | 'editTransaction' | 'businessRegistration' | 'businessHub';

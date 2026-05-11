@@ -25,6 +25,7 @@ import {
 import { auth, db } from '../firebase';
 import {
   Transaction,
+  Business,
   ChatMessage,
   OperationType,
   ViewType
@@ -85,6 +86,9 @@ export const useLocobook = () => {
   const [currency, setCurrency] = useState<string>(() => {
     return localStorage.getItem('locobook-currency') || 'UGX';
   });
+
+  const [businesses, setBusinesses] = useState<Business[]>([]);
+  const [activeBusinessId, setActiveBusinessId] = useState<string | null>(null);
 
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [assistantInput, setAssistantInput] = useState('');
@@ -190,16 +194,18 @@ export const useLocobook = () => {
   useEffect(() => {
     if (!user) {
       setTransactions([]);
+      setBusinesses([]);
       return;
     }
 
-    const q = query(
+    // Transactions listener
+    const qTxs = query(
       collection(db, 'transactions'),
       where('userId', '==', user.uid),
       orderBy('date', 'desc')
     );
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribeTxs = onSnapshot(qTxs, (snapshot) => {
       const txs = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
@@ -209,7 +215,27 @@ export const useLocobook = () => {
       handleFirestoreError(error, OperationType.LIST, 'transactions');
     });
 
-    return () => unsubscribe();
+    // Businesses listener
+    const qBiz = query(
+      collection(db, 'businesses'),
+      where('ownerId', '==', user.uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const unsubscribeBiz = onSnapshot(qBiz, (snapshot) => {
+      const biz = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Business[];
+      setBusinesses(biz);
+    }, (error) => {
+      handleFirestoreError(error, OperationType.LIST, 'businesses');
+    });
+
+    return () => {
+      unsubscribeTxs();
+      unsubscribeBiz();
+    };
   }, [user]);
 
   // --- Auth Actions ---
@@ -242,6 +268,7 @@ export const useLocobook = () => {
         amount: baseAmount,
         category: parsed.category || 'Uncategorized',
         userId: user.uid,
+        businessId: activeBusinessId,
         date: Timestamp.now()
       });
 
@@ -250,6 +277,23 @@ export const useLocobook = () => {
       setError(err.message || 'Failed to process transaction.');
     } finally {
       setIsProcessing(false);
+    }
+  };
+
+  const handleAddBusiness = async (name: string, description: string, categories: string[]) => {
+    if (!user) return;
+    try {
+      const docRef = await addDoc(collection(db, 'businesses'), {
+        name,
+        description,
+        ownerId: user.uid,
+        categories,
+        createdAt: Timestamp.now()
+      });
+      setActiveBusinessId(docRef.id);
+      setCurrentView('dashboard');
+    } catch (err) {
+      handleFirestoreError(err, OperationType.CREATE, 'businesses');
     }
   };
 
@@ -411,6 +455,13 @@ ${transactions.slice(0, 10).map(t =>
   const filteredTransactions = transactions.filter(t => {
     const txDate = t.date.toDate();
 
+    // Filter by business context first (Strict Separation)
+    const matchesBusiness = activeBusinessId === null 
+      ? !t.businessId 
+      : t.businessId === activeBusinessId;
+
+    if (!matchesBusiness) return false;
+
     const matchesMonth = isWithinRange(txDate, selectedMonthStart, selectedMonthEnd);
     const matchesDate = isWithinRange(txDate, selectedDateStart, selectedDateEnd);
     const matchesType = filter === 'all' ? true : t.type === filter;
@@ -481,6 +532,11 @@ ${transactions.slice(0, 10).map(t =>
       setIsSearchVisible(prev => !prev);
     },
     currency,
-    setCurrency
+    setCurrency,
+    businesses,
+    activeBusinessId,
+    setActiveBusinessId,
+    handleAddBusiness,
+    activeBusiness: businesses.find(b => b.id === activeBusinessId) || null
   };
 };

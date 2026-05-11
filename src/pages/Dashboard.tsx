@@ -11,7 +11,9 @@ import {
   Sparkles,
   Send,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Building2,
+  Briefcase
 } from 'lucide-react';
 import { Transaction } from '../types';
 import { formatCurrency } from '../utils/formatters';
@@ -29,8 +31,9 @@ interface DashboardProps {
   handleAddTransaction: (e?: React.FormEvent) => void;
   error: string | null;
   filteredTransactions: Transaction[];
-  setCurrentView: (view: 'dashboard' | 'history' | 'analytics' | 'settings' | 'editTransaction') => void;
   currency: string;
+  activeBusinessName: string | null;
+  setCurrentView: (view: any) => void;
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({
@@ -47,7 +50,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
   error,
   filteredTransactions,
   setCurrentView,
-  currency
+  currency,
+  activeBusinessName
 }) => {
 
   return (
@@ -84,8 +88,23 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* Add Transaction Section */}
       <div className="space-y-3 sm:space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg sm:text-2xl font-bold text-slate-900">Add Transaction</h3>
-          <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600" />
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg sm:text-2xl font-bold text-slate-900">
+              {activeBusinessName ? `${activeBusinessName}` : 'Add Transaction'}
+            </h3>
+            {activeBusinessName && (
+              <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-md uppercase tracking-wider">
+                Business
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => setCurrentView('businessHub')}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 rounded-full text-[10px] sm:text-xs font-bold text-slate-600 hover:border-indigo-200 transition-all shadow-sm"
+          >
+            <Briefcase className="w-3 h-3 text-indigo-500" />
+            MANAGE BUSINESS
+          </button>
         </div>
 
         <form onSubmit={handleAddTransaction} className="flex items-end gap-2 sm:gap-3">
@@ -99,7 +118,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
               }}
               onFocus={() => setIsInputFocused(true)}
               onBlur={() => setIsInputFocused(false)}
-              placeholder='Describe transaction...'
+              placeholder={activeBusinessName ? `Add ${activeBusinessName} transaction...` : 'Describe transaction...'}
               rows={1}
               className={`max-h-36 min-h-[48px] w-full resize-none overflow-y-auto bg-white border border-slate-200 rounded-xl sm:rounded-2xl py-3 sm:py-4 pl-4 sm:pl-6 pr-10 sm:pr-12 text-sm sm:text-base leading-relaxed focus:outline-none focus:border-indigo-500 transition-all shadow-sm ${isInputFocused ? 'ring-4 ring-indigo-50' : ''}`}
               disabled={isProcessing}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from 'firebase/auth';
-import { ArrowLeft, UserCircle, Search, X, LogOut, ChevronRight, MessageCircle, Download, RefreshCcw, Layers, DollarSign, MessageSquare, Star, Sparkles, Settings as SettingsIcon } from 'lucide-react';
+import { ArrowLeft, UserCircle, Search, X, LogOut, ChevronRight, MessageCircle, Download, RefreshCcw, Layers, DollarSign, MessageSquare, Star, Sparkles, Settings as SettingsIcon, Briefcase } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Transaction, ViewType } from '../types';
 import { CurrencySelector } from './CurrencySelector';
@@ -20,6 +20,7 @@ interface HeaderProps {
   setIsProfileOpen: (open: boolean) => void;
   currency: string;
   setCurrency: (currency: string) => void;
+  activeBusinessName: string | null;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -35,7 +36,8 @@ export const Header: React.FC<HeaderProps> = ({
   isProfileOpen,
   setIsProfileOpen,
   currency,
-  setCurrency
+  setCurrency,
+  activeBusinessName
 }) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
@@ -86,9 +88,27 @@ export const Header: React.FC<HeaderProps> = ({
                     <UserCircle className="w-full h-full text-slate-300" />
                   )}
                 </button>
-                <h1 className="text-lg font-bold text-slate-900 tracking-tight">Locobook</h1>
+                <h1 className="text-lg font-bold text-slate-900 tracking-tight">
+                  {activeBusinessName ? activeBusinessName : 'Locobook'}
+                </h1>
+                {activeBusinessName ? (
+                  <span className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-[10px] font-bold rounded-md uppercase tracking-wider">
+                    Business
+                  </span>
+                ) : (
+                  <span className="px-2 py-0.5 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-md uppercase tracking-wider">
+                    Personal
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentView('businessHub')}
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 transition-colors"
+                  title="Switch Context"
+                >
+                  <Briefcase className="w-4 h-4" />
+                </button>
                 <button
                   type="button"
                   onClick={toggleSearch}
