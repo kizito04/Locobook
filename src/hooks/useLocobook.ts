@@ -280,14 +280,13 @@ export const useLocobook = () => {
     }
   };
 
-  const handleAddBusiness = async (name: string, description: string, categories: string[]) => {
+  const handleAddBusiness = async (name: string, description: string) => {
     if (!user) return;
     try {
       const docRef = await addDoc(collection(db, 'businesses'), {
         name,
         description,
         ownerId: user.uid,
-        categories,
         createdAt: Timestamp.now()
       });
       setActiveBusinessId(docRef.id);

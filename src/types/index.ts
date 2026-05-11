@@ -13,7 +13,6 @@ export interface Business {
   name: string;
   description?: string;
   ownerId: string;
-  categories: string[];
   createdAt: Timestamp;
 }
 

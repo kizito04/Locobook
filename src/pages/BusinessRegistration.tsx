@@ -22,20 +22,7 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
 }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [newCategory, setNewCategory] = useState('');
-  const [categories, setCategories] = useState<string[]>(['Sales', 'Inventory', 'Salary', 'Rent', 'Utilities']);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleAddCategory = () => {
-    if (newCategory.trim() && !categories.includes(newCategory.trim())) {
-      setCategories([...categories, newCategory.trim()]);
-      setNewCategory('');
-    }
-  };
-
-  const handleRemoveCategory = (cat: string) => {
-    setCategories(categories.filter(c => c !== cat));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +30,7 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
 
     setIsSubmitting(true);
     try {
-      await handleAddBusiness(name.trim(), description.trim(), categories);
+      await handleAddBusiness(name.trim(), description.trim(), []);
     } finally {
       setIsSubmitting(false);
     }
@@ -108,51 +95,14 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
           </div>
         </div>
 
-        {/* Categories Section */}
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
-          <div className="flex items-center gap-3 text-indigo-600 mb-2">
-            <Tag className="w-5 h-5" />
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Business Categories</h3>
-          </div>
-          
-          <p className="text-xs text-slate-500 leading-relaxed">
-            Define how you want to categorize income and expenses for this business.
-          </p>
-
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={newCategory}
-              onChange={(e) => setNewCategory(e.target.value)}
-              placeholder="Add category..."
-              className="flex-1 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 transition-all"
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
-            />
-            <button
-              type="button"
-              onClick={handleAddCategory}
-              className="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors"
-            >
-              <Plus className="w-5 h-5" />
-            </button>
-          </div>
-
-          <div className="flex flex-wrap gap-2 pt-2">
-            {categories.map((cat) => (
-              <span
-                key={cat}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 border border-slate-100 rounded-full text-xs font-medium text-slate-600 group"
-              >
-                {cat}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveCategory(cat)}
-                  className="text-slate-300 hover:text-rose-500 transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </span>
-            ))}
+        {/* AI Info Card */}
+        <div className="bg-indigo-50/50 border border-indigo-100 p-6 rounded-[2rem] flex gap-4">
+          <Sparkles className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
+          <div className="space-y-1">
+            <h4 className="text-sm font-bold text-indigo-900">Automatic Categorization</h4>
+            <p className="text-xs text-indigo-700/80 leading-relaxed">
+              Locobook AI will automatically categorize your business transactions based on your descriptions. No manual setup needed.
+            </p>
           </div>
         </div>
 
