@@ -65,6 +65,8 @@ export default function App() {
     activeBusinessId,
     setActiveBusinessId,
     handleAddBusiness,
+    handleUpdateBusiness,
+    handleDeleteBusiness,
     activeBusiness
   } = useLocobook();
 
