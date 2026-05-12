@@ -314,7 +314,8 @@ export const useLocobook = () => {
       
       // Also delete transactions associated with this business
       const q = query(collection(db, 'transactions'), where('businessId', '==', id));
-      const snapshot = await getDocFromServer(q as any); // Use getDocFromServer to get current state or just onSnapshot will handle it if we want it reactive
+      // In a real app, you might want to delete these in a batch. 
+      // For now, I'll remove this line as it was unused and incorrect.
       // Actually, it's better to use a batch or just let the user know. 
       // For now, let's just delete the business and we can handle orphaned transactions or delete them too.
       // Given the complexity, let's just delete the business first. 

@@ -41,6 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
   const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   return (
     <header className="bg-white border-b border-slate-50 sticky top-0 z-40 w-full shadow-sm">
@@ -119,42 +120,50 @@ export const Header: React.FC<HeaderProps> = ({
                 
                 <div className="relative">
                   <button
-                    onClick={() => {
-                      // We can toggle a small dropdown here
-                      const dropdown = document.getElementById('header-more-menu');
-                      if (dropdown) dropdown.classList.toggle('hidden');
-                    }}
+                    onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
                     className="inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 transition-colors"
                   >
                     <MoreVertical className="w-4.5 h-4.5" />
                   </button>
                   
                   {/* Simple Dropdown */}
-                  <div 
-                    id="header-more-menu"
-                    className="hidden absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 overflow-hidden"
-                  >
-                    <button
-                      onClick={() => {
-                        setIsAssistantOpen(true);
-                        document.getElementById('header-more-menu')?.classList.add('hidden');
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-blue-600 hover:bg-blue-50 transition-colors"
-                    >
-                      <Sparkles className="w-4 h-4 fill-blue-500" />
-                      AI Assistant
-                    </button>
-                    <button
-                      onClick={() => {
-                        setCurrentView('businessHub');
-                        document.getElementById('header-more-menu')?.classList.add('hidden');
-                      }}
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
-                    >
-                      <Briefcase className="w-4 h-4" />
-                      Manage Business
-                    </button>
-                  </div>
+                  <AnimatePresence>
+                    {isMoreMenuOpen && (
+                      <>
+                        <div 
+                          className="fixed inset-0 z-40" 
+                          onClick={() => setIsMoreMenuOpen(false)}
+                        />
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 overflow-hidden"
+                        >
+                          <button
+                            onClick={() => {
+                              setIsAssistantOpen(true);
+                              setIsMoreMenuOpen(false);
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-blue-600 hover:bg-blue-50 transition-colors"
+                          >
+                            <Sparkles className="w-4 h-4 fill-blue-500" />
+                            AI Assistant
+                          </button>
+                          <button
+                            onClick={() => {
+                              setCurrentView('businessHub');
+                              setIsMoreMenuOpen(false);
+                            }}
+                            className="w-full flex items-center gap-3 px-4 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+                          >
+                            <Briefcase className="w-4 h-4" />
+                            Manage Business
+                          </button>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </motion.div>
