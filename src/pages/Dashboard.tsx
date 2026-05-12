@@ -67,17 +67,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-indigo-600 p-6 sm:p-8 rounded-[2rem] text-white shadow-xl shadow-indigo-100 flex flex-col gap-2"
+          className="bg-indigo-600 p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] text-white shadow-xl shadow-indigo-100 flex flex-col gap-1"
         >
           <div className="flex items-center justify-between">
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-indigo-100">Total Balance</span>
-            <Building2 className="w-5 h-5 text-indigo-200 opacity-50" />
+            <span className="text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-100">Total Balance</span>
+            <Building2 className="w-4 h-4 text-indigo-200 opacity-50" />
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight">
+          <h2 className="text-xl sm:text-3xl font-bold tracking-tight truncate">
             {formatCurrency(totalIncome - totalExpenses, currency)}
           </h2>
-          <div className="mt-2 flex items-center gap-2">
-            <div className="px-2 py-1 bg-white/10 rounded-lg text-[9px] font-bold uppercase">
+          <div className="flex items-center gap-2">
+            <div className="px-1.5 py-0.5 bg-white/10 rounded-md text-[8px] font-bold uppercase">
               {activeBusinessName}
             </div>
           </div>

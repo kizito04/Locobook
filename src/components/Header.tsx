@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
                       Business
                     </span>
                   ) : (
-                    <span className="px-1.5 py-0.5 bg-slate-50 text-green-400 text-[8px] font-bold rounded-md uppercase tracking-wider shrink-0">
+                    <span className="px-1.5 py-0.5 bg-slate-50 text-emerald-600 text-[8px] font-bold rounded-md uppercase tracking-wider shrink-0">
                       Personal
                     </span>
                   )}
