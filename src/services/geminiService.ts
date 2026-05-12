@@ -109,43 +109,49 @@ export const TRANSACTION_CATEGORIES = [
   'Uncategorized'
 ].sort((a, b) => a.localeCompare(b));
 
-export async function parseTransaction(input: string): Promise<ParsedTransaction> {
+export async function parseTransaction(input: string): Promise<ParsedTransaction[]> {
   try {
     const categoryGuidance = `Available transaction categories:\n${TRANSACTION_CATEGORIES.map((category) => `- ${category}`).join('\n')}`;
 
     const response = await ai.models.generateContent({
       model: "gemini-3.1-flash-lite-preview",
-      contents: `Parse the following financial transaction input and return a structured JSON object: "${input}"\n\n${categoryGuidance}`,
+      contents: `Identify and parse ALL financial transactions mentioned in this text and return them as a JSON array of objects: "${input}"\n\n${categoryGuidance}`,
       config: {
-        systemInstruction: `You are a financial assistant. Extract the amount, type (income or expense), description, and category from the user's input.
+        systemInstruction: `You are a financial assistant. Extract one or more transactions from the user's input.
+        - If multiple transactions are mentioned, return them all in the array.
         - Amount should be a positive number.
         - Type must be either "income" or "expense".
         - Description should be a short, clear summary.
         - Category must be the single best category from the provided category list.
-        - Prefer the most specific fitting category over a broad one, for example Groceries instead of Food, or Clinic instead of Health.
+        - Prefer the most specific fitting category over a broad one.
         - Consider merchant names, local wording, synonyms, mobile money language, and transaction intent when matching a category.
         - Use Uncategorized only when no listed category reasonably fits.
+        - If the user mentions a total for multiple items, try to break it down if items are listed, otherwise use the total.
         If the input is ambiguous, make your best guess.`,
         responseMimeType: "application/json",
         responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            amount: { type: Type.NUMBER, description: "The transaction amount." },
-            type: { type: Type.STRING, enum: ["income", "expense"], description: "The direction of the money flow." },
-            description: { type: Type.STRING, description: "A brief description of the transaction." },
-            category: { type: Type.STRING, enum: TRANSACTION_CATEGORIES, description: "The category of the transaction." },
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: {
+              amount: { type: Type.NUMBER, description: "The transaction amount." },
+              type: { type: Type.STRING, enum: ["income", "expense"], description: "The direction of the money flow." },
+              description: { type: Type.STRING, description: "A brief description of the transaction." },
+              category: { type: Type.STRING, enum: TRANSACTION_CATEGORIES, description: "The category of the transaction." },
+            },
+            required: ["amount", "type", "description", "category"],
           },
-          required: ["amount", "type", "description", "category"],
         },
       },
     });
 
     const text = response.text;
     if (!text) {
-      throw new Error("Failed to parse transaction: No response.");
+      throw new Error("Failed to parse transactions: No response.");
     }
 
-    return JSON.parse(text) as ParsedTransaction;
+    const parsed = JSON.parse(text);
+    return Array.isArray(parsed) ? parsed : [parsed];
   } catch (error: any) {
     if (error?.status === 503 || error?.message?.includes('503') || error?.message?.includes('high demand')) {
       throw new Error("The service is currently busy due to high demand. Please wait a moment and try again.");

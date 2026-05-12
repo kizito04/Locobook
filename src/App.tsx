@@ -208,6 +208,7 @@ export default function App() {
               totalIncome={totalIncome}
               totalExpenses={totalExpenses}
               currency={currency}
+              activeBusinessName={activeBusiness?.name || null}
             />
           )}
 
@@ -221,7 +222,11 @@ export default function App() {
           )}
 
           {currentView === 'analytics' && (
-            <Analytics transactions={transactions} currency={currency} />
+            <Analytics 
+              transactions={transactions.filter(t => t.businessId === activeBusinessId)} 
+              currency={currency} 
+              activeBusinessName={activeBusiness?.name || null}
+            />
           )}
 
           {currentView === 'settings' && (

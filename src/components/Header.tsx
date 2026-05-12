@@ -94,7 +94,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={() => setCurrentView('businessHub')}
                   className="flex items-center gap-2 px-1.5 py-1 rounded-xl hover:bg-slate-50 transition-colors text-left min-w-0"
                 >
-                  <h1 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight truncate max-w-[120px] sm:max-w-[200px]">
+                  <h1 className="text-base sm:text-xl font-bold text-slate-900 tracking-tight truncate max-w-[150px] sm:max-w-[250px]">
                     {activeBusinessName ? activeBusinessName : 'Locobook'}
                   </h1>
                   {activeBusinessName ? (
@@ -102,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
                       Business
                     </span>
                   ) : (
-                    <span className="px-1.5 py-0.5 bg-slate-50 text-slate-400 text-[8px] font-bold rounded-md uppercase tracking-wider shrink-0">
+                    <span className="px-1.5 py-0.5 bg-slate-50 text-green-400 text-[8px] font-bold rounded-md uppercase tracking-wider shrink-0">
                       Personal
                     </span>
                   )}

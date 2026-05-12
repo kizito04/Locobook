@@ -28,6 +28,7 @@ interface HistoryProps {
   totalIncome: number;
   totalExpenses: number;
   currency: string;
+  activeBusinessName: string | null;
 }
 
 export const History: React.FC<HistoryProps> = ({
@@ -43,7 +44,8 @@ export const History: React.FC<HistoryProps> = ({
   setCurrentView,
   totalIncome,
   totalExpenses,
-  currency
+  currency,
+  activeBusinessName
 }) => {
   // Group by date
   const groupedTransactions: Record<string, Transaction[]> = {};
@@ -77,6 +79,7 @@ export const History: React.FC<HistoryProps> = ({
         totalIncome={totalIncome}
         totalExpenses={totalExpenses}
         currency={currency}
+        showBalance={!!activeBusinessName}
       />
 
       {/* Action Filters (Type & Date) */}

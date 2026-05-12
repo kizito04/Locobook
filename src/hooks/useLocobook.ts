@@ -88,7 +88,9 @@ export const useLocobook = () => {
   });
 
   const [businesses, setBusinesses] = useState<Business[]>([]);
-  const [activeBusinessId, setActiveBusinessId] = useState<string | null>(null);
+  const [activeBusinessId, setActiveBusinessId] = useState<string | null>(() => {
+    return localStorage.getItem('locobook-active-business-id');
+  });
 
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [assistantInput, setAssistantInput] = useState('');
@@ -121,6 +123,41 @@ export const useLocobook = () => {
     });
     return () => unsubscribe();
   }, []);
+
+  // Sync currentView with history for back button support
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (event.state?.view) {
+        setCurrentView(event.state.view);
+      } else {
+        setCurrentView('dashboard');
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    // Set initial state if not present
+    if (!window.history.state) {
+      window.history.replaceState({ view: currentView }, '');
+    }
+
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [currentView]);
+
+  const handleSetCurrentView = (view: ViewType) => {
+    if (view !== currentView) {
+      window.history.pushState({ view }, '');
+      setCurrentView(view);
+    }
+  };
+
+  useEffect(() => {
+    if (activeBusinessId) {
+      localStorage.setItem('locobook-active-business-id', activeBusinessId);
+    } else {
+      localStorage.removeItem('locobook-active-business-id');
+    }
+  }, [activeBusinessId]);
 
   useEffect(() => {
     // Only save to localStorage/Firestore if we've successfully loaded the user's existing prefs
@@ -259,18 +296,22 @@ export const useLocobook = () => {
     setError(null);
 
     try {
-      const parsed = await parseTransaction(input);
-      // Convert the parsed amount from current currency to base currency before saving
-      const baseAmount = convertCurrency(parsed.amount, currency, BASE_CURRENCY);
-
-      await addDoc(collection(db, 'transactions'), {
-        ...parsed,
-        amount: baseAmount,
-        category: parsed.category || 'Uncategorized',
-        userId: user.uid,
-        businessId: activeBusinessId,
-        date: Timestamp.now()
-      });
+      const parsedArray = await parseTransaction(input);
+      
+      const batch = writeBatch(db);
+      for (const parsed of parsedArray) {
+        const baseAmount = convertCurrency(parsed.amount, currency, BASE_CURRENCY);
+        const docRef = doc(collection(db, 'transactions'));
+        batch.set(docRef, {
+          ...parsed,
+          amount: baseAmount,
+          category: parsed.category || 'Uncategorized',
+          userId: user.uid,
+          businessId: activeBusinessId,
+          date: Timestamp.now()
+        });
+      }
+      await batch.commit();
 
       setInput('');
     } catch (err: any) {
@@ -520,7 +561,7 @@ ${transactions.slice(0, 10).map(t =>
     user,
     loading,
     currentView,
-    setCurrentView,
+    setCurrentView: handleSetCurrentView,
     transactions,
     input,
     setInput,

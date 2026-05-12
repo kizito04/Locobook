@@ -9,6 +9,7 @@ interface MonthSelectorProps {
   totalIncome: number;
   totalExpenses: number;
   currency: string;
+  showBalance?: boolean;
 }
 
 const toLocalMonthKey = (date: Date) => {
@@ -21,7 +22,8 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
   setSelectedMonth,
   totalIncome,
   totalExpenses,
-  currency
+  currency,
+  showBalance = false
 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -81,7 +83,21 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-2 gap-2 sm:gap-4">
+      <div className={`grid gap-2 sm:gap-4 ${showBalance ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2'}`}>
+        {showBalance && (
+          <div className="bg-indigo-600 p-3 sm:p-5 rounded-[1rem] sm:rounded-[1.5rem] text-white shadow-sm flex items-center gap-2 sm:gap-4 overflow-hidden col-span-full sm:col-span-1">
+            <div className="w-8 h-8 sm:w-12 sm:h-12 bg-white/20 rounded-lg sm:rounded-2xl flex items-center justify-center flex-shrink-0">
+              <div className="text-[10px] font-bold">BAL</div>
+            </div>
+            <div className="min-w-0">
+              <p className="text-[7px] sm:text-[10px] font-bold text-indigo-100 uppercase tracking-widest mb-0.5 sm:mb-1">Balance</p>
+              <p className="text-[10px] sm:text-base font-bold truncate">
+                {formatCurrency(totalIncome - totalExpenses, currency)}
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="bg-white p-2.5 sm:p-5 rounded-[1rem] sm:rounded-[1.5rem] border border-slate-100 shadow-sm flex items-center gap-2 sm:gap-4 overflow-hidden">
           <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-50 rounded-lg sm:rounded-2xl flex items-center justify-center text-emerald-600 flex-shrink-0">
             <ArrowUpRight className="w-4 h-4 sm:w-6 sm:h-6" />

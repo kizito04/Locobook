@@ -62,6 +62,28 @@ export const Dashboard: React.FC<DashboardProps> = ({
       exit={{ opacity: 0, y: -10 }}
       className="space-y-6 sm:space-y-10"
     >
+      {/* Balance Card - Only show for Business context */}
+      {activeBusinessName && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-indigo-600 p-6 sm:p-8 rounded-[2rem] text-white shadow-xl shadow-indigo-100 flex flex-col gap-2"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-indigo-100">Total Balance</span>
+            <Building2 className="w-5 h-5 text-indigo-200 opacity-50" />
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight">
+            {formatCurrency(totalIncome - totalExpenses, currency)}
+          </h2>
+          <div className="mt-2 flex items-center gap-2">
+            <div className="px-2 py-1 bg-white/10 rounded-lg text-[9px] font-bold uppercase">
+              {activeBusinessName}
+            </div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Income & Expenses Cards */}
       <div className="grid grid-cols-2 gap-3 sm:gap-4">
         <div className="bg-white p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border border-slate-100 shadow-sm flex flex-col gap-1 sm:gap-2">

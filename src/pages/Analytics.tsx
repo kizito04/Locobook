@@ -19,6 +19,7 @@ import { MonthSelector } from '../components/MonthSelector';
 interface AnalyticsProps {
   transactions: Transaction[];
   currency: string;
+  activeBusinessName: string | null;
 }
 
 const chartColors = ['#4f46e5', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#06b6d4', '#f43f5e'];
@@ -61,7 +62,8 @@ const buildCategoryData = (transactions: Transaction[], type: 'income' | 'expens
 
 export const Analytics: React.FC<AnalyticsProps> = ({
   transactions,
-  currency
+  currency,
+  activeBusinessName
 }) => {
   const [selectedMonth, setSelectedMonth] = React.useState<string>(() => toLocalMonthKey(new Date()));
   const [topCategoryType, setTopCategoryType] = React.useState<'income' | 'expense'>('expense');
@@ -171,6 +173,7 @@ export const Analytics: React.FC<AnalyticsProps> = ({
         totalIncome={totalIncome}
         totalExpenses={totalExpenses}
         currency={currency}
+        showBalance={!!activeBusinessName}
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
