@@ -99,11 +99,11 @@ export const Header: React.FC<HeaderProps> = ({
                   </h1>
                   {activeBusinessName ? (
                     <span className="px-1.5 py-0.5 bg-indigo-50 text-indigo-600 text-[8px] font-bold rounded-md uppercase tracking-wider shrink-0">
-                      Biz
+                      Business
                     </span>
                   ) : (
                     <span className="px-1.5 py-0.5 bg-slate-50 text-slate-400 text-[8px] font-bold rounded-md uppercase tracking-wider shrink-0">
-                      Me
+                      Personal
                     </span>
                   )}
                 </button>
