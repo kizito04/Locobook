@@ -85,7 +85,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
       {/* Summary Cards */}
       <div className={`grid gap-2 sm:gap-4 ${showBalance ? 'grid-cols-3' : 'grid-cols-2'}`}>
         {showBalance && (
-          <div className="bg-indigo-600 p-2 sm:p-4 rounded-xl sm:rounded-2xl text-white shadow-sm flex flex-col justify-center gap-0.5 sm:gap-1 overflow-hidden">
+          <div className="bg-indigo-600 p-2 sm:p-4 min-h-[60px] sm:min-h-[80px] rounded-xl sm:rounded-2xl text-white shadow-sm flex flex-col justify-center gap-0.5 sm:gap-1 overflow-hidden">
             <p className="text-[7px] sm:text-[9px] font-bold text-indigo-100 uppercase tracking-wider truncate">Balance</p>
             <p className="text-[10px] sm:text-base font-bold truncate leading-tight">
               {formatCurrency(totalIncome - totalExpenses, currency)}
@@ -93,7 +93,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
           </div>
         )}
 
-        <div className="bg-white p-2 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-center gap-0.5 sm:gap-1 overflow-hidden">
+        <div className="bg-white p-2 sm:p-4 min-h-[60px] sm:min-h-[80px] rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-center gap-0.5 sm:gap-1 overflow-hidden">
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-emerald-500 shrink-0" />
             <p className="text-[7px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-wider truncate">Income</p>
@@ -103,7 +103,7 @@ export const MonthSelector: React.FC<MonthSelectorProps> = ({
           </p>
         </div>
 
-        <div className="bg-white p-2 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-center gap-0.5 sm:gap-1 overflow-hidden">
+        <div className="bg-white p-2 sm:p-4 min-h-[60px] sm:min-h-[80px] rounded-xl sm:rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-center gap-0.5 sm:gap-1 overflow-hidden">
           <div className="flex items-center gap-1">
             <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-rose-500 shrink-0" />
             <p className="text-[7px] sm:text-[9px] font-bold text-slate-400 uppercase tracking-wider truncate">Expenses</p>

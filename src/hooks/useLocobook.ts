@@ -531,9 +531,7 @@ ${transactions.slice(0, 10).map(t =>
     const txDate = t.date.toDate();
 
     // Filter by business context first (Strict Separation)
-    const matchesBusiness = activeBusinessId === null 
-      ? !t.businessId 
-      : t.businessId === activeBusinessId;
+    const matchesBusiness = (t.businessId === activeBusinessId) || (!t.businessId && !activeBusinessId);
 
     if (!matchesBusiness) return false;
 

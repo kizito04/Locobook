@@ -223,7 +223,7 @@ export default function App() {
 
           {currentView === 'analytics' && (
             <Analytics 
-              transactions={transactions.filter(t => t.businessId === activeBusinessId)} 
+              transactions={transactions.filter(t => (t.businessId === activeBusinessId) || (!t.businessId && !activeBusinessId))} 
               currency={currency} 
               activeBusinessName={activeBusiness?.name || null}
             />
