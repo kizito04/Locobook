@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 import {
   User,
@@ -522,38 +522,48 @@ ${transactions.slice(0, 10).map(t =>
   };
 
   // --- Calculations ---
-  const selectedMonthStart = selectedMonth ? parseLocalMonthKey(selectedMonth) : null;
-  const selectedMonthEnd = selectedMonthStart ? addMonths(selectedMonthStart, 1) : null;
-  const selectedDateStart = selectedDate ? parseLocalDateKey(selectedDate) : null;
-  const selectedDateEnd = selectedDateStart ? addDays(selectedDateStart, 1) : null;
+  const selectedMonthStart = useMemo(() => selectedMonth ? parseLocalMonthKey(selectedMonth) : null, [selectedMonth]);
+  const selectedMonthEnd = useMemo(() => selectedMonthStart ? addMonths(selectedMonthStart, 1) : null, [selectedMonthStart]);
+  const selectedDateStart = useMemo(() => selectedDate ? parseLocalDateKey(selectedDate) : null, [selectedDate]);
+  const selectedDateEnd = useMemo(() => selectedDateStart ? addDays(selectedDateStart, 1) : null, [selectedDateStart]);
 
-  const filteredTransactions = transactions.filter(t => {
-    const txDate = t.date.toDate();
+  const filteredTransactions = useMemo(() => {
+    return transactions.filter(t => {
+      const txDate = t.date.toDate();
 
-    // Filter by business context first (Strict Separation)
-    const matchesBusiness = (t.businessId === activeBusinessId) || (!t.businessId && !activeBusinessId);
+      // Filter by business context first (Strict Separation)
+      const matchesBusiness = (t.businessId === activeBusinessId) || (!t.businessId && !activeBusinessId);
 
-    if (!matchesBusiness) return false;
+      if (!matchesBusiness) return false;
 
-    const matchesMonth = isWithinRange(txDate, selectedMonthStart, selectedMonthEnd);
-    const matchesDate = isWithinRange(txDate, selectedDateStart, selectedDateEnd);
-    const matchesType = filter === 'all' ? true : t.type === filter;
-    const matchesSearch = searchTerm.trim()
-      ? t.description.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
-        t.category?.toLowerCase().includes(searchTerm.trim().toLowerCase())
-      : true;
-    return matchesMonth && matchesDate && matchesType && matchesSearch;
-  });
+      const matchesMonth = isWithinRange(txDate, selectedMonthStart, selectedMonthEnd);
+      const matchesDate = isWithinRange(txDate, selectedDateStart, selectedDateEnd);
+      const matchesType = filter === 'all' ? true : t.type === filter;
+      const matchesSearch = searchTerm.trim()
+        ? t.description.toLowerCase().includes(searchTerm.trim().toLowerCase()) ||
+          t.category?.toLowerCase().includes(searchTerm.trim().toLowerCase())
+        : true;
+      return matchesMonth && matchesDate && matchesType && matchesSearch;
+    });
+  }, [transactions, activeBusinessId, selectedMonthStart, selectedMonthEnd, selectedDateStart, selectedDateEnd, filter, searchTerm]);
 
-  const totalIncome = filteredTransactions
-    .filter(t => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0);
+  const totalIncome = useMemo(() => {
+    return filteredTransactions
+      .filter(t => t.type === 'income')
+      .reduce((sum, t) => sum + t.amount, 0);
+  }, [filteredTransactions]);
 
-  const totalExpenses = filteredTransactions
-    .filter(t => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0);
+  const totalExpenses = useMemo(() => {
+    return filteredTransactions
+      .filter(t => t.type === 'expense')
+      .reduce((sum, t) => sum + t.amount, 0);
+  }, [filteredTransactions]);
 
-  const balance = totalIncome - totalExpenses;
+  const balance = useMemo(() => totalIncome - totalExpenses, [totalIncome, totalExpenses]);
+
+  const activeBusiness = useMemo(() => {
+    return businesses.find(b => b.id === activeBusinessId) || null;
+  }, [businesses, activeBusinessId]);
 
   return {
     user,
@@ -612,6 +622,6 @@ ${transactions.slice(0, 10).map(t =>
     handleAddBusiness,
     handleUpdateBusiness,
     handleDeleteBusiness,
-    activeBusiness: businesses.find(b => b.id === activeBusinessId) || null
+    activeBusiness
   };
 };
