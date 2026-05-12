@@ -40,8 +40,8 @@ export const BusinessHub: React.FC<BusinessHubProps> = ({
           <ChevronLeft className="w-5 h-5" />
         </button>
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Manage Businesses</h2>
-          <p className="text-xs text-slate-500 font-medium">Switch between your active contexts</p>
+          <h2 className="text-xl font-bold text-slate-900">Manage Your Businesses</h2>
+          <p className="text-xs text-slate-500 font-medium">You can switch between your active contexts</p>
         </div>
       </div>
 
@@ -115,7 +115,7 @@ export const BusinessHub: React.FC<BusinessHubProps> = ({
                   }}
                   className={`w-full p-5 rounded-[2rem] border transition-all flex items-center justify-between group ${
                     activeBusinessId === biz.id 
-                      ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-100' 
+                      ? 'bg-amber-600 border-indigo-600 text-white shadow-lg shadow-indigo-100' 
                       : 'bg-white border-slate-100 text-slate-900 hover:border-indigo-200'
                   }`}
                 >
@@ -142,12 +142,6 @@ export const BusinessHub: React.FC<BusinessHubProps> = ({
         </div>
       </div>
 
-      {/* Footer Info */}
-      <div className="text-center space-y-2">
-        <p className="text-[10px] text-slate-400 font-medium italic">
-          Tip: Your totals and analytics will update to show only the selected context.
-        </p>
-      </div>
     </motion.div>
   );
 };

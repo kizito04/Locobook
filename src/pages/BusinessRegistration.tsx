@@ -96,17 +96,6 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
           </div>
         </div>
 
-        {/* AI Info Card */}
-        <div className="bg-indigo-50/50 border border-indigo-100 p-6 rounded-[2rem] flex gap-4">
-          <Sparkles className="w-6 h-6 text-indigo-500 shrink-0 mt-1" />
-          <div className="space-y-1">
-            <h4 className="text-sm font-bold text-indigo-900">Automatic Categorization</h4>
-            <p className="text-xs text-indigo-700/80 leading-relaxed">
-              Locobook AI will automatically categorize your business transactions based on your descriptions. No manual setup needed.
-            </p>
-          </div>
-        </div>
-
         {/* Submit Button */}
         <button
           type="submit"
