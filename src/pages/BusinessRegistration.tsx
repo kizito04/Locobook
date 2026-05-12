@@ -58,17 +58,17 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4">
         {/* Basic Info */}
-        <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm space-y-4">
-          <div className="flex items-center gap-3 text-indigo-600 mb-2">
-            <Building2 className="w-5 h-5" />
-            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Business Details</h3>
+        <div className="bg-blue-50 p-5 rounded-3xl border border-blue-100 shadow-sm space-y-3">
+          <div className="flex items-center gap-2 text-blue-600 mb-1">
+            <Building2 className="w-4 h-4" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-blue-500">Business Details</h3>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">
+              <label className="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1 ml-1">
                 Business Name
               </label>
               <input
@@ -77,20 +77,20 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Kizito's General Store"
-                className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+                className="w-full bg-white border border-blue-100 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">
+              <label className="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1 ml-1">
                 Description (Optional)
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Briefly describe what this business does..."
-                rows={3}
-                className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all resize-none"
+                placeholder="Briefly describe..."
+                rows={2}
+                className="w-full bg-white border border-blue-100 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all resize-none"
               />
             </div>
           </div>
@@ -100,13 +100,13 @@ export const BusinessRegistration: React.FC<BusinessRegistrationProps> = ({
         <button
           type="submit"
           disabled={!name.trim() || isSubmitting}
-          className="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+          className="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-100 hover:bg-blue-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm"
         >
           {isSubmitting ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           ) : (
             <>
-              <Save className="w-5 h-5" />
+              <Save className="w-4 h-4" />
               Register Business
             </>
           )}

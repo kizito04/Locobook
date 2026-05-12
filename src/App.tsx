@@ -179,6 +179,8 @@ export default function App() {
               activeBusinessId={activeBusinessId}
               setActiveBusinessId={setActiveBusinessId}
               setCurrentView={setCurrentView}
+              handleUpdateBusiness={handleUpdateBusiness}
+              handleDeleteBusiness={handleDeleteBusiness}
             />
           )}
 
